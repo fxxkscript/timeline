@@ -13,7 +13,7 @@
   __weak typeof(self) weakSelf = self;
   [channel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
     if ([@"weixin" isEqualToString:call.method]) {
-      [self share];
+      [weakSelf share:@[@"https://ws3.sinaimg.cn/large/006tNc79gy1fyworuc0v0j3020020mx1.jpg", @"https://ws3.sinaimg.cn/large/006tNc79gy1fywpblwgk4j3020020glf.jpg"]];
     } else {
       result(FlutterMethodNotImplemented);
     }
@@ -23,15 +23,23 @@
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
-- (void)share {
-  NSURL *imageURL = [NSURL URLWithString:@"https://ws3.sinaimg.cn/large/006tNc79gy1fyworuc0v0j3020020mx1.jpg"];
-  
+- (void)share:(NSArray *)array{
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+    NSMutableArray *imageList = [[NSMutableArray alloc] init];
+    for (NSString *imageUrl in array) {
+      NSURL *imageURL = [NSURL URLWithString:imageUrl];
+      NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+      [imageList addObject:imageData];
+    }
     
     dispatch_async(dispatch_get_main_queue(), ^{
       // Update the UI
-      NSArray *activityItems = @[[UIImage imageWithData:imageData]];
+      NSMutableArray *images = [[NSMutableArray alloc] init];
+      for (NSData *data in imageList) {
+        [images addObject:[UIImage imageWithData:data]];
+      }
+      
+      NSArray *activityItems = images;
       
       UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
       
