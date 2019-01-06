@@ -34,14 +34,4 @@
   [self.window.rootViewController presentViewController:activityVC animated:TRUE completion:nil];
 }
 
-- (int)getBatteryLevel {
-  UIDevice* device = UIDevice.currentDevice;
-  device.batteryMonitoringEnabled = YES;
-  if (device.batteryState == UIDeviceBatteryStateUnknown) {
-    return -1;
-  } else {
-    return (int)(device.batteryLevel * 100);
-  }
-}
-
 @end
