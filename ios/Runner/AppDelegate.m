@@ -24,14 +24,21 @@
 }
 
 - (void)share {
-  UIImage *imageToShare = [UIImage imageNamed:@"1.jpg"];
-  UIImage *imageToShare1 = [UIImage imageNamed:@"1.jpg"];
+  NSURL *imageURL = [NSURL URLWithString:@"https://ws3.sinaimg.cn/large/006tNc79gy1fyworuc0v0j3020020mx1.jpg"];
   
-  NSArray *activityItems = @[imageToShare,imageToShare1];
-  
-  UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
-  
-  [self.window.rootViewController presentViewController:activityVC animated:TRUE completion:nil];
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+      // Update the UI
+      NSArray *activityItems = @[[UIImage imageWithData:imageData]];
+      
+      UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:nil];
+      
+      [self.window.rootViewController presentViewController:activityVC animated:TRUE completion:nil];
+    });
+  });
+
 }
 
 @end
