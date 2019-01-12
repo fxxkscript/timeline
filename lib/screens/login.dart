@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:wshop/api/auth.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -10,12 +11,28 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
-  BuildContext _ctx;
+  FocusNode focusNode;
 
   bool _isLoading = false;
+  String _mobile, _code;
+
   final formKey = GlobalKey<FormState>();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  String _username, _password;
+  final mobileController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    mobileController.dispose();
+
+    super.dispose();
+  }
 
   void _submit() {
     final form = formKey.currentState;
@@ -26,14 +43,8 @@ class LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void _showSnackBar(String text) {
-    scaffoldKey.currentState
-        .showSnackBar(SnackBar(content: Text(text)));
-  }
-
   @override
   Widget build(BuildContext context) {
-    _ctx = context;
     var loginBtn = RaisedButton(
       onPressed: _submit,
       child: Text("登录"),
@@ -51,8 +62,9 @@ class LoginScreenState extends State<LoginScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  controller: mobileController,
                   keyboardType: TextInputType.phone,
-                  onSaved: (val) => _username = val,
+                  onSaved: (val) => _mobile = val,
                   validator: (val) {
                     return val.length != 11 ? "手机号不正确" : null;
                   },
@@ -60,16 +72,33 @@ class LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  onSaved: (val) => _password = val,
-                  validator: (val) {
-                    return val.length != 4 ? "验证码格式不正确" : null;
-                  },
-                  decoration: InputDecoration(labelText: "验证码"),
-                ),
-              ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Stack(
+                    children: <Widget>[
+                      TextFormField(
+                        focusNode: focusNode,
+                        keyboardType: TextInputType.number,
+                        onSaved: (val) => _code = val,
+                        validator: (val) {
+                          return val.length != 4 ? "验证码格式不正确" : null;
+                        },
+                        decoration: InputDecoration(labelText: "验证码"),
+                      ),
+                      Positioned(
+                          right: 0,
+                          top: 10,
+                          child: RaisedButton(
+                            onPressed: () {
+                              if (mobileController.text.isNotEmpty) {
+                                print(mobileController.text);
+                                getCode(mobileController.text);
+                              }
+                              FocusScope.of(context).requestFocus(focusNode);
+                            },
+                            child: Text('获取验证码'),
+                          )),
+                    ],
+                  )),
             ],
           ),
         ),
@@ -80,7 +109,6 @@ class LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       appBar: null,
-      key: scaffoldKey,
       body: Container(
         child: Center(
           child: ClipRect(
