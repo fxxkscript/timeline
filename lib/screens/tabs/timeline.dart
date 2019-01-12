@@ -3,14 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class FirstTab extends StatelessWidget {
+class TimelineTab extends StatelessWidget {
   static const channel = const MethodChannel('com.tomo.wshop/share');
 
   final items = List<String>.generate(1000, (i) => "Item $i");
 
   Future<void> _share() async {
     try {
-      final int result = await channel.invokeMethod('weixin');
+      final int result = await channel.invokeMethod('weixin', [
+        "https://ws3.sinaimg.cn/large/006tNc79gy1fyworuc0v0j3020020mx1.jpg",
+        "https://ws3.sinaimg.cn/large/006tNc79gy1fywpblwgk4j3020020glf.jpg"
+      ]);
       debugPrint(result.toString());
     } on PlatformException catch (e) {
       debugPrint(e.toString());

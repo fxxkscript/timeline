@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SecondTab extends StatelessWidget {
+class MyTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(

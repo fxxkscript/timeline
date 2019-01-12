@@ -13,7 +13,7 @@
   __weak typeof(self) weakSelf = self;
   [channel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
     if ([@"weixin" isEqualToString:call.method]) {
-      [weakSelf share:@[@"https://ws3.sinaimg.cn/large/006tNc79gy1fyworuc0v0j3020020mx1.jpg", @"https://ws3.sinaimg.cn/large/006tNc79gy1fywpblwgk4j3020020glf.jpg"]];
+      [weakSelf share:call.arguments];
     } else {
       result(FlutterMethodNotImplemented);
     }
