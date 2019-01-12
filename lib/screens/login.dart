@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,11 @@ class LoginScreenState extends State<LoginScreen> {
   FocusNode focusNode;
 
   bool _isLoading = false;
-  String _mobile, _code;
+  bool _disabled = true;
+  int _count = 0;
+  static const timeout = 60;
+
+  String _mobile, _code, _text = '获取验证码';
 
   final formKey = GlobalKey<FormState>();
   final mobileController = TextEditingController();
@@ -23,7 +28,19 @@ class LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-
+    mobileController.addListener(() {
+      if (mobileController.text.length == 11) {
+        if (_count == 0) {
+          setState(() {
+            _disabled = false;
+          });
+        }
+      } else {
+        setState(() {
+          _disabled = true;
+        });
+      }
+    });
     focusNode = FocusNode();
   }
 
@@ -44,16 +61,44 @@ class LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  void _getCode() {
+    if (mobileController.text.isNotEmpty) {
+      setState(() {
+        _disabled = true;
+        _count = timeout;
+
+        getCode(mobileController.text);
+        FocusScope.of(context).requestFocus(focusNode);
+      });
+
+      Timer.periodic(const Duration(seconds: 1), (timer) {
+        setState(() {
+          _count--;
+          _text = '获取验证码 (${_count})';
+          if (_count == 0) {
+            timer?.cancel();
+          }
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var loginBtn = RaisedButton(
-      onPressed: _submit,
-      child: Text("登录"),
-    );
+    var loginBtn = Container(
+        margin: const EdgeInsets.only(top: 13.0, left: 8, right: 8),
+        constraints: const BoxConstraints(minWidth: double.infinity),
+        child: RaisedButton(
+          onPressed: _submit,
+          child: Text('登录'),
+          textColor: Colors.white,
+          color: Colors.blue,
+        ));
+
     var loginForm = Column(
       children: <Widget>[
         Text(
-          "登录",
+          '登录',
           textScaleFactor: 2.0,
         ),
         Form(
@@ -73,11 +118,11 @@ class LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(labelText: "手机号"),
                 ),
               ),
-              Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Stack(
-                    children: <Widget>[
-                      TextFormField(
+              Stack(
+                children: <Widget>[
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
                         focusNode: focusNode,
                         maxLength: 4,
                         keyboardType: TextInputType.number,
@@ -86,22 +131,22 @@ class LoginScreenState extends State<LoginScreen> {
                           return val.length != 4 ? "验证码格式不正确" : null;
                         },
                         decoration: InputDecoration(labelText: "验证码"),
-                      ),
-                      Positioned(
-                          right: 0,
-                          top: 10,
+                      )),
+                  Positioned(
+                      right: 8,
+                      top: 20,
+                      child: ButtonTheme(
+                          minWidth: 30,
+                          height: 20,
                           child: RaisedButton(
-                            onPressed: () {
-                              if (mobileController.text.isNotEmpty) {
-                                print(mobileController.text);
-                                getCode(mobileController.text);
-                              }
-                              FocusScope.of(context).requestFocus(focusNode);
-                            },
-                            child: Text('获取验证码'),
-                          )),
-                    ],
-                  )),
+                            padding: const EdgeInsets.all(5),
+                            onPressed: _disabled ? null : _getCode,
+                            child: Text(_text, style: TextStyle(fontSize: 12)),
+                            textColor: Colors.white,
+                            color: Colors.blue,
+                          ))),
+                ],
+              ),
             ],
           ),
         ),
