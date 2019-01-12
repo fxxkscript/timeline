@@ -1,6 +1,7 @@
 import 'dart:ui';
-
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+
 import 'package:wshop/api/auth.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -65,6 +66,7 @@ class LoginScreenState extends State<LoginScreen> {
                   controller: mobileController,
                   keyboardType: TextInputType.phone,
                   onSaved: (val) => _mobile = val,
+                  maxLength: 11,
                   validator: (val) {
                     return val.length != 11 ? "手机号不正确" : null;
                   },
@@ -77,6 +79,7 @@ class LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       TextFormField(
                         focusNode: focusNode,
+                        maxLength: 4,
                         keyboardType: TextInputType.number,
                         onSaved: (val) => _code = val,
                         validator: (val) {
@@ -108,18 +111,12 @@ class LoginScreenState extends State<LoginScreen> {
     );
 
     return Scaffold(
-      appBar: null,
       body: Container(
         child: Center(
-          child: ClipRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-              child: Container(
-                child: loginForm,
-                height: 300.0,
-                width: 300.0,
-              ),
-            ),
+          child: Container(
+            child: loginForm,
+            height: 300.0,
+            width: 300.0,
           ),
         ),
       ),
