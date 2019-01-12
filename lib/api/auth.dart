@@ -11,7 +11,6 @@ void getCode(String mobile) async {
       headers: {'Content-Type': 'application/json'},
       body: json.encode({'mobile': mobile, 'sendType': 'sms'}));
 
-  print(response.statusCode);
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON
   } else {
