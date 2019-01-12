@@ -3,7 +3,7 @@ import 'package:wshop/routes.dart';
 import 'package:wshop/api/auth.dart';
 
 void main() async {
-  String initalRoute = '/login';
+  String initalRoute = '/';
   try {
     await isLogin();
     initalRoute = '/';
@@ -24,6 +24,9 @@ class App extends StatelessWidget {
     return new MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
+        brightness: Brightness.light,
+        primaryColor: Colors.lightBlue[800],
+        accentColor: Colors.cyan[600],
       ),
       title: '相册',
       initialRoute: initalRoute,

@@ -77,6 +77,7 @@ class LoginScreenState extends State<LoginScreen> {
           _text = '获取验证码 (${_count})';
           if (_count == 0) {
             timer?.cancel();
+            _disabled = false;
           }
         });
       });
@@ -90,7 +91,7 @@ class LoginScreenState extends State<LoginScreen> {
         constraints: const BoxConstraints(minWidth: double.infinity),
         child: RaisedButton(
           onPressed: _submit,
-          child: Text('登录'),
+          child: Text('登 录'),
           textColor: Colors.white,
           color: Colors.blue,
         ));

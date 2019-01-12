@@ -8,14 +8,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 void getCode(String mobile) async {
   final response = await http.post(
       'https://api.shanpi.net/account/auth/sendVerifyCode',
-      body: {'mobile': mobile, 'sendType': 'sms'});
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'mobile': mobile, 'sendType': 'sms'}));
 
   print(response.statusCode);
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON
   } else {
     // If that call was not successful, throw an error.
-    // throw Exception('网络错误');
+    throw Exception('网络错误');
   }
 }
 
