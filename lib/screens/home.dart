@@ -10,18 +10,32 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   TabController controller;
+  String _title = '相册';
 
   @override
   void initState() {
     super.initState();
 
     controller = TabController(length: 2, vsync: this);
+    controller.addListener(_change);
   }
 
   @override
   void dispose() {
     controller.dispose();
     super.dispose();
+  }
+
+  void _change() {
+    if (controller.index == 0) {
+      setState(() {
+        _title = '相册';
+      });
+    } else if (controller.index == 1) {
+      setState(() {
+        _title = '我';
+      });
+    }
   }
 
   @override
@@ -36,7 +50,7 @@ class HomeScreenState extends State<HomeScreen>
         appBar: AppBar(
           // Here we take the value from the MyHomePage object that was created by
           // the App.build method, and use it to set our appbar title.
-          title: Text("相册"),
+          title: Text(_title),
         ),
         body: TabBarView(
           // Add tabs as widgets
