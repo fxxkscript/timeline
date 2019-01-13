@@ -52,12 +52,20 @@ class LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _submit() {
+  void _submit() async {
     final form = formKey.currentState;
 
     if (form.validate()) {
       setState(() => _isLoading = true);
       form.save();
+      bool success = await login(context, _mobile, _code);
+
+      setState(() => _isLoading = false);
+
+      if (success) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/', (Route<dynamic> route) => false);
+      }
     }
   }
 
@@ -67,7 +75,7 @@ class LoginScreenState extends State<LoginScreen> {
         _disabled = true;
         _count = timeout;
 
-        getCode(mobileController.text);
+        getCode(context, mobileController.text);
         FocusScope.of(context).requestFocus(focusNode);
       });
 
@@ -76,6 +84,7 @@ class LoginScreenState extends State<LoginScreen> {
           _count--;
           _text = '获取验证码 (${_count})';
           if (_count == 0) {
+            _text = '获取验证码';
             timer?.cancel();
             _disabled = false;
           }

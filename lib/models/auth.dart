@@ -1,10 +1,20 @@
 class Auth {
-  final String mobile;
-  final String token;
+  String mobile;
+  String token;
+  static final Auth _singleton = new Auth._internal();
+  Auth._internal();
 
-  Auth(this.mobile, this.token);
+  factory Auth() {
+    return _singleton;
+  }
 
   factory Auth.fromJson(Map<String, dynamic> json) {
-    return Auth(json['mobile'], json['token']);
+    return Auth().update(json['mobile'], json['token']);
+  }
+
+  Auth update(String mobile, String token) {
+    this.mobile = mobile;
+    this.token = token;
+    return Auth();
   }
 }

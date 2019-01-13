@@ -11,7 +11,7 @@ void main() async {
     initalRoute = '/login';
   }
 
-  runApp(new App(initalRoute));
+  runApp(App(initalRoute));
 }
 
 class App extends StatelessWidget {
@@ -21,7 +21,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
         brightness: Brightness.light,

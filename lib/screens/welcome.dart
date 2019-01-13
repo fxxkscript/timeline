@@ -18,14 +18,14 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   void initState() {
     super.initState();
 
-    isLogin().then((result) {
-      if (result.token.isNotEmpty) {
-        Navigator.pushReplacementNamed(context, '/home');
-      }
-    }).catchError((onError) {
-      print(onError);
-      Navigator.pushReplacementNamed(context, '/login');
-    });
+    // isLogin().then((result) {
+    //   if (result.token.isNotEmpty) {
+    //     Navigator.pushReplacementNamed(context, '/home');
+    //   }
+    // }).catchError((onError) {
+    //   print(onError);
+    //   Navigator.pushReplacementNamed(context, '/login');
+    // });
   }
 
   @override

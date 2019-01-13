@@ -7,7 +7,8 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   TabController controller;
 
   @override
@@ -32,34 +33,35 @@ class HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMi
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text("相册"),
-      ),
-      body: TabBarView(
-        // Add tabs as widgets
-        children: <Widget>[TimelineTab(), MyTab()],
-        // set the controller
-        controller: controller,
-      ),
-      bottomNavigationBar: Material(
-        // set the color of the bottom navigation bar
-        color: Colors.blue,
-        // set the tab bar as the child of bottom navigation bar
-        child: TabBar(
-          tabs: <Tab>[
-            Tab(
-              text: "朋友圈",
-            ),
-            Tab(
-              text: "我",
-            )
-          ],
-          // setup the controller
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text("相册"),
+        ),
+        body: TabBarView(
+          // Add tabs as widgets
+          children: <Widget>[TimelineTab(), MyTab()],
+          // set the controller
           controller: controller,
         ),
-      ),
-    );
+        bottomNavigationBar: SafeArea(
+          child: Material(
+            // set the color of the bottom navigation bar
+            color: Colors.blue,
+            // set the tab bar as the child of bottom navigation bar
+            child: TabBar(
+              tabs: <Tab>[
+                Tab(
+                  text: "朋友圈",
+                ),
+                Tab(
+                  text: "我",
+                )
+              ],
+              // setup the controller
+              controller: controller,
+            ),
+          ),
+        ));
   }
 }
