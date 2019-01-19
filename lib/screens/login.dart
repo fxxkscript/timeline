@@ -82,7 +82,7 @@ class LoginScreenState extends State<LoginScreen> {
       Timer.periodic(const Duration(seconds: 1), (timer) {
         setState(() {
           _count--;
-          _text = '获取验证码 (${_count})';
+          _text = '获取验证码 ($_count)';
           if (_count == 0) {
             _text = '获取验证码';
             timer?.cancel();
