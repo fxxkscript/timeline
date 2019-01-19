@@ -5,18 +5,19 @@ class MyTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: ListView(
+        child: Column(
           children: <Widget>[
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('个人资料'),
-              trailing: Icon(Icons.arrow_right),
-            ),
-            ListTile(
-              leading: Icon(Icons.attach_money),
-              title: Text('购买邀请码'),
-              trailing: Icon(Icons.arrow_right),
-            ),
+            Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                Image.asset('assets/header.png'),
+                Container(
+                  width: 100,
+                  height: 100,
+                  child: Text('超级无敌坑比🐂', style: TextStyle(color: Colors.blue)),
+                )
+              ],
+            )
           ],
         ),
       ),

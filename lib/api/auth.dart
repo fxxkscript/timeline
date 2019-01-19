@@ -5,7 +5,7 @@ import 'package:wshop/models/auth.dart';
 import 'package:wshop/utils/http_client.dart';
 
 void getCode(context, String mobile) async {
-  final response = await HttpClient().post(context,
+  await HttpClient().post(context,
       'account/auth/sendVerifyCode', {'mobile': mobile, 'sendType': 'sms'});
 }
 
