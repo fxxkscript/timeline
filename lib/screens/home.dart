@@ -31,8 +31,7 @@ class HomeScreenState extends State<HomeScreen>
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return SafeArea(
-        child: CupertinoTabScaffold(
+    return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(title: Text('首页'), icon: Icon(Icons.home)),
@@ -47,6 +46,6 @@ class HomeScreenState extends State<HomeScreen>
           return MyTab();
         }
       },
-    ));
+    );
   }
 }
