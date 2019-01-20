@@ -69,7 +69,8 @@ class TimelineTab extends StatelessWidget {
                                   color: Colors.black54,
                                   decoration: TextDecoration.none)),
                           Container(
-                              margin: EdgeInsets.only(right: 10),
+                              margin: EdgeInsets.only(
+                                  right: 10, bottom: 10, top: 10),
                               child: Wrap(
                                 spacing: 8,
                                 runSpacing: 8,
@@ -106,7 +107,7 @@ class TimelineTab extends StatelessWidget {
                       )),
                     ]),
                 Positioned(
-                    bottom: 0,
+                    bottom: -17,
                     right: 0,
                     child: CupertinoButton(
                         child: Icon(Icons.more, color: Colors.grey),
