@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,13 +23,21 @@ class TimelineTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: ListView.builder(
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: Text('时间线'),
+        trailing: CupertinoButton(
+          child: Icon(Icons.add_circle_outline),
+          padding: EdgeInsets.only(bottom: 0),
+          onPressed: () {},
+        )
+      ),
+      child: ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            contentPadding: EdgeInsets.all(0),
-            title: Stack(
+          return Container(
+            // contentPadding: EdgeInsets.all(0),
+            child: Stack(
               children: [
                 Container(
                   decoration: BoxDecoration(
