@@ -25,7 +25,7 @@ class TimelineTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text('时间线'),
+        middle: Text('相册'),
         trailing: CupertinoButton(
           child: Icon(Icons.add_circle_outline),
           padding: EdgeInsets.only(bottom: 0),
