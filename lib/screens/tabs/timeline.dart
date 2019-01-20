@@ -25,75 +25,85 @@ class TimelineTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text('相册'),
-        trailing: CupertinoButton(
-          child: Icon(Icons.add_circle_outline),
-          padding: EdgeInsets.only(bottom: 0),
-          onPressed: () {},
-        )
-      ),
+          middle: Text('相册'),
+          trailing: CupertinoButton(
+            child: Icon(Icons.add_circle_outline),
+            padding: EdgeInsets.only(bottom: 0),
+            onPressed: () {},
+          )),
       child: ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {
           return Container(
-            // contentPadding: EdgeInsets.all(0),
-            child: Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Color.fromRGBO(236, 236, 236, 1), width: 1.0))
-                  ),
-                  padding: EdgeInsets.all(0),
-                  margin: EdgeInsets.all(0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Image.network(
-                        'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                        width: 50,
-                        height: 50,
-                        fit: BoxFit.cover
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Text('美女名字', style: TextStyle(fontSize: 14, decoration: TextDecoration.none)),
-                          Text('哔哔哔一堆废话', style: TextStyle(fontSize: 14, decoration: TextDecoration.none)),
-                          Row(children: <Widget>[
-                            Image.network(
-                              'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover
-                            ),
-                            Image.network(
-                              'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover
-                            ),
-                          ]),
-                          Text('9分钟前'),
-                        ],
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                      )
-                    ]
-                  )
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: RaisedButton(
-                    child: Text('分享到朋友圈'),
-                    onPressed: () { _share(); }
-                  )
-                )
-              ]
-            )
-          );
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(
+                          color: Color.fromRGBO(236, 236, 236, 1),
+                          width: 1.0))),
+              padding: EdgeInsets.only(bottom: 10),
+              margin: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: Image.network(
+                          'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover),
+                    ),
+                    Expanded(
+                      child: Column(
+                          children: <Widget>[
+                            Text('美女名字',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    decoration: TextDecoration.none)),
+                            Text('哔哔哔一堆废话',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black54,
+                                    decoration: TextDecoration.none)),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: <Widget>[
+                                Image.network(
+                                    'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover),
+                                Image.network(
+                                    'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover),
+                                Image.network(
+                                    'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover),
+                                Image.network(
+                                    'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover),
+                              ],),
+                            Text('9分钟前',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black38,
+                                    decoration: TextDecoration.none)),
+                          ],
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                        )
+                    ),
+
+                  ]));
         },
       ),
     );
   }
-
-
 }

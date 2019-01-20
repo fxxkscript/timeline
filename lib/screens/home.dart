@@ -10,8 +10,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  TabController controller;
-
   @override
   void initState() {
     super.initState();
@@ -19,7 +17,6 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    controller.dispose();
     super.dispose();
   }
 
