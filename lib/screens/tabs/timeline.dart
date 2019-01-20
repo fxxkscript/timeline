@@ -41,7 +41,7 @@ class TimelineTab extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.black, width: 1.0))
+                    border: Border(bottom: BorderSide(color: Color.fromRGBO(236, 236, 236, 1), width: 1.0))
                   ),
                   padding: EdgeInsets.all(0),
                   margin: EdgeInsets.all(0),
@@ -56,8 +56,8 @@ class TimelineTab extends StatelessWidget {
                       ),
                       Column(
                         children: <Widget>[
-                          Text("美女名字"),
-                          Text("哔哔哔一堆废话"),
+                          Text('美女名字', style: TextStyle(fontSize: 14, decoration: TextDecoration.none)),
+                          Text('哔哔哔一堆废话', style: TextStyle(fontSize: 14, decoration: TextDecoration.none)),
                           Row(children: <Widget>[
                             Image.network(
                               'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
