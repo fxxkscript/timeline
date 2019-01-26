@@ -8,7 +8,7 @@ void main() async {
     await isLogin();
     initalRoute = '/';
   } catch (e) {
-    initalRoute = '/login';
+    initalRoute = '/';
   }
 
   runApp(App(initalRoute));

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wshop/screens/editor.dart';
 
 class TimelineTab extends StatelessWidget {
   static const channel = const MethodChannel('com.tomo.wshop/share');
@@ -27,9 +28,14 @@ class TimelineTab extends StatelessWidget {
       navigationBar: CupertinoNavigationBar(
           middle: Text('相册'),
           trailing: CupertinoButton(
-            child: Icon(Icons.add_circle_outline),
+            child: Icon(Icons.photo_camera),
             padding: EdgeInsets.only(bottom: 0),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(CupertinoPageRoute(
+                  fullscreenDialog: true,
+                  title: '新建',
+                  builder: (BuildContext context) => Editor()));
+            },
           )),
       child: ListView.builder(
         itemCount: items.length,
@@ -110,10 +116,20 @@ class TimelineTab extends StatelessWidget {
                     bottom: -17,
                     right: 0,
                     child: CupertinoButton(
-                        child: Icon(Icons.more, color: Colors.grey),
+                        child: Icon(Icons.share, color: Colors.grey),
                         onPressed: () {
                           _share();
-                        }))
+                        })),
+                Positioned(
+                    bottom: -15,
+                    right: 70,
+                    child: FlatButton.icon(
+                        icon: Icon(Icons.favorite_border, color: Colors.grey),
+                        label:
+                            Text('100', style: TextStyle(color: Colors.grey)),
+                        onPressed: () {
+                          _share();
+                        })),
               ]));
         },
       ),
