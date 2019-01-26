@@ -1,8 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:wshop/components/asset.dart';
+import 'dart:developer';
 
 class Editor extends StatefulWidget {
   @override
@@ -12,14 +12,53 @@ class Editor extends StatefulWidget {
 }
 
 class EditorState extends State<Editor> {
-  File _image;
+  static const maxPhotos = 9;
+
+  List<Asset> images = List<Asset>();
 
   Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      images = List<Asset>();
+    });
+
+    List<Asset> resultList;
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: maxPhotos,
+        enableCamera: true,
+      );
+    } catch (e) {
+//      error = e.message;
+    }
+
+    if (!mounted) return;
 
     setState(() {
-      _image = image;
+      images = resultList;
     });
+  }
+
+  List<Widget> listWidget() {
+    List<Widget> list = List.generate(images.length, (index) {
+      return AssetView(Key(images[index].name), images[index], (String name) {
+        images.removeWhere((asset) => asset.name == name);
+
+        setState(() {});
+      });
+    });
+    if (list.length < maxPhotos) {
+      list.add(ButtonTheme(
+          child: FlatButton(
+            color: Colors.grey,
+            child: Icon(Icons.add),
+            onPressed: getImage,
+          ),
+          minWidth: 120,
+          height: 120));
+    }
+
+    return list;
   }
 
   @override
@@ -69,34 +108,8 @@ class EditorState extends State<Editor> {
                     child: Wrap(
                       spacing: 8,
                       runSpacing: 8,
-                      alignment: WrapAlignment.start,
-                      children: <Widget>[
-                        Image.network(
-                            'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                            width: 120,
-                            height: 120,
-                            fit: BoxFit.cover),
-                        Image.network(
-                            'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                            width: 120,
-                            height: 120,
-                            fit: BoxFit.cover),
-                        Image.network(
-                            'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                            width: 120,
-                            height: 120,
-                            fit: BoxFit.cover),
-                        ButtonTheme(
-                            child: FlatButton(
-                              color: Colors.grey,
-                              child: Icon(Icons.add),
-                              onPressed: () {
-                                CupertinoActionSheet();
-                              },
-                            ),
-                            minWidth: 120,
-                            height: 120)
-                      ],
+                      alignment: WrapAlignment.spaceBetween,
+                      children: listWidget(),
                     )),
               ],
             ),
