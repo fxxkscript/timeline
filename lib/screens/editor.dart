@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:wshop/components/asset.dart';
-import 'dart:developer';
 
 class Editor extends StatefulWidget {
   @override
@@ -90,7 +89,7 @@ class EditorState extends State<Editor> {
         ),
         child: GestureDetector(
           onTap: () {
-            FocusScope.of(context).requestFocus(new FocusNode());
+            FocusScope.of(context).requestFocus(FocusNode());
           },
           child: Material(
             child: ListView(
@@ -102,15 +101,15 @@ class EditorState extends State<Editor> {
                       decoration: InputDecoration(
                           border: InputBorder.none, hintText: '这一刻的想法...')),
                 ),
-                Container(
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    alignment: Alignment(0, 0),
-                    child: Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      alignment: WrapAlignment.spaceBetween,
-                      children: listWidget(),
-                    )),
+                Center(
+                    child: SizedBox(
+                        width: 380,
+                        child: Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          alignment: WrapAlignment.start,
+                          children: listWidget(),
+                        ))),
               ],
             ),
           ),

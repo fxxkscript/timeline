@@ -37,6 +37,8 @@ class AssetState extends State<AssetView> {
           width: 120,
           height: 120,
           child: Stack(
+            overflow: Overflow.visible,
+            fit: StackFit.expand,
             children: <Widget>[
               Image.memory(
                 this._asset.thumbData.buffer.asUint8List(),
@@ -46,13 +48,18 @@ class AssetState extends State<AssetView> {
                 height: 120,
               ),
               Positioned(
-                child: FlatButton(
+                child: IconButton(
+                    iconSize: 24,
                     onPressed: () {
                       _delete(_asset.name);
                     },
-                    child: Icon(Icons.delete)),
-                right: 0,
-                top: 0,
+                    padding: EdgeInsets.all(0),
+                    icon: Icon(
+                      Icons.close,
+                      size: 24,
+                    )),
+                right: -12,
+                top: -12,
               )
             ],
           ));

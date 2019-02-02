@@ -19,7 +19,7 @@ class ContactsState extends State<Contacts> {
             padding: const EdgeInsets.only(top: 10.0),
             child: new Container(
               child: new ListTile(
-                title: new Text("新的朋友"),
+                title: new Text('新的朋友'),
                 leading: new Icon(Icons.add),
               ),
               height: 50.0,
@@ -28,7 +28,7 @@ class ContactsState extends State<Contacts> {
           ),
           new Container(
             child: new ListTile(
-              title: new Text("群聊"),
+              title: new Text('群聊'),
               leading: new Icon(Icons.group),
             ),
             height: 50.0,
@@ -36,7 +36,7 @@ class ContactsState extends State<Contacts> {
           ),
           new Container(
             child: new ListTile(
-              title: new Text("标签"),
+              title: new Text('标签'),
               leading: new Icon(Icons.label),
             ),
             height: 50.0,
@@ -44,7 +44,7 @@ class ContactsState extends State<Contacts> {
           ),
           new Container(
             child: new ListTile(
-              title: new Text("公众号"),
+              title: new Text('公众号'),
               leading: new Icon(Icons.person),
             ),
             height: 50.0,
@@ -55,7 +55,7 @@ class ContactsState extends State<Contacts> {
             padding: const EdgeInsets.only(top: 20.0),
             child: new Container(
               child: new ListTile(
-                title: new Text("阿panda"),
+                title: new Text('阿panda'),
               ),
               height: 50.0,
               color: Colors.white,

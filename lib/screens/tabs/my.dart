@@ -16,8 +16,8 @@ class MyTab extends StatelessWidget {
                             width: 50,
                             height: 50,
                             fit: BoxFit.cover),
-                title: Text("Tony"),
-                subtitle: Text("微信号：ty001"),
+                title: Text('Tony'),
+                subtitle: Text('微信号：ty001'),
                 trailing: Icon(Icons.fullscreen),
                 onTap: (){
 
@@ -32,7 +32,7 @@ class MyTab extends StatelessWidget {
             child: Container(
               child: ListTile(
                 leading: Icon(Icons.call_to_action),
-                title: Text("钱包"),
+                title: Text('钱包'),
                 onTap: (){
 
                 },
@@ -47,7 +47,7 @@ class MyTab extends StatelessWidget {
             child: Container(
               child: ListTile(
                 leading: Icon(Icons.dashboard),
-                title: Text("收藏"),
+                title: Text('收藏'),
               ),
               color: Colors.white,
               height: 50.0,
@@ -57,7 +57,7 @@ class MyTab extends StatelessWidget {
           Container(
             child: ListTile(
               leading: Icon(Icons.photo),
-              title: Text("相册"),
+              title: Text('相册'),
             ),
             color: Colors.white,
             height: 50.0,
@@ -65,7 +65,7 @@ class MyTab extends StatelessWidget {
           Container(
             child: ListTile(
               leading: Icon(Icons.credit_card),
-              title: Text("卡包"),
+              title: Text('卡包'),
             ),
             color: Colors.white,
             height: 50.0,
@@ -73,7 +73,7 @@ class MyTab extends StatelessWidget {
           Container(
             child: ListTile(
               leading: Icon(Icons.tag_faces),
-              title: Text("表情"),
+              title: Text('表情'),
             ),
             color: Colors.white,
             height: 50.0,
@@ -83,7 +83,7 @@ class MyTab extends StatelessWidget {
             child: Container(
               child: ListTile(
                 leading: Icon(Icons.settings),
-                title: Text("设置"),
+                title: Text('设置'),
               ),
               color: Colors.white,
               height: 50.0,
