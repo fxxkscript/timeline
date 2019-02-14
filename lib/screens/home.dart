@@ -25,26 +25,37 @@ class HomeScreenState extends State<HomeScreen> {
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(title: Text('首页'), icon: Icon(Icons.home)),
-          BottomNavigationBarItem(title: Text('通讯录'), icon: Icon(Icons.contacts)),
           BottomNavigationBarItem(
-              title: Text('个人中心'), icon: Icon(Icons.person)),
+              title: Text('动态'),
+              activeIcon: Image.asset('assets/timeline_active.png',
+                  width: 22, height: 22),
+              icon: Image.asset('assets/timeline.png', width: 22, height: 22)),
+          BottomNavigationBarItem(
+              title: Text('关注'),
+              activeIcon:
+                  Image.asset('assets/fav_active.png', width: 22, height: 22),
+              icon: Image.asset('assets/fav.png', width: 22, height: 22)),
+          BottomNavigationBarItem(
+              title: Text('我的'),
+              activeIcon:
+                  Image.asset('assets/mine_active.png', width: 22, height: 22),
+              icon: Image.asset('assets/mine.png', width: 22, height: 22)),
         ],
       ),
       tabBuilder: (BuildContext context, int index) {
-        switch(index) {
+        switch (index) {
           case 0:
-          return TimelineTab();
-          break;
+            return TimelineTab();
+            break;
           case 1:
-          return Contacts();
-          break;
+            return Contacts();
+            break;
           case 2:
-          return MyTab();
-          break;
+            return MyTab();
+            break;
           default:
-          return TimelineTab();
-          break;
+            return TimelineTab();
+            break;
         }
       },
     );
