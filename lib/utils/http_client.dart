@@ -12,7 +12,7 @@ class HttpClient {
 
   factory HttpClient() => _instance;
 
-  static const domain = 'https://api.shanpi.net/';
+  static const domain = 'http://api.ippapp.com/';
 
   Future post(
       BuildContext context, String endPoint, Map<String, dynamic> data) async {
@@ -27,26 +27,20 @@ class HttpClient {
       headers['X-Access-Token'] = token;
     }
 
-    try {
-      final response = await http.post(domain + endPoint,
-          headers: headers, body: json.encode(data));
+    final response = await http.post(domain + endPoint,
+        headers: headers, body: json.encode(data));
 
-      var statusCode = response.statusCode;
+    var statusCode = response.statusCode;
 
-      if (statusCode == 200) {
-        return json.decode(response.body);
-      } else if (statusCode == 401 && endPoint != 'account/auth/refreshToken') {
-        await refreshToken();
-      } else if (statusCode == 422 || statusCode == 511) {
-        await setCache('token', '');
-        // go to signin
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/', (Route<dynamic> route) => false);
-      }
-
-      throw Exception('网络错误');
-    } on Exception catch (e) {
-      print(e);
+    if (statusCode == 200) {
+      return json.decode(response.body);
+    } else if (statusCode == 401 && endPoint != 'account/auth/refreshToken') {
+      await refreshToken();
+    } else if (statusCode == 422 || statusCode == 511) {
+      await setCache('token', '');
+      // go to signin
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/', (Route<dynamic> route) => false);
     }
   }
 

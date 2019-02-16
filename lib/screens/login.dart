@@ -25,6 +25,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   final formKey = GlobalKey<FormState>();
   final mobileController = TextEditingController();
+  StreamSubscription handler;
 
   @override
   void initState() {
@@ -44,9 +45,15 @@ class LoginScreenState extends State<LoginScreen> {
     });
     focusNode = FocusNode();
 
-    fluwx.responseFromAuth.listen((response) {
-      //do something
+    handler = fluwx.responseFromAuth.listen((response) async {
       print(response.code);
+      setState(() => _isLoading = true);
+      bool success = await loginByWechat(context, response.code);
+      setState(() => _isLoading = false);
+      if (success) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/', (Route<dynamic> route) => false);
+      }
     });
   }
 
@@ -54,6 +61,7 @@ class LoginScreenState extends State<LoginScreen> {
   void dispose() {
     focusNode.dispose();
     mobileController.dispose();
+    handler.cancel();
 
     super.dispose();
   }

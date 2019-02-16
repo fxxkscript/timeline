@@ -5,14 +5,34 @@ import 'package:wshop/models/auth.dart';
 import 'package:wshop/utils/http_client.dart';
 
 void getCode(context, String mobile) async {
-  await HttpClient().post(context,
-      'account/auth/sendVerifyCode', {'mobile': mobile, 'sendType': 'sms'});
+  await HttpClient().post(context, 'account/auth/sendVerifyCode',
+      {'mobile': mobile, 'sendType': 'sms'});
 }
 
 Future login(context, String mobile, String code) async {
   try {
     final response = await HttpClient().post(context, 'account/auth/verifyCode',
         {'mobile': mobile, 'verifyCode': code, 'clientId': 'app'});
+    if (response != null) {
+      HttpClient.setCache('accessToken', response['accessToken']);
+      HttpClient.setCache('refreshToken', response['refreshToken']);
+    }
+  } catch (e) {
+    print(e);
+    return false;
+  }
+
+  return true;
+}
+
+Future<bool> loginByWechat(context, String code) async {
+  try {
+    final response =
+        await HttpClient().post(context, 'account/auth/verifyCode', {
+      'authDetail': {'authorizationCode': code},
+      'authorizationType': 'wechat_app',
+      'clientId': {'clientId': 'weapp_wtzz_v1'}
+    });
     if (response != null) {
       HttpClient.setCache('accessToken', response['accessToken']);
       HttpClient.setCache('refreshToken', response['refreshToken']);
