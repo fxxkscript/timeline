@@ -1,5 +1,7 @@
 #include "AppDelegate.h"
 #include "GeneratedPluginRegistrant.h"
+#import "WXApi.h"
+#import "FluwxResponseHandler.h"
 
 @implementation AppDelegate
 
@@ -7,7 +9,7 @@
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   FlutterViewController* controller = (FlutterViewController*)self.window.rootViewController;
   FlutterMethodChannel* channel = [FlutterMethodChannel
-                                          methodChannelWithName:@"com.tomo.wshop/share"
+                                          methodChannelWithName:@"com.meizizi.doraemon/share"
                                           binaryMessenger:controller];
   
   __weak typeof(self) weakSelf = self;
@@ -21,6 +23,11 @@
   
   [GeneratedPluginRegistrant registerWithRegistry:self];
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
 }
 
 - (void)share:(NSArray *)array{

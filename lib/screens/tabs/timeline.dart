@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:wshop/screens/editor.dart';
 
 class TimelineTab extends StatelessWidget {
-  static const channel = const MethodChannel('com.tomo.wshop/share');
+  static const channel = const MethodChannel('com.meizizi.doraemon/share');
 
   final items = List<String>.generate(1000, (i) => "Item $i");
 

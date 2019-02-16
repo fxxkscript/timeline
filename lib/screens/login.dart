@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 import 'package:wshop/api/auth.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -42,6 +43,11 @@ class LoginScreenState extends State<LoginScreen> {
       }
     });
     focusNode = FocusNode();
+
+    fluwx.responseFromAuth.listen((response) {
+      //do something
+      print(response.code);
+    });
   }
 
   @override
@@ -67,6 +73,11 @@ class LoginScreenState extends State<LoginScreen> {
             context, '/', (Route<dynamic> route) => false);
       }
     }
+  }
+
+  void _wechat() async {
+    await fluwx.sendAuth(
+        scope: "snsapi_userinfo", state: "wechat_sdk_demo_test");
   }
 
   void _getCode() {
@@ -160,7 +171,16 @@ class LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ),
-        _isLoading ? CircularProgressIndicator() : loginBtn
+        _isLoading ? CircularProgressIndicator() : loginBtn,
+        Container(
+            margin: const EdgeInsets.only(top: 13.0, left: 8, right: 8),
+            constraints: const BoxConstraints(minWidth: double.infinity),
+            child: RaisedButton(
+              onPressed: _wechat,
+              child: Text('微信登录'),
+              textColor: Colors.white,
+              color: Colors.blue,
+            ))
       ],
       crossAxisAlignment: CrossAxisAlignment.center,
     );
@@ -170,7 +190,7 @@ class LoginScreenState extends State<LoginScreen> {
         child: Center(
           child: Container(
             child: loginForm,
-            height: 300.0,
+            height: 380.0,
             width: 300.0,
           ),
         ),
