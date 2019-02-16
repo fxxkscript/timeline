@@ -7,6 +7,7 @@ void main() async {
   String initalRoute = '/login';
   try {
     await isLogin();
+
     initalRoute = '/';
   } catch (e) {
     initalRoute = '/login';

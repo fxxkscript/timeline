@@ -116,7 +116,8 @@ class TimelineTab extends StatelessWidget {
                     bottom: -17,
                     right: 0,
                     child: CupertinoButton(
-                        child: Icon(Icons.share, color: Colors.grey),
+                        child: Image.asset('assets/share.png',
+                            width: 22, height: 22),
                         onPressed: () {
                           _share();
                         })),

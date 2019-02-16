@@ -27,20 +27,25 @@ class HttpClient {
       headers['X-Access-Token'] = token;
     }
 
-    final response = await http.post(domain + endPoint,
-        headers: headers, body: json.encode(data));
+    try {
+      final response = await http.post(domain + endPoint,
+          headers: headers, body: json.encode(data));
 
-    var statusCode = response.statusCode;
-
-    if (statusCode == 200) {
-      return json.decode(response.body);
-    } else if (statusCode == 401 && endPoint != 'account/auth/refreshToken') {
-      await refreshToken();
-    } else if (statusCode == 422 || statusCode == 511) {
-      await setCache('token', '');
-      // go to signin
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/', (Route<dynamic> route) => false);
+      var statusCode = response.statusCode;
+      print(statusCode);
+      if (statusCode == 200) {
+        return json.decode(response.body);
+      } else if (statusCode == 401 && endPoint != 'account/auth/refreshToken') {
+        await refreshToken();
+      } else if (statusCode == 422 || statusCode == 511) {
+        await setCache('accessToken', '');
+        // go to signin
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/', (Route<dynamic> route) => false);
+      }
+    } on Exception catch (e) {
+      print(e.toString());
+      throw (e);
     }
   }
 

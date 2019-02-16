@@ -28,25 +28,28 @@ Future login(context, String mobile, String code) async {
 Future<bool> loginByWechat(context, String code) async {
   try {
     final response =
-        await HttpClient().post(context, 'account/auth/verifyCode', {
+        await HttpClient().post(context, 'uc/auth/weappAuthorize', {
       'authDetail': {'authorizationCode': code},
       'authorizationType': 'wechat_app',
-      'clientId': {'clientId': 'weapp_wtzz_v1'}
+      'client': {'clientId': 'weapp_wtzz_v1'}
     });
+    print(response);
     if (response != null) {
       HttpClient.setCache('accessToken', response['accessToken']);
       HttpClient.setCache('refreshToken', response['refreshToken']);
+      return true;
     }
   } catch (e) {
-    print(e);
+    print(e.toString());
     return false;
   }
 
-  return true;
+  return false;
 }
 
 Future<Auth> isLogin() async {
   var token = await HttpClient.getCache('accessToken');
+  print(token);
   if (token == null) {
     throw Exception('未登录');
   }
