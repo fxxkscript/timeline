@@ -46,7 +46,6 @@ class LoginScreenState extends State<LoginScreen> {
     focusNode = FocusNode();
 
     handler = fluwx.responseFromAuth.listen((response) async {
-      print(response.code);
       setState(() => _isLoading = true);
       bool success = await loginByWechat(context, response.code);
       setState(() => _isLoading = false);

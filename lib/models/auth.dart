@@ -13,6 +13,7 @@ class Auth {
   }
 
   Auth update(String mobile, String token) {
+    print(mobile);
     this.mobile = mobile;
     this.token = token;
     return Auth();

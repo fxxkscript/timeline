@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:wshop/models/auth.dart';
-
 import 'package:wshop/utils/http_client.dart';
 
 void getCode(context, String mobile) async {
@@ -47,12 +46,12 @@ Future<bool> loginByWechat(context, String code) async {
   return false;
 }
 
-Future<Auth> isLogin() async {
+void checkLogin() async {
   var token = await HttpClient.getCache('accessToken');
-  print(token);
   if (token == null) {
     throw Exception('未登录');
   }
+  var mobile = await HttpClient.getCache('mobile');
 
-  return Auth().update(HttpClient.getCache('mobile'), token);
+  Auth().update(mobile, token);
 }
