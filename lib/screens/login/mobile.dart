@@ -1,19 +1,18 @@
-import 'dart:ui';
 import 'dart:async';
-import 'package:flutter/services.dart';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
 import 'package:wshop/api/auth.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
 
-class LoginScreen extends StatefulWidget {
+class LoginMobileScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return LoginScreenState();
+    return LoginMobileScreenState();
   }
 }
 
-class LoginScreenState extends State<LoginScreen> {
+class LoginMobileScreenState extends State<LoginMobileScreen> {
   FocusNode focusNode;
 
   bool _isLoading = false;
@@ -25,7 +24,6 @@ class LoginScreenState extends State<LoginScreen> {
 
   final formKey = GlobalKey<FormState>();
   final mobileController = TextEditingController();
-  StreamSubscription handler;
 
   @override
   void initState() {
@@ -44,23 +42,12 @@ class LoginScreenState extends State<LoginScreen> {
       }
     });
     focusNode = FocusNode();
-
-    handler = fluwx.responseFromAuth.listen((response) async {
-      setState(() => _isLoading = true);
-      bool success = await loginByWechat(context, response.code);
-      setState(() => _isLoading = false);
-      if (success) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/', (Route<dynamic> route) => false);
-      }
-    });
   }
 
   @override
   void dispose() {
     focusNode.dispose();
     mobileController.dispose();
-    handler.cancel();
 
     super.dispose();
   }
@@ -80,11 +67,6 @@ class LoginScreenState extends State<LoginScreen> {
             context, '/', (Route<dynamic> route) => false);
       }
     }
-  }
-
-  void _wechat() async {
-    await fluwx.sendAuth(
-        scope: "snsapi_userinfo", state: "wechat_sdk_demo_test");
   }
 
   void _getCode() {
@@ -179,15 +161,6 @@ class LoginScreenState extends State<LoginScreen> {
           ),
         ),
         _isLoading ? CircularProgressIndicator() : loginBtn,
-        Container(
-            margin: const EdgeInsets.only(top: 13.0, left: 8, right: 8),
-            constraints: const BoxConstraints(minWidth: double.infinity),
-            child: RaisedButton(
-              onPressed: _wechat,
-              child: Text('微信登录'),
-              textColor: Colors.white,
-              color: Colors.blue,
-            ))
       ],
       crossAxisAlignment: CrossAxisAlignment.center,
     );
