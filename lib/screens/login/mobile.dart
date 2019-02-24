@@ -102,7 +102,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
           onPressed: _submit,
           child: Text('登 录'),
           textColor: Colors.white,
-          color: Colors.blue,
+          color: Theme.of(context).primaryColor,
         ));
 
     var loginForm = Column(
@@ -153,7 +153,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
                             onPressed: _disabled ? null : _getCode,
                             child: Text(_text, style: TextStyle(fontSize: 12)),
                             textColor: Colors.white,
-                            color: Colors.blue,
+                            color: Theme.of(context).primaryColor,
                           ))),
                 ],
               ),

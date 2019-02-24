@@ -29,8 +29,10 @@ class App extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.lightBlue,
           brightness: Brightness.light,
-          primaryColor: Colors.lightBlue[800],
-          accentColor: Colors.cyan[600],
+          primaryColor: Color.fromARGB(255, 12, 193, 96),
+          buttonTheme:
+              ButtonThemeData(buttonColor: Color.fromARGB(255, 12, 193, 96)),
+          accentColor: Color.fromARGB(255, 172, 172, 172),
 //          fontFamily: 'PingFang',
           textTheme: TextTheme(
               headline: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
