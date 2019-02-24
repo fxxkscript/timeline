@@ -24,7 +24,6 @@ class LaunchScreenState extends State<LaunchScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     handler = fluwx.responseFromAuth.listen((response) async {
@@ -46,7 +45,7 @@ class LaunchScreenState extends State<LaunchScreen> {
     super.dispose();
   }
 
-  Widget buttonTheme({Widget child}) {
+  Widget btnTheme({Widget child}) {
     return ButtonTheme(
       minWidth: 10,
       height: 10,
@@ -124,34 +123,37 @@ class LaunchScreenState extends State<LaunchScreen> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          InkWell(
-                            child: Container(
-                                width: 160,
-                                height: 44,
-                                decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 12, 193, 96),
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      child: Image.asset(
-                                          'assets/wechat_icon.png',
-                                          width: 19,
-                                          height: 16),
-                                      padding: EdgeInsets.only(right: 10),
-                                    ),
-                                    Text('微信登录',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle
-                                            .copyWith(color: Colors.white))
-                                  ],
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                )),
-                            onTap: _wechat,
+                          btnTheme(
+                            child: FlatButton(
+                              child: Container(
+                                  width: 160,
+                                  height: 44,
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 12, 193, 96),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        child: Image.asset(
+                                            'assets/wechat_icon.png',
+                                            width: 19,
+                                            height: 16),
+                                        padding: EdgeInsets.only(right: 10),
+                                      ),
+                                      Text('微信登录',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle
+                                              .copyWith(color: Colors.white))
+                                    ],
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  )),
+                              onPressed: _wechat,
+                            ),
                           ),
-                          InkWell(
+                          btnTheme(
+                              child: FlatButton(
                             child: Container(
                                 width: 160,
                                 height: 44,
@@ -171,8 +173,10 @@ class LaunchScreenState extends State<LaunchScreen> {
                                   ],
                                   mainAxisAlignment: MainAxisAlignment.center,
                                 )),
-                            onTap: () {},
-                          )
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/login/mobile');
+                            },
+                          ))
                         ],
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       ),
@@ -183,7 +187,7 @@ class LaunchScreenState extends State<LaunchScreen> {
                                   .textTheme
                                   .subtitle
                                   .copyWith(fontSize: 10)),
-                          buttonTheme(
+                          btnTheme(
                             child: FlatButton(
                               child: Text('使用条款',
                                   style: Theme.of(context)
@@ -201,7 +205,7 @@ class LaunchScreenState extends State<LaunchScreen> {
                                   .textTheme
                                   .subtitle
                                   .copyWith(fontSize: 10)),
-                          buttonTheme(
+                          btnTheme(
                             child: FlatButton(
                               child: Text('隐私协议',
                                   style: Theme.of(context)

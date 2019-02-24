@@ -1,4 +1,4 @@
-package com.example.wshop;
+package com.meizizi.doraemon;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
