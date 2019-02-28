@@ -4,7 +4,7 @@ import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:wshop/routes.dart';
 
 void main() async {
-  String initalRoute = '/login';
+  String initalRoute = '/';
 //  try {
 //    checkLogin();
 //

@@ -31,16 +31,15 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     lintOptions {
         disable 'InvalidPackage'
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.meizizi.doraemon"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -67,6 +66,8 @@ flutter {
 }
 
 dependencies {
+    implementation 'com.sch.share:wx-share:1.0.6'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
