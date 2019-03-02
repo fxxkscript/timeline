@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wshop/components/FeedImage.dart';
 import 'package:wshop/screens/editor.dart';
 
 class TimelineTab extends StatelessWidget {
@@ -24,6 +25,13 @@ class TimelineTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> imageList = [
+      'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
+      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552121753&di=1794dc32aedaad9a9fcc8c83957e1524&imgtype=jpg&er=1&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F15%2F68%2F59%2F71X58PICNjx_1024.jpg',
+      'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
+      'http://img1.imgtn.bdimg.com/it/u=582940763,2767642088&fm=26&gp=0.jpg',
+    ];
+
     return Container(
       child: Stack(children: [
         RefreshIndicator(
@@ -99,35 +107,9 @@ class TimelineTab extends StatelessWidget {
                                         fontSize: 14,
                                         color: Colors.black54,
                                         decoration: TextDecoration.none)),
-                                Container(
-                                    margin: EdgeInsets.only(
-                                        right: 10, bottom: 10, top: 10),
-                                    child: Wrap(
-                                      spacing: 8,
-                                      runSpacing: 8,
-                                      children: <Widget>[
-                                        Image.network(
-                                            'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                                            width: 80,
-                                            height: 80,
-                                            fit: BoxFit.cover),
-                                        Image.network(
-                                            'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                                            width: 80,
-                                            height: 80,
-                                            fit: BoxFit.cover),
-                                        Image.network(
-                                            'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                                            width: 80,
-                                            height: 80,
-                                            fit: BoxFit.cover),
-                                        Image.network(
-                                            'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                                            width: 80,
-                                            height: 80,
-                                            fit: BoxFit.cover),
-                                      ],
-                                    )),
+                                FeedImage(
+                                  imageList: imageList,
+                                ),
                                 Text('9分钟前',
                                     style: TextStyle(
                                         fontSize: 14,
