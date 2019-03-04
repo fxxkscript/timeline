@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,7 +17,7 @@ class HttpClient {
   Future post(
       BuildContext context, String endPoint, Map<String, dynamic> data) async {
     Map<String, String> headers = {
-      'X-Client-Id': 'app',
+      'X-Client-Id': 'weapp_wtzz_v1',
       'X-Tid': '1',
       'Content-Type': 'application/json',
     };
@@ -41,7 +41,7 @@ class HttpClient {
         await setCache('accessToken', '');
         // go to signin
         Navigator.pushNamedAndRemoveUntil(
-            context, '/', (Route<dynamic> route) => false);
+            context, '/login', (Route<dynamic> route) => false);
       }
     } on Exception catch (e) {
       print(e.toString());

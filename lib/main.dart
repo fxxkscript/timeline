@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:wshop/api/auth.dart';
 import 'package:wshop/routes.dart';
 
 void main() async {
   String initalRoute = '/';
-//  try {
-//    checkLogin();
-//
-//    initalRoute = '/';
-//  } catch (e) {
-//    print(e.toString());
-//    initalRoute = '/login';
-//  }
+  try {
+    checkLogin();
+
+    initalRoute = '/';
+  } catch (e) {
+    print(e.toString());
+    initalRoute = '/login';
+  }
 
   fluwx.register(appId: 'wx41df20facbec2635');
   runApp(App(initalRoute));
