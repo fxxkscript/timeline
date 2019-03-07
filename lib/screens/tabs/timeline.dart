@@ -165,11 +165,16 @@ class TimelineTabState extends State<TimelineTab> {
               trailing: CupertinoButton(
                 child: Icon(Icons.photo_camera),
                 padding: EdgeInsets.only(bottom: 0),
-                onPressed: () {
-                  Navigator.of(context).push(CupertinoPageRoute(
-                      fullscreenDialog: true,
-                      title: '新建',
-                      builder: (BuildContext context) => Editor()));
+                onPressed: () async {
+                  String result = await Navigator.of(context).push(
+                      CupertinoPageRoute(
+                          fullscreenDialog: true,
+                          title: '新建',
+                          builder: (BuildContext context) => Editor()));
+
+                  if (result == 'save') {
+                    _getList();
+                  }
                 },
               )),
         )

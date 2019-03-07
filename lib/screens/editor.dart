@@ -80,7 +80,7 @@ class EditorState extends State<Editor> {
             child: const Text('取消'),
             padding: EdgeInsets.zero,
             onPressed: () {
-              Navigator.of(context).maybePop();
+              Navigator.pop(context, 'cancel');
             },
           ),
           trailing: ButtonTheme(
@@ -93,8 +93,8 @@ class EditorState extends State<Editor> {
                   style: TextStyle(color: Colors.white),
                 ),
                 padding: EdgeInsets.zero,
-                onPressed: () {
-                  publish(
+                onPressed: () async {
+                  await publish(
                       context,
                       Feed(
                           0,
@@ -104,7 +104,7 @@ class EditorState extends State<Editor> {
                           [],
                           '',
                           0));
-                  Navigator.of(context).maybePop();
+                  Navigator.pop(context, 'save');
                 },
               )),
         ),

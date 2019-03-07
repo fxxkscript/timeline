@@ -7,7 +7,6 @@ Future<Feeds> getTimeline(context, int cursor, [int pageSize = 10]) async {
   try {
     var response = await HttpClient().post(context, 'feeds/timeline/home',
         {'cursor': cursor, 'pageSize': pageSize});
-    print(response);
     return Feeds.fromJson(response);
   } catch (e) {
     print(e);
@@ -19,7 +18,6 @@ Future<void> publish(context, Feed feed) async {
   try {
     var response =
         await HttpClient().post(context, 'feeds/tweet/publish', feed.toJson());
-    print(feed.toJson());
   } catch (e) {
     print(e);
   }
