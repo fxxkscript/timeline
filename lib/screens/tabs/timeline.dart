@@ -18,14 +18,11 @@ class TimelineTab extends StatefulWidget {
 class TimelineTabState extends State<TimelineTab> {
   static const channel = const MethodChannel('com.meizizi.doraemon/share');
 
-  final List<Feed> items = [];
+  List<Feed> _items = [];
 
-  Future<void> _share() async {
+  Future<void> _share(List<String> pics) async {
     try {
-      final int result = await channel.invokeMethod('weixin', [
-        "https://ws3.sinaimg.cn/large/006tNc79gy1fyworuc0v0j3020020mx1.jpg",
-        "https://ws3.sinaimg.cn/large/006tNc79gy1fywpblwgk4j3020020glf.jpg"
-      ]);
+      final int result = await channel.invokeMethod('weixin', pics);
       debugPrint(result.toString());
     } on PlatformException catch (e) {
       debugPrint(e.toString());
@@ -36,42 +33,25 @@ class TimelineTabState extends State<TimelineTab> {
   void initState() {
     super.initState();
 
-    _getList();
+    _getList(page: 0);
   }
 
-  void _getList() async {
-    await publish(
-        context,
-        Feed(
-            'hahaha',
-            [
-              'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-              'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552121753&di=1794dc32aedaad9a9fcc8c83957e1524&imgtype=jpg&er=1&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F15%2F68%2F59%2F71X58PICNjx_1024.jpg',
-              'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-            ],
-            '',
-            0));
-
-    await getTimeline(context, 0);
-
-    print(11111);
+  Future<void> _getList({int page = 0}) async {
+    Feeds feeds = await getTimeline(context, page);
+    _items = feeds.list;
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> imageList = [
-      'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552121753&di=1794dc32aedaad9a9fcc8c83957e1524&imgtype=jpg&er=1&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F15%2F68%2F59%2F71X58PICNjx_1024.jpg',
-      'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-    ];
-
     return Container(
       child: Stack(children: [
         RefreshIndicator(
             displacement: 80,
-            onRefresh: () {},
+            onRefresh: () {
+              return _getList();
+            },
             child: ListView.builder(
-              itemCount: items.length + 1,
+              itemCount: _items.length + 1,
               itemBuilder: (context, index) {
                 if (index == 0) {
                   return Container(
@@ -119,7 +99,7 @@ class TimelineTabState extends State<TimelineTab> {
                               padding: EdgeInsets.only(right: 10),
                               child: ClipRRect(
                                 child: Image.network(
-                                    'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
+                                    _items[index].author.avatar,
                                     width: 42,
                                     height: 42,
                                     fit: BoxFit.cover),
@@ -129,25 +109,21 @@ class TimelineTabState extends State<TimelineTab> {
                             Expanded(
                                 child: Column(
                               children: <Widget>[
-                                Text('美女名字',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                        decoration: TextDecoration.none)),
-                                Text(
-                                    '哔哔哔一堆废话,哔哔哔一堆废话哔哔哔一堆废话哔哔哔一堆废话哔哔哔一堆废话哔哔哔一堆废话哔哔哔一堆废话',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black54,
-                                        decoration: TextDecoration.none)),
+                                Text(_items[index].author.nickname,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .body2
+                                        .copyWith(fontWeight: FontWeight.w600)),
+                                Text(_items[index].content,
+                                    style: Theme.of(context).textTheme.body1),
                                 FeedImage(
-                                  imageList: imageList,
+                                  imageList: _items[index].pics,
                                 ),
                                 Text('9分钟前',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black38,
-                                        decoration: TextDecoration.none)),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle
+                                        .copyWith(fontSize: 12)),
                               ],
                               crossAxisAlignment: CrossAxisAlignment.start,
                             )),
@@ -159,7 +135,7 @@ class TimelineTabState extends State<TimelineTab> {
                               child: Image.asset('assets/share.png',
                                   width: 22, height: 22),
                               onPressed: () {
-                                _share();
+                                _share(_items[index].pics);
                               })),
                       Positioned(
                           bottom: -15,
@@ -170,7 +146,7 @@ class TimelineTabState extends State<TimelineTab> {
                               label: Text('100',
                                   style: TextStyle(color: Colors.grey)),
                               onPressed: () {
-                                _share();
+                                _share(_items[index].pics);
                               })),
                     ]));
               },

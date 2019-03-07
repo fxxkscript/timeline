@@ -45,6 +45,10 @@ class App extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.normal,
                   color: Color.fromARGB(255, 83, 102, 147)),
+              body1: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                  color: Color.fromARGB(255, 19, 19, 19)),
               caption: TextStyle(
                   fontSize: 40,
                   color: Color.fromARGB(255, 19, 19, 19),
