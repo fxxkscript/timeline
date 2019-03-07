@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:wshop/api/feeds.dart';
 import 'package:wshop/components/asset.dart';
+import 'package:wshop/models/auth.dart';
+import 'package:wshop/models/feeds.dart';
 
 class Editor extends StatefulWidget {
   @override
@@ -14,6 +17,14 @@ class EditorState extends State<Editor> {
   static const maxPhotos = 9;
 
   List<Asset> images = List<Asset>();
+  final textController = TextEditingController();
+
+  @override
+  void disponse() {
+    textController.dispose();
+
+    super.dispose();
+  }
 
   Future getImage() async {
     setState(() {
@@ -83,6 +94,15 @@ class EditorState extends State<Editor> {
                 ),
                 padding: EdgeInsets.zero,
                 onPressed: () {
+                  publish(
+                      context,
+                      Feed(
+                          0,
+                          Author(Auth().uid, Auth().nickname, Auth().avatar),
+                          textController.text,
+                          [],
+                          '',
+                          0));
                   Navigator.of(context).maybePop();
                 },
               )),
@@ -97,6 +117,7 @@ class EditorState extends State<Editor> {
                 Container(
                   padding: EdgeInsets.only(left: 10, right: 10),
                   child: TextFormField(
+                      controller: textController,
                       maxLines: 6,
                       decoration: InputDecoration(
                           border: InputBorder.none, hintText: '这一刻的想法...')),

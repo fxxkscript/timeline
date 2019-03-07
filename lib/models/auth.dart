@@ -1,6 +1,10 @@
 class Auth {
   String mobile;
   String token;
+  int uid;
+  String nickname;
+  String avatar;
+
   static final Auth _singleton = new Auth._internal();
   Auth._internal();
 
@@ -13,7 +17,6 @@ class Auth {
   }
 
   Auth update(String mobile, String token) {
-    print(mobile);
     this.mobile = mobile;
     this.token = token;
     return Auth();
