@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wshop/api/feeds.dart';
 import 'package:wshop/components/FeedImage.dart';
+import 'package:wshop/models/auth.dart';
 import 'package:wshop/models/feeds.dart';
 import 'package:wshop/screens/editor.dart';
 
@@ -38,7 +39,10 @@ class TimelineTabState extends State<TimelineTab> {
 
   Future<void> _getList({int page = 0}) async {
     Feeds feeds = await getTimeline(context, page);
-    _items = feeds.list;
+
+    setState(() {
+      _items = feeds.list;
+    });
   }
 
   @override
@@ -73,7 +77,7 @@ class TimelineTabState extends State<TimelineTab> {
                       Positioned(
                         bottom: 70,
                         right: 100,
-                        child: Text('威武的✈️',
+                        child: Text(Auth().nickname,
                             style: Theme.of(context)
                                 .textTheme
                                 .headline
@@ -130,21 +134,25 @@ class TimelineTabState extends State<TimelineTab> {
                           ]),
                       Positioned(
                           bottom: -17,
+                          right: 70,
+                          child: Row(children: [
+                            CupertinoButton(
+                                child: Image.asset('assets/star.png',
+                                    width: 22, height: 22),
+                                onPressed: () {
+                                  _share(_items[index].pics);
+                                }),
+                            Text(
+                              _items[index].star.toString(),
+                              style: Theme.of(context).textTheme.subtitle,
+                            )
+                          ])),
+                      Positioned(
+                          bottom: -17,
                           right: 0,
                           child: CupertinoButton(
                               child: Image.asset('assets/share.png',
                                   width: 22, height: 22),
-                              onPressed: () {
-                                _share(_items[index].pics);
-                              })),
-                      Positioned(
-                          bottom: -15,
-                          right: 70,
-                          child: FlatButton.icon(
-                              icon: Icon(Icons.favorite_border,
-                                  color: Colors.grey),
-                              label: Text('100',
-                                  style: TextStyle(color: Colors.grey)),
                               onPressed: () {
                                 _share(_items[index].pics);
                               })),

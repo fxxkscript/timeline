@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Author {
   int uid;
   String nickname;
@@ -17,9 +19,10 @@ class Feed {
   List<String> pics;
   String video;
   int sourceId;
+  int star;
 
-  Feed(
-      this.id, this.author, this.content, this.pics, this.video, this.sourceId);
+  Feed(this.id, this.star, this.author, this.content, this.pics, this.video,
+      this.sourceId);
 
   Map<String, dynamic> toJson() =>
       {'content': content, 'pics': pics, 'video': video, 'sourceId': sourceId};
@@ -40,12 +43,20 @@ class Feeds {
 
     json['list'].forEach((item) {
       List<String> pics = [];
-      item['pics'].forEach((img) {
-        pics.add(img);
+      List<dynamic> data = item['pics'];
+      data.forEach((img) {
+        Map newImg = jsonDecode(img);
+        pics.add(newImg['pic']);
       });
 
-      list.add(Feed(item['id'], Author.fromJson(item['authorDTO']),
-          item['content'], pics, item['video'], item['sourceId']));
+      list.add(Feed(
+          item['id'],
+          item['zanNum'],
+          Author.fromJson(item['authorDTO']),
+          item['content'],
+          pics,
+          item['video'],
+          item['sourceId']));
     });
 
     return Feeds(json['hasNext'], json['nextCursor'], list);

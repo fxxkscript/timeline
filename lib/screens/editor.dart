@@ -98,6 +98,7 @@ class EditorState extends State<Editor> {
                       context,
                       Feed(
                           0,
+                          0,
                           Author(Auth().uid, Auth().nickname, Auth().avatar),
                           textController.text,
                           [],
