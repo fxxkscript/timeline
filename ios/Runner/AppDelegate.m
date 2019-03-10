@@ -59,22 +59,18 @@
 
 - (void)upload:(FlutterMethodCall*)call result:(FlutterResult)result
 {
-//  NSString *token = call.arguments[@"token"];
-//  FlutterStandardDataTypeUInt8 *imageData = call.arguments[@"imageData"];
-//
-//  NSString *key = call.arguments[@"key"];
-//  QNUploadManager *upManager = [[QNUploadManager alloc] init];
-//  @try {
-//    [upManager putData:imageData key:key token:token
-//              complete: ^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
-//                NSLog(@"%@", info);
-//                NSLog(@"%@", resp);
-//                result(@(info.isOK));
-//              } option:[QNUploadOption defaultOptions]];
-//  }
-//  @catch(NSException *exception) {
-//
-//  }
+  NSString *token = call.arguments[@"token"];
+  FlutterStandardTypedData *imageData = call.arguments[@"imageData"];
+  NSString *key = call.arguments[@"key"];
+  
+  QNUploadManager *upManager = [[QNUploadManager alloc] init];
+  [upManager putData:[imageData data] key:key token:token
+            complete: ^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+              NSLog(@"%@", info);
+              NSLog(@"%@", resp);
+              result(@(info.isOK));
+            } option:[QNUploadOption defaultOptions]];
+
 
 }
 
