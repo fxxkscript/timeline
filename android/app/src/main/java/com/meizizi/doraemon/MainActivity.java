@@ -43,7 +43,7 @@ import java.util.List;
 public class MainActivity extends FlutterActivity {
   public static String IMAGE_NAME = "iv_share_";
   public static int i = 0;
-  private static final String CHANNEL = "com.meizizi.doraemon/share";
+  private static final String CHANNEL = "com.meizizi.doraemon/door";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

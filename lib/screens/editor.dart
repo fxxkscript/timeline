@@ -1,7 +1,12 @@
+import 'dart:async';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:wshop/api/feeds.dart';
+import 'package:wshop/api/qiniu.dart';
 import 'package:wshop/components/asset.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/models/feeds.dart';
@@ -14,16 +19,33 @@ class Editor extends StatefulWidget {
 }
 
 class EditorState extends State<Editor> {
+  static const channel = const MethodChannel('com.meizizi.doraemon/door');
+
   static const maxPhotos = 9;
 
   List<Asset> images = List<Asset>();
   final textController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void disponse() {
     textController.dispose();
 
     super.dispose();
+  }
+
+  Future upload(BuildContext context, Uint8List data) async {
+    String token = await getToken(context: context);
+
+    String key = '/sdfadf';
+    print(data);
+
+    final int result = await channel.invokeMethod('upload',
+        <String, dynamic>{'imageData': data, 'token': token, 'key': key});
   }
 
   Future getImage() async {
@@ -94,6 +116,10 @@ class EditorState extends State<Editor> {
                 ),
                 padding: EdgeInsets.zero,
                 onPressed: () async {
+                  ByteData byteData = await images[0].requestOriginal();
+                  Uint8List imageData = byteData.buffer.asUint8List();
+                  await this.upload(context, imageData);
+
                   await publish(
                       context,
                       Feed(
@@ -103,7 +129,8 @@ class EditorState extends State<Editor> {
                           textController.text,
                           [],
                           '',
-                          0));
+                          0,
+                          ''));
                   Navigator.pop(context, 'save');
                 },
               )),
