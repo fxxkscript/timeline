@@ -19,20 +19,122 @@ class ContactsState extends State<Contacts> {
             child: ListView.builder(
                 itemCount: 10,
                 itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return Container(
+                      decoration: BoxDecoration(color: Colors.white),
+                      margin: EdgeInsets.only(top: 10, bottom: 10),
+                      padding: EdgeInsets.only(
+                          top: 8, bottom: 8, left: 16, right: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          ClipRRect(
+                            child: Container(
+                              margin: EdgeInsets.only(right: 10),
+                              decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 248, 248, 248)),
+                              child: Image.network(
+                                'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
+                                width: 56,
+                                height: 56,
+                              ),
+                            ),
+                            borderRadius: BorderRadius.circular(28),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  '我的粉丝',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption
+                                      .copyWith(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                ),
+                                Text(
+                                  '1280',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle
+                                      .copyWith(fontSize: 12),
+                                )
+                              ],
+                            ),
+                          ),
+                          Icon(
+                            Icons.chevron_right,
+                            color: Color.fromARGB(255, 209, 209, 214),
+                          )
+                        ],
+                      ),
+                    );
+                  }
+
+                  index = index - 1;
+
                   return Container(
                     decoration: BoxDecoration(color: Colors.white),
+                    padding:
+                        EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Image.network(
-                          'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                          width: 100,
-                          height: 100,
+                        ClipRRect(
+                          child: Container(
+                            margin: EdgeInsets.only(right: 10),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 248, 248, 248)),
+                            child: Image.network(
+                              'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
+                              width: 56,
+                              height: 56,
+                            ),
+                          ),
+                          borderRadius: BorderRadius.circular(28),
                         ),
-                        Column(
-                          children: <Widget>[Text('我的粉丝'), Text('1280')],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                '我的粉丝',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    .copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                '上新12 共110',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle
+                                    .copyWith(fontSize: 12),
+                              )
+                            ],
+                          ),
                         ),
-                        Icon(Icons.more)
+                        FlatButton(
+                          onPressed: () {},
+                          child: Container(
+                            width: 90,
+                            height: 27,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 12, 193, 96),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Center(
+                                child: Text(
+                              '关注',
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.white),
+                            )),
+                          ),
+                        )
                       ],
                     ),
                   );

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
@@ -41,11 +42,14 @@ class EditorState extends State<Editor> {
   Future upload(BuildContext context, Uint8List data) async {
     String token = await getToken(context: context);
 
-    String key = '/sdfadf';
-    print(data);
+    String key = (new DateTime.now()).millisecondsSinceEpoch.toString() +
+        Random(Auth().uid).nextInt(100000).toString();
 
-    final int result = await channel.invokeMethod('upload',
+    var result = await channel.invokeMethod('upload',
         <String, dynamic>{'imageData': data, 'token': token, 'key': key});
+    print(result);
+
+    return key;
   }
 
   Future getImage() async {
@@ -116,9 +120,14 @@ class EditorState extends State<Editor> {
                 ),
                 padding: EdgeInsets.zero,
                 onPressed: () async {
-                  ByteData byteData = await images[0].requestOriginal();
-                  Uint8List imageData = byteData.buffer.asUint8List();
-                  await this.upload(context, imageData);
+                  List<String> imgList = [];
+                  images.forEach((img) async {
+                    ByteData byteData = await img.requestOriginal();
+                    Uint8List imageData = byteData.buffer.asUint8List();
+                    String key = await this.upload(context, imageData);
+                    imgList.add(key);
+                    img.releaseOriginal();
+                  });
 
                   await publish(
                       context,
@@ -127,7 +136,7 @@ class EditorState extends State<Editor> {
                           0,
                           Author(Auth().uid, Auth().nickname, Auth().avatar),
                           textController.text,
-                          [],
+                          imgList,
                           '',
                           0,
                           ''));
