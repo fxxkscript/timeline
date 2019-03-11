@@ -19,6 +19,7 @@ class TimelineTab extends StatefulWidget {
 class TimelineTabState extends State<TimelineTab> {
   static const channel = const MethodChannel('com.meizizi.doraemon/door');
   List<Feed> _items = [];
+  Feeds feeds;
 
   Future<void> _share(List<String> pics) async {
     try {
@@ -33,11 +34,17 @@ class TimelineTabState extends State<TimelineTab> {
   void initState() {
     super.initState();
 
-    _getList(cursor: 0);
+    _getList();
   }
 
-  Future<void> _getList({int cursor = 0}) async {
-    Feeds feeds = await getTimeline(context, cursor);
+  Future<void> _getList() async {
+    if (feeds != null && !feeds.hasNext) {
+      return;
+    }
+
+    int cursor = feeds != null ? feeds.nextCursor : 0;
+
+    feeds = await getTimeline(context, cursor);
 
     setState(() {
       _items.addAll(feeds.list);
@@ -54,14 +61,13 @@ class TimelineTabState extends State<TimelineTab> {
               setState(() {
                 _items.clear();
               });
-              return _getList(cursor: 0);
+              return _getList();
             },
             child: NotificationListener<ScrollNotification>(
                 onNotification: (ScrollNotification scrollInfo) {
                   if (scrollInfo.metrics.pixels ==
                       scrollInfo.metrics.maxScrollExtent) {
-                    int cursor = _items.last.id;
-                    _getList(cursor: cursor);
+                    _getList();
                   }
                 },
                 child: ListView.builder(

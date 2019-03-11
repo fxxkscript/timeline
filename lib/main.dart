@@ -5,7 +5,7 @@ import 'package:wshop/api/auth.dart';
 import 'package:wshop/routes.dart';
 
 void main() async {
-  String initalRoute = '/';
+  String initalRoute = '/login';
   try {
     checkLogin();
 
@@ -37,6 +37,10 @@ class App extends StatelessWidget {
 //          fontFamily: 'PingFang',
           textTheme: TextTheme(
               headline: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+              title: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w500,
+                  color: Color.fromARGB(255, 19, 19, 19)),
               subtitle: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.normal,

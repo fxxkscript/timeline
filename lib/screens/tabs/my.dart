@@ -1,97 +1,349 @@
 import 'package:flutter/material.dart';
+import 'package:wshop/models/auth.dart';
 
 class MyTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        children: <Widget>[
-          Container(
-            padding:const EdgeInsets.only(top: 20.0),
-            child: Container(
-              height: 80.0,
-              child: ListTile(
-                leading: Image.network(
-                            'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover),
-                title: Text('Tony'),
-                subtitle: Text('微信号：ty001'),
-                trailing: Icon(Icons.fullscreen),
-                onTap: (){
-
-                },
-              ),
-              color: Colors.white,
-            ),
-            color: Colors.grey[200],
-          ),
-          Container(
-            padding:const EdgeInsets.only(top: 20.0),
-            child: Container(
-              child: ListTile(
-                leading: Icon(Icons.call_to_action),
-                title: Text('钱包'),
-                onTap: (){
-
-                },
-              ),
-              color: Colors.white,
-              height: 50.0,
-            ),
-            color: Colors.grey[200],
-          ),
-          Container(
-            padding:const EdgeInsets.only(top: 20.0),
-            child: Container(
-              child: ListTile(
-                leading: Icon(Icons.dashboard),
-                title: Text('收藏'),
-              ),
-              color: Colors.white,
-              height: 50.0,
-            ),
-            color: Colors.grey[200],
-          ),
-          Container(
-            child: ListTile(
-              leading: Icon(Icons.photo),
-              title: Text('相册'),
-            ),
-            color: Colors.white,
-            height: 50.0,
-          ),
-          Container(
-            child: ListTile(
-              leading: Icon(Icons.credit_card),
-              title: Text('卡包'),
-            ),
-            color: Colors.white,
-            height: 50.0,
-          ),
-          Container(
-            child: ListTile(
-              leading: Icon(Icons.tag_faces),
-              title: Text('表情'),
-            ),
-            color: Colors.white,
-            height: 50.0,
-          ),
-          Container(
-            padding:const EdgeInsets.only(top: 20.0),
-            child: Container(
-              child: ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('设置'),
-              ),
-              color: Colors.white,
-              height: 50.0,
-            ),
-            color: Colors.grey[200],
-          ),
-        ],
-      )
-    );
+    return Scaffold(body: LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        return SingleChildScrollView(
+          child: Container(
+              color: Color.fromARGB(255, 237, 237, 237),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: viewportConstraints.maxHeight,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      height: 266,
+                      decoration: BoxDecoration(color: Colors.white),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin:
+                                  EdgeInsets.only(top: 50, left: 24, right: 26),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    child: ClipRRect(
+                                      child: Container(
+                                        width: 64,
+                                        height: 64,
+                                        decoration: BoxDecoration(
+                                            color: Color.fromARGB(
+                                                255, 248, 248, 248)),
+                                        child: Image.network(
+                                          Auth().avatar,
+                                          width: 64,
+                                          height: 64,
+                                        ),
+                                      ),
+                                      borderRadius: BorderRadius.circular(28),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          Auth().nickname,
+                                          style:
+                                              Theme.of(context).textTheme.title,
+                                        ),
+                                        Text(
+                                          '查看并编辑个人资料',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle
+                                              .copyWith(fontSize: 12),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    child: Image.asset(
+                                      'assets/qrcode.png',
+                                      width: 32,
+                                      height: 32,
+                                    ),
+                                    onTap: () {},
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 20, bottom: 30),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  Column(
+                                    children: <Widget>[
+                                      Text('13',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .title
+                                              .copyWith(fontSize: 16)),
+                                      Text('动态',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .title
+                                              .copyWith(fontSize: 12))
+                                    ],
+                                  ),
+                                  Column(
+                                    children: <Widget>[
+                                      Text('13',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .title
+                                              .copyWith(fontSize: 16)),
+                                      Text('关注',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .title
+                                              .copyWith(fontSize: 12))
+                                    ],
+                                  ),
+                                  Column(
+                                    children: <Widget>[
+                                      Text('13',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .title
+                                              .copyWith(fontSize: 16)),
+                                      Text('粉丝',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .title
+                                              .copyWith(fontSize: 12))
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: GestureDetector(
+                                child: Image.asset(
+                                  'assets/banner.png',
+                                  width: 343,
+                                  height: 52,
+                                ),
+                                onTap: () {},
+                              ),
+                            )
+                          ]),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, bottom: 10),
+                      color: Colors.white,
+                      child: Column(
+                        children: <Widget>[
+                          GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                height: 68,
+                                margin: EdgeInsets.only(left: 16, right: 18),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                        margin: EdgeInsets.only(
+                                            left: 16, right: 14),
+                                        child: Image.asset(
+                                          'assets/invite.png',
+                                          width: 24,
+                                          height: 24,
+                                        )),
+                                    Expanded(
+                                      child: Text(
+                                        '邀请好友',
+                                        style:
+                                            Theme.of(context).textTheme.body1,
+                                      ),
+                                    ),
+                                    Container(
+                                        child: Row(
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              '邀请有奖',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .body1,
+                                            ),
+                                            Text('累计邀请66人',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle
+                                                    .copyWith(fontSize: 12))
+                                          ],
+                                        ),
+                                        Icon(
+                                          Icons.chevron_right,
+                                          color: Color.fromARGB(
+                                              255, 209, 209, 214),
+                                        )
+                                      ],
+                                    ))
+                                  ],
+                                ),
+                              )),
+                          GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                height: 68,
+                                margin: EdgeInsets.only(left: 16, right: 18),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                        margin: EdgeInsets.only(
+                                            left: 16, right: 14),
+                                        child: Image.asset(
+                                          'assets/money.png',
+                                          width: 24,
+                                          height: 24,
+                                        )),
+                                    Expanded(
+                                      child: Text(
+                                        '提现与反佣',
+                                        style:
+                                            Theme.of(context).textTheme.body1,
+                                      ),
+                                    ),
+                                    Container(
+                                        child: Row(
+                                      children: <Widget>[
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              '¥10.50 可提现',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .body1,
+                                            ),
+                                            Text('已提现¥8923.00',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle
+                                                    .copyWith(fontSize: 12))
+                                          ],
+                                        ),
+                                        Icon(
+                                          Icons.chevron_right,
+                                          color: Color.fromARGB(
+                                              255, 209, 209, 214),
+                                        )
+                                      ],
+                                    ))
+                                  ],
+                                ),
+                              )),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      color: Colors.white,
+                      child: Column(
+                        children: <Widget>[
+                          GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                height: 68,
+                                margin: EdgeInsets.only(left: 16, right: 18),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                        margin: EdgeInsets.only(
+                                            left: 16, right: 14),
+                                        child: Image.asset(
+                                          'assets/contact.png',
+                                          width: 24,
+                                          height: 24,
+                                        )),
+                                    Expanded(
+                                      child: Text(
+                                        '咨询客服',
+                                        style:
+                                            Theme.of(context).textTheme.body1,
+                                      ),
+                                    ),
+                                    Container(
+                                        child: Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.chevron_right,
+                                          color: Color.fromARGB(
+                                              255, 209, 209, 214),
+                                        )
+                                      ],
+                                    ))
+                                  ],
+                                ),
+                              )),
+                          GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                height: 68,
+                                margin: EdgeInsets.only(left: 16, right: 18),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                        margin: EdgeInsets.only(
+                                            left: 16, right: 14),
+                                        child: Image.asset(
+                                          'assets/setting.png',
+                                          width: 24,
+                                          height: 24,
+                                        )),
+                                    Expanded(
+                                      child: Text(
+                                        '设置',
+                                        style:
+                                            Theme.of(context).textTheme.body1,
+                                      ),
+                                    ),
+                                    Container(
+                                        child: Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.chevron_right,
+                                          color: Color.fromARGB(
+                                              255, 209, 209, 214),
+                                        )
+                                      ],
+                                    ))
+                                  ],
+                                ),
+                              )),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+        );
+      },
+    ));
   }
 }

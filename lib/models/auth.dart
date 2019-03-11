@@ -2,8 +2,8 @@ class Auth {
   String mobile;
   String token;
   int uid;
-  String nickname = '';
-  String avatar;
+  String nickname = '暂无昵称';
+  String avatar = '';
 
   static final Auth _singleton = new Auth._internal();
   Auth._internal();

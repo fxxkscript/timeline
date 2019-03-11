@@ -59,6 +59,13 @@ flutter:
     - assets/login_btn_icon_2.png
     - assets/wechat_icon.png
     - assets/star.png
+    - assets/qrcode.png
+    - assets/banner.png
+    - assets/not_vip.png
+    - assets/invite.png
+    - assets/money.png
+    - assets/setting.png
+    - assets/contact.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
