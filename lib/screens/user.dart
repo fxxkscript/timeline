@@ -88,22 +88,39 @@ class UserScreenState extends State<UserScreen> {
                             left: 20,
                             top: 80,
                             child: ClipRRect(
-                              child: Image.network(
-                                  'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                                  width: 64,
-                                  height: 64,
-                                  fit: BoxFit.cover),
+                              child: Image.network(Auth().avatar,
+                                  width: 64, height: 64, fit: BoxFit.cover),
                               borderRadius: BorderRadius.circular(32),
                             ),
                           ),
                           Positioned(
-                            bottom: 70,
-                            right: 100,
+                            left: 100,
+                            top: 90,
                             child: Text(Auth().nickname,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline
                                     .copyWith(color: Colors.white)),
+                          ),
+                          Positioned(
+                            left: 100,
+                            top: 120,
+                            child: Text(Auth().nickname,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline
+                                    .copyWith(
+                                        color: Colors.white, fontSize: 12)),
+                          ),
+                          Positioned(
+                            left: 100,
+                            top: 150,
+                            child: Text('上新 20                总数 100',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline
+                                    .copyWith(
+                                        color: Colors.white, fontSize: 12)),
                           )
                         ]),
                       );

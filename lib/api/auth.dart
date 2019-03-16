@@ -52,6 +52,7 @@ Future<void> getUserBasic({
   var response =
       await HttpClient().post(context, 'uc/userBasic/getUserBasicByUid', {});
   print(response);
+  Auth().update(nickname: response['nickname'], avatar: response['avatar']);
   return response;
 }
 
@@ -62,5 +63,5 @@ Future<void> checkLogin() async {
   }
   var mobile = await HttpClient.getCache('mobile');
 
-  Auth().update(mobile, token);
+  Auth().update(mobile: mobile, token: token);
 }
