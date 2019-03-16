@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/utils/http_client.dart';
 
@@ -45,7 +46,16 @@ Future<bool> loginByWechat(context, String code) async {
   return false;
 }
 
-void checkLogin() async {
+Future<void> getUserBasic({
+  @required BuildContext context,
+}) async {
+  var response =
+      await HttpClient().post(context, 'uc/userBasic/getUserBasicByUid', {});
+  print(response);
+  return response;
+}
+
+Future<void> checkLogin() async {
   var token = await HttpClient.getCache('accessToken');
   if (token == null) {
     throw Exception('未登录');

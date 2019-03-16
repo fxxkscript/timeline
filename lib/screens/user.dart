@@ -7,16 +7,15 @@ import 'package:wshop/api/feeds.dart';
 import 'package:wshop/components/FeedImage.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/models/feeds.dart';
-import 'package:wshop/screens/editor.dart';
 
-class TimelineTab extends StatefulWidget {
+class UserScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return TimelineTabState();
+    return UserScreenState();
   }
 }
 
-class TimelineTabState extends State<TimelineTab> {
+class UserScreenState extends State<UserScreen> {
   static const channel = const MethodChannel('com.meizizi.doraemon/door');
   List<Feed> _items = [];
   Feeds feeds;
@@ -53,7 +52,8 @@ class TimelineTabState extends State<TimelineTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+        body: Container(
       child: Stack(children: [
         RefreshIndicator(
             displacement: 80,
@@ -78,17 +78,22 @@ class TimelineTabState extends State<TimelineTab> {
                       return Container(
                         height: 300,
                         child: Stack(children: [
-                          Image.asset('assets/bg.png'),
+                          Image.asset(
+                            'assets/bg.png',
+                            height: 211,
+                            width: MediaQuery.of(context).size.width,
+                            fit: BoxFit.cover,
+                          ),
                           Positioned(
-                            bottom: 55,
-                            right: 10,
+                            left: 20,
+                            top: 80,
                             child: ClipRRect(
                               child: Image.network(
                                   'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                                  width: 50,
-                                  height: 50,
+                                  width: 64,
+                                  height: 64,
                                   fit: BoxFit.cover),
-                              borderRadius: BorderRadius.circular(25),
+                              borderRadius: BorderRadius.circular(32),
                             ),
                           ),
                           Positioned(
@@ -179,25 +184,21 @@ class TimelineTabState extends State<TimelineTab> {
                   },
                 ))),
         Positioned(
-          child: CupertinoNavigationBar(
-              middle: Text('动态'),
-              trailing: CupertinoButton(
-                child: Icon(Icons.photo_camera),
-                padding: EdgeInsets.only(bottom: 0),
-                onPressed: () async {
-                  String result = await Navigator.of(context).push(
-                      CupertinoPageRoute(
-                          fullscreenDialog: true,
-                          title: '新建',
-                          builder: (BuildContext context) => Editor()));
-
-                  if (result == 'save') {
-                    _getList();
-                  }
-                },
-              )),
-        )
+            left: 10,
+            top: 20,
+            child: Container(
+              decoration: BoxDecoration(color: Colors.transparent),
+              child: Row(children: [
+                Column(children: <Widget>[
+                  Icon(
+                    Icons.navigate_before,
+                    color: Colors.white,
+                    size: 40,
+                  )
+                ])
+              ]),
+            ))
       ]),
-    );
+    ));
   }
 }

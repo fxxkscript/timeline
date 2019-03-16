@@ -7,9 +7,10 @@ import 'package:wshop/routes.dart';
 void main() async {
   String initalRoute = '/login';
   try {
-    checkLogin();
+    await checkLogin();
+    await getUserBasic(context: null);
 
-    initalRoute = '/';
+    initalRoute = '/user';
   } catch (e) {
     print(e.toString());
     initalRoute = '/login';

@@ -37,7 +37,7 @@ class Feeds {
   Feeds(this.hasNext, this.nextCursor, this.list);
 
   factory Feeds.fromJson(Map<String, dynamic> json) {
-    if (json.isEmpty) {
+    if (json == null || json.isEmpty) {
       return Feeds(false, 0, []);
     }
     List<Feed> list = [];

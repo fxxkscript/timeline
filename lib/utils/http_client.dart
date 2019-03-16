@@ -27,6 +27,8 @@ class HttpClient {
       headers['X-Access-Token'] = token;
     }
 
+    print('token: ' + token);
+
     try {
       final response = await http.post(domain + endPoint,
           headers: headers, body: json.encode(data));
