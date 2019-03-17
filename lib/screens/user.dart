@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wshop/api/feeds.dart';
-import 'package:wshop/components/FeedImage.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/models/feeds.dart';
 
@@ -85,8 +84,8 @@ class UserScreenState extends State<UserScreen> {
                             fit: BoxFit.cover,
                           ),
                           Positioned(
-                            left: 20,
-                            top: 80,
+                            left: 12,
+                            top: 89,
                             child: ClipRRect(
                               child: Image.network(Auth().avatar,
                                   width: 64, height: 64, fit: BoxFit.cover),
@@ -94,8 +93,8 @@ class UserScreenState extends State<UserScreen> {
                             ),
                           ),
                           Positioned(
-                            left: 100,
-                            top: 90,
+                            left: 92,
+                            top: 101,
                             child: Text(Auth().nickname,
                                 style: Theme.of(context)
                                     .textTheme
@@ -103,9 +102,9 @@ class UserScreenState extends State<UserScreen> {
                                     .copyWith(color: Colors.white)),
                           ),
                           Positioned(
-                            left: 100,
-                            top: 120,
-                            child: Text(Auth().nickname,
+                            left: 92,
+                            top: 129,
+                            child: Text('知耻而后勇，后来者居上。',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline
@@ -113,90 +112,133 @@ class UserScreenState extends State<UserScreen> {
                                         color: Colors.white, fontSize: 12)),
                           ),
                           Positioned(
-                            left: 100,
-                            top: 150,
+                            left: 92,
+                            top: 166,
                             child: Text('上新 20                总数 100',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline
                                     .copyWith(
                                         color: Colors.white, fontSize: 12)),
+                          ),
+                          Positioned(
+                            right: 12,
+                            top: 108,
+                            child: FlatButton(
+                              onPressed: () {},
+                              child: Container(
+                                width: 90,
+                                height: 27,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Center(
+                                    child: Text(
+                                  '关注',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color.fromARGB(255, 12, 193, 96)),
+                                )),
+                              ),
+                            ),
                           )
                         ]),
                       );
                     }
                     index = index - 1;
                     return Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Color.fromRGBO(236, 236, 236, 1),
-                                    width: 1.0))),
+                        decoration: BoxDecoration(),
                         padding: EdgeInsets.only(bottom: 10, right: 20),
                         margin: EdgeInsets.only(left: 10, top: 10, bottom: 10),
                         child: Stack(children: [
                           Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(right: 10),
-                                  child: ClipRRect(
-                                    child: Image.network(
-                                        _items[index].author.avatar,
-                                        width: 42,
-                                        height: 42,
-                                        fit: BoxFit.cover),
-                                    borderRadius: BorderRadius.circular(24),
+                                Container(
+                                  width: 80,
+                                  height: 100,
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Positioned(
+                                        left: 0,
+                                        top: 0,
+                                        child: Text('12',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .title
+                                                .copyWith(fontSize: 30)),
+                                      ),
+                                      Positioned(
+                                          left: 40,
+                                          top: 16,
+                                          child: Text('12月',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .title
+                                                  .copyWith(fontSize: 12))),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: 74,
+                                  height: 74,
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Wrap(
+                                        spacing: 2,
+                                        runSpacing: 2,
+                                        children: <Widget>[
+                                          Image.asset('assets/share.png',
+                                              width: 36, height: 36),
+                                          Image.asset('assets/share.png',
+                                              width: 36, height: 36),
+                                          Image.asset('assets/share.png',
+                                              width: 36, height: 36),
+                                          Image.asset('assets/share.png',
+                                              width: 36, height: 36),
+                                        ],
+                                      )
+                                    ],
                                   ),
                                 ),
                                 Expanded(
                                     child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text(_items[index].author.nickname,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .body2
-                                            .copyWith(
-                                                fontWeight: FontWeight.w600)),
-                                    Text(_items[index].content,
+                                    Text('好大的雪❄️，下到凌晨三点才停啊啊啊啊啊',
                                         style:
                                             Theme.of(context).textTheme.body1),
-                                    FeedImage(
-                                      imageList: _items[index].pics,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text('共 5 张',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle
+                                                .copyWith(fontSize: 12)),
+                                        ButtonTheme(
+                                          minWidth: 40,
+                                          child: FlatButton(
+                                              child: Text(
+                                                '分享',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .body1
+                                                    .copyWith(fontSize: 12),
+                                              ),
+                                              onPressed: () {
+                                                _share(_items[index].pics);
+                                              }),
+                                        )
+                                      ],
                                     ),
-                                    Text('9分钟前',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle
-                                            .copyWith(fontSize: 12)),
                                   ],
-                                  crossAxisAlignment: CrossAxisAlignment.start,
                                 )),
                               ]),
-                          Positioned(
-                              bottom: -17,
-                              right: 70,
-                              child: Row(children: [
-                                CupertinoButton(
-                                    child: Image.asset('assets/star.png',
-                                        width: 22, height: 22),
-                                    onPressed: () {
-                                      _share(_items[index].pics);
-                                    }),
-                                Text(
-                                  _items[index].star.toString(),
-                                  style: Theme.of(context).textTheme.subtitle,
-                                )
-                              ])),
-                          Positioned(
-                              bottom: -17,
-                              right: 0,
-                              child: CupertinoButton(
-                                  child: Image.asset('assets/share.png',
-                                      width: 22, height: 22),
-                                  onPressed: () {
-                                    _share(_items[index].pics);
-                                  })),
                         ]));
                   },
                 ))),
