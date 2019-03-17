@@ -18,6 +18,7 @@ class UserScreenState extends State<UserScreen> {
   static const channel = const MethodChannel('com.meizizi.doraemon/door');
   List<Feed> _items = [];
   Feeds feeds;
+  int alpha = 0;
 
   Future<void> _share(List<String> pics) async {
     try {
@@ -64,6 +65,15 @@ class UserScreenState extends State<UserScreen> {
             },
             child: NotificationListener<ScrollNotification>(
                 onNotification: (ScrollNotification scrollInfo) {
+                  if (scrollInfo.metrics.pixels > 200) {
+                    this.setState(() {
+                      alpha = 255;
+                    });
+                  } else {
+                    this.setState(() {
+                      alpha = 0;
+                    });
+                  }
                   if (scrollInfo.metrics.pixels ==
                       scrollInfo.metrics.maxScrollExtent) {
                     _getList();
@@ -243,18 +253,20 @@ class UserScreenState extends State<UserScreen> {
                   },
                 ))),
         Positioned(
-            left: 10,
-            top: 20,
+            left: 0,
+            top: 0,
             child: Container(
-              decoration: BoxDecoration(color: Colors.transparent),
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              width: MediaQuery.of(context).size.width,
+              height: 42 + MediaQuery.of(context).padding.top,
+              decoration:
+                  BoxDecoration(color: Color.fromARGB(alpha, 237, 237, 237)),
               child: Row(children: [
-                Column(children: <Widget>[
-                  Icon(
-                    Icons.navigate_before,
-                    color: Colors.white,
-                    size: 40,
-                  )
-                ])
+                Icon(
+                  Icons.navigate_before,
+                  color: Colors.white,
+                  size: 40,
+                )
               ]),
             ))
       ]),
