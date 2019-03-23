@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wshop/models/auth.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -21,8 +22,10 @@ class ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
+      decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
       child: Stack(children: [
-        Column(
+        ListView(
+          padding: EdgeInsets.only(top: 0),
           children: <Widget>[
             Container(
               height: 236,
@@ -56,14 +59,162 @@ class ProfileScreenState extends State<ProfileScreen> {
                     key: _formKey,
                     child: Column(
                       children: <Widget>[
-                        TextFormField(
-                          decoration: InputDecoration(
-                              border: InputBorder.none, hintText: '这一刻的想法...'),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                          },
+                        Container(
+                          decoration: BoxDecoration(color: Colors.white),
+                          padding: EdgeInsets.only(left: 16),
+                          height: 56,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        width: 0.5,
+                                        color:
+                                            Theme.of(context).dividerColor))),
+                            padding: EdgeInsets.only(right: 16),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  '手机号',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .title
+                                      .copyWith(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal),
+                                ),
+                                Expanded(
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.phone,
+                                    textAlign: TextAlign.right,
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(11)
+                                    ],
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: '填写手机号'),
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return '请填写手机号';
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(color: Colors.white),
+                          padding: EdgeInsets.only(left: 16),
+                          height: 56,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        width: 0.5,
+                                        color:
+                                            Theme.of(context).dividerColor))),
+                            padding: EdgeInsets.only(right: 16),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  '微信号',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .title
+                                      .copyWith(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal),
+                                ),
+                                Expanded(
+                                  child: TextFormField(
+                                    textAlign: TextAlign.right,
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: '填写微信号'),
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return '请填写微信号';
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(color: Colors.white),
+                          padding: EdgeInsets.only(left: 16),
+                          height: 56,
+                          child: Container(
+                            padding: EdgeInsets.only(right: 16),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  '微信二维码',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .title
+                                      .copyWith(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '点击上传',
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                        fontSize: 16),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(color: Colors.white),
+                          margin: EdgeInsets.only(top: 10),
+                          padding: EdgeInsets.only(left: 16, top: 20),
+                          height: 112,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        width: 0.5,
+                                        color:
+                                            Theme.of(context).dividerColor))),
+                            padding: EdgeInsets.only(right: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  '微信号',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .title
+                                      .copyWith(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.normal),
+                                ),
+                                Expanded(
+                                  child: TextFormField(
+                                    maxLines: 2,
+                                    textAlign: TextAlign.left,
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: '填写微信号'),
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return '请填写微信号';
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ))),
