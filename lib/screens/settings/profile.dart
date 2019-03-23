@@ -84,20 +84,14 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 Expanded(
                                   child: TextFormField(
-                                    keyboardType: TextInputType.phone,
-                                    textAlign: TextAlign.right,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(11)
-                                    ],
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: '填写手机号'),
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return '请填写手机号';
-                                      }
-                                    },
-                                  ),
+                                      keyboardType: TextInputType.phone,
+                                      textAlign: TextAlign.right,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(11)
+                                      ],
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: '填写手机号')),
                                 ),
                               ],
                             ),
@@ -128,16 +122,10 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 Expanded(
                                   child: TextFormField(
-                                    textAlign: TextAlign.right,
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: '填写微信号'),
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return '请填写微信号';
-                                      }
-                                    },
-                                  ),
+                                      textAlign: TextAlign.right,
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: '填写微信号')),
                                 ),
                               ],
                             ),
@@ -200,17 +188,11 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 Expanded(
                                   child: TextFormField(
-                                    maxLines: 2,
-                                    textAlign: TextAlign.left,
-                                    decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: '填写微信号'),
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return '请填写微信号';
-                                      }
-                                    },
-                                  ),
+                                      maxLines: 2,
+                                      textAlign: TextAlign.left,
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: '填写微信号')),
                                 ),
                               ],
                             ),
@@ -230,14 +212,19 @@ class ProfileScreenState extends State<ProfileScreen> {
               decoration:
                   BoxDecoration(color: Color.fromARGB(0, 237, 237, 237)),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Icon(
-                      Icons.navigate_before,
-                      color: Colors.white,
-                      size: 40,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Icon(
+                        Icons.navigate_before,
+                        color: Colors.white,
+                        size: 40,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -261,7 +248,11 @@ class ProfileScreenState extends State<ProfileScreen> {
                             style: TextStyle(color: Colors.white),
                           ),
                           padding: EdgeInsets.zero,
-                          onPressed: () {},
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              print(context);
+                            }
+                          },
                         )),
                   )
                 ],
