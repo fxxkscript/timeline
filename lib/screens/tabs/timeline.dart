@@ -83,11 +83,8 @@ class TimelineTabState extends State<TimelineTab> {
                             bottom: 55,
                             right: 10,
                             child: ClipRRect(
-                              child: Image.network(
-                                  'https://ws2.sinaimg.cn/large/006tNc79gy1fyt6bakq3mj30rs15ojvs.jpg',
-                                  width: 50,
-                                  height: 50,
-                                  fit: BoxFit.cover),
+                              child: Image.network(Auth().avatar,
+                                  width: 50, height: 50, fit: BoxFit.cover),
                               borderRadius: BorderRadius.circular(25),
                             ),
                           ),
@@ -116,16 +113,21 @@ class TimelineTabState extends State<TimelineTab> {
                           Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(right: 10),
-                                  child: ClipRRect(
-                                    child: Image.network(
-                                        _items[index].author.avatar,
-                                        width: 42,
-                                        height: 42,
-                                        fit: BoxFit.cover),
-                                    borderRadius: BorderRadius.circular(24),
+                                GestureDetector(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 10),
+                                    child: ClipRRect(
+                                      child: Image.network(
+                                          _items[index].author.avatar,
+                                          width: 42,
+                                          height: 42,
+                                          fit: BoxFit.cover),
+                                      borderRadius: BorderRadius.circular(24),
+                                    ),
                                   ),
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed('/user');
+                                  },
                                 ),
                                 Expanded(
                                     child: Column(

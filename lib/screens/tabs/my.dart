@@ -49,23 +49,30 @@ class MyTab extends StatelessWidget {
                                     ),
                                   ),
                                   Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          Auth().nickname,
-                                          style:
-                                              Theme.of(context).textTheme.title,
-                                        ),
-                                        Text(
-                                          '查看并编辑个人资料',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle
-                                              .copyWith(fontSize: 12),
-                                        )
-                                      ],
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .pushNamed('/settings/profile');
+                                      },
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            Auth().nickname,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .title,
+                                          ),
+                                          Text(
+                                            '查看并编辑个人资料',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle
+                                                .copyWith(fontSize: 12),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   GestureDetector(

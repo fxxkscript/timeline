@@ -10,7 +10,7 @@ void main() async {
     await checkLogin();
     await getUserBasic(context: null);
 
-    initalRoute = '/user';
+    initalRoute = '/';
   } catch (e) {
     print(e.toString());
     initalRoute = '/login';
