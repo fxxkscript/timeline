@@ -182,7 +182,7 @@ class LaunchScreenState extends State<LaunchScreen> {
                       ),
                       Row(
                         children: <Widget>[
-                          Text('登录即表明你已同意微图转转的',
+                          Text('登录即表明你已同意微图相册的',
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle
