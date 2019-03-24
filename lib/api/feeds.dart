@@ -7,7 +7,6 @@ Future<Feeds> getTimeline(context, int cursor, [int pageSize = 10]) async {
   try {
     var response = await HttpClient().post(context, 'feeds/timeline/home',
         {'cursor': cursor, 'pageSize': pageSize});
-    print(cursor);
     print(response);
     return Feeds.fromJson(response);
   } catch (e) {

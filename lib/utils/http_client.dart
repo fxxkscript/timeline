@@ -32,7 +32,7 @@ class HttpClient {
     try {
       final response = await http.post(domain + endPoint,
           headers: headers, body: json.encode(data));
-
+      print(json.encode(data));
       var statusCode = response.statusCode;
       print(statusCode);
       if (statusCode == 200) {

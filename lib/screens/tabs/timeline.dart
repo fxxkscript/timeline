@@ -77,7 +77,7 @@ class TimelineTabState extends State<TimelineTab> {
                   itemBuilder: (context, index) {
                     if (index == 0) {
                       return Container(
-                        height: 300,
+                        height: 270,
                         child: Stack(children: [
                           Image.asset('assets/bg.png'),
                           Positioned(

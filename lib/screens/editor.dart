@@ -100,34 +100,36 @@ class EditorState extends State<Editor> {
               minWidth: 60,
               height: 30,
               child: FlatButton(
-                color: Colors.green,
+                color: Theme.of(context).primaryColor,
                 child: const Text(
                   '发表',
                   style: TextStyle(color: Colors.white),
                 ),
                 padding: EdgeInsets.zero,
-                onPressed: () async {
+                onPressed: () {
                   List<String> imgList = [];
-                  images.forEach((img) async {
+
+                  Future.forEach(images, (img) async {
                     ByteData byteData = await img.requestOriginal();
                     Uint8List imageData = byteData.buffer.asUint8List();
                     String key = await upload(context, imageData);
                     imgList.add(key);
                     img.releaseOriginal();
-                  });
+                  }).then((response) async {
+                    await publish(
+                        context,
+                        Feed(
+                            0,
+                            0,
+                            Author(Auth().uid, Auth().nickname, Auth().avatar),
+                            textController.text,
+                            imgList,
+                            '',
+                            0,
+                            ''));
 
-                  await publish(
-                      context,
-                      Feed(
-                          0,
-                          0,
-                          Author(Auth().uid, Auth().nickname, Auth().avatar),
-                          textController.text,
-                          imgList,
-                          '',
-                          0,
-                          ''));
-                  Navigator.pop(context, 'save');
+                    Navigator.pop(context, 'save');
+                  });
                 },
               )),
         ),

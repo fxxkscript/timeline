@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:wshop/models/author.dart';
 
 class Feed {
@@ -34,10 +32,9 @@ class Feeds {
 
     json['list'].forEach((item) {
       List<String> pics = [];
-      List<dynamic> data = item['pics'];
-      data.forEach((img) {
-        Map newImg = jsonDecode(img);
-        pics.add(newImg['pic']);
+
+      item['pics'].forEach((img) {
+        pics.add(img.toString());
       });
 
       list.add(Feed(
