@@ -32,3 +32,17 @@ Future<Map<String, dynamic>> findFriend(
 
   return result;
 }
+
+Future<bool> addFriend({@required BuildContext context, int id}) async {
+  var response = await HttpClient()
+      .post(context, 'feeds/friendship/addFriend?friendId=$id', {});
+  print(response);
+  return response['value'];
+}
+
+Future<bool> cancelFriend({@required BuildContext context, int id}) async {
+  var response = await HttpClient()
+      .post(context, 'feeds/friendship/cancelFriend?friendId=$id', {});
+  print(response);
+  return response['value'];
+}

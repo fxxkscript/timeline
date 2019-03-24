@@ -59,6 +59,7 @@ class TimelineTabState extends State<TimelineTab> {
             displacement: 80,
             onRefresh: () {
               setState(() {
+                feeds = null;
                 _items.clear();
               });
               return _getList();
@@ -71,7 +72,7 @@ class TimelineTabState extends State<TimelineTab> {
                   }
                 },
                 child: ListView.builder(
-                  padding: EdgeInsets.all(0),
+                  padding: EdgeInsets.only(top: 0, bottom: 30),
                   itemCount: _items.length + 1,
                   itemBuilder: (context, index) {
                     if (index == 0) {
@@ -144,7 +145,7 @@ class TimelineTabState extends State<TimelineTab> {
                                     FeedImage(
                                       imageList: _items[index].pics,
                                     ),
-                                    Text('9分钟前',
+                                    Text(_items[index].createdAt ?? '',
                                         style: Theme.of(context)
                                             .textTheme
                                             .subtitle

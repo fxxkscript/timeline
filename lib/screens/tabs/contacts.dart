@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wshop/api/friends.dart';
+import 'package:wshop/components/FollowBtn.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/models/author.dart';
 
@@ -41,6 +42,7 @@ class ContactsState extends State<Contacts> {
           middle: Text('关注'),
         ),
         child: RefreshIndicator(
+            displacement: 80,
             child: ListView.builder(
                 itemCount: count,
                 itemBuilder: (context, index) {
@@ -157,22 +159,18 @@ class ContactsState extends State<Contacts> {
                             ],
                           ),
                         ),
-                        FlatButton(
-                          onPressed: () {},
-                          child: Container(
-                            width: 90,
-                            height: 27,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 12, 193, 96),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Center(
-                                child: Text(
-                              '关注',
-                              style:
-                                  TextStyle(fontSize: 12, color: Colors.white),
-                            )),
-                          ),
+                        FollowBtn(
+                          isFollowed: true,
+                          onPressed: (bool isFollowed) async {
+                            if (isFollowed) {
+                              await cancelFriend(
+                                  context: context, id: list[index].uid);
+                            } else {
+                              await addFriend(
+                                  context: context, id: list[index].uid);
+                            }
+                            _getData();
+                          },
                         )
                       ],
                     ),

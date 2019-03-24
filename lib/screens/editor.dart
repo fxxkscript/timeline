@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:wshop/api/feeds.dart';
 import 'package:wshop/api/qiniu.dart';
-import 'package:wshop/components/asset.dart';
+import 'package:wshop/components/Asset.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/models/author.dart';
 import 'package:wshop/models/feeds.dart';
