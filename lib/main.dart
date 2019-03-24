@@ -34,6 +34,7 @@ class App extends StatelessWidget {
           primaryColor: Color.fromARGB(255, 12, 193, 96),
           backgroundColor: Color.fromARGB(255, 237, 237, 237),
           dividerColor: Color.fromARGB(255, 229, 229, 229),
+          primaryColorDark: Color.fromARGB(255, 19, 19, 19),
           buttonTheme:
               ButtonThemeData(buttonColor: Color.fromARGB(255, 12, 193, 96)),
           accentColor: Color.fromARGB(255, 172, 172, 172),

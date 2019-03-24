@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:multi_image_picker/asset.dart';
+import 'package:multi_image_picker/picker.dart';
 import 'package:wshop/models/auth.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -16,6 +18,21 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+  }
+
+  Future uploadImage() async {
+    List<Asset> resultList;
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 1,
+        enableCamera: false,
+      );
+    } catch (e) {
+//      error = e.message;
+    }
+
+    if (!mounted) return;
   }
 
   @override
@@ -178,7 +195,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  '微信号',
+                                  '个人签名',
                                   style: Theme.of(context)
                                       .textTheme
                                       .title
@@ -190,9 +207,12 @@ class ProfileScreenState extends State<ProfileScreen> {
                                   child: TextFormField(
                                       maxLines: 2,
                                       textAlign: TextAlign.left,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(30)
+                                      ],
                                       decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          hintText: '填写微信号')),
+                                          hintText: '填写个人签名')),
                                 ),
                               ],
                             ),
@@ -222,13 +242,13 @@ class ProfileScreenState extends State<ProfileScreen> {
                       },
                       child: Icon(
                         Icons.navigate_before,
-                        color: Colors.white,
+                        color: Theme.of(context).primaryColorDark,
                         size: 40,
                       ),
                     ),
                   ),
                   Expanded(
-                    flex: 5,
+                    flex: 4,
                     child: Text('个人资料',
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
@@ -241,18 +261,21 @@ class ProfileScreenState extends State<ProfileScreen> {
                     child: ButtonTheme(
                         minWidth: 60,
                         height: 30,
-                        child: FlatButton(
-                          color: Theme.of(context).primaryColor,
-                          child: const Text(
-                            '完成',
-                            style: TextStyle(color: Colors.white),
+                        child: Container(
+                          margin: EdgeInsets.only(right: 16),
+                          child: FlatButton(
+                            color: Theme.of(context).primaryColor,
+                            child: const Text(
+                              '完成',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            padding: EdgeInsets.zero,
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                print(context);
+                              }
+                            },
                           ),
-                          padding: EdgeInsets.zero,
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              print(context);
-                            }
-                          },
                         )),
                   )
                 ],

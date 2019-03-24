@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
@@ -10,6 +9,7 @@ import 'package:wshop/api/feeds.dart';
 import 'package:wshop/api/qiniu.dart';
 import 'package:wshop/components/asset.dart';
 import 'package:wshop/models/auth.dart';
+import 'package:wshop/models/author.dart';
 import 'package:wshop/models/feeds.dart';
 
 class Editor extends StatefulWidget {
@@ -37,19 +37,6 @@ class EditorState extends State<Editor> {
     textController.dispose();
 
     super.dispose();
-  }
-
-  Future upload(BuildContext context, Uint8List data) async {
-    String token = await getToken(context: context);
-
-    String key = (new DateTime.now()).millisecondsSinceEpoch.toString() +
-        Random(Auth().uid).nextInt(100000).toString();
-
-    var result = await channel.invokeMethod('upload',
-        <String, dynamic>{'imageData': data, 'token': token, 'key': key});
-    print(result);
-
-    return key;
   }
 
   Future getImage() async {
@@ -124,7 +111,7 @@ class EditorState extends State<Editor> {
                   images.forEach((img) async {
                     ByteData byteData = await img.requestOriginal();
                     Uint8List imageData = byteData.buffer.asUint8List();
-                    String key = await this.upload(context, imageData);
+                    String key = await upload(context, imageData);
                     imgList.add(key);
                     img.releaseOriginal();
                   });

@@ -4,17 +4,16 @@ import 'package:wshop/api/friends.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/models/author.dart';
 
-class Contacts extends StatefulWidget {
+class FansScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return ContactsState();
+    return FansScreenState();
   }
 }
 
-class ContactsState extends State<Contacts> {
+class FansScreenState extends State<FansScreen> {
   List<Author> list = [];
   int count = 0;
-  int fansCount = 0;
 
   @override
   void initState() {
@@ -24,13 +23,11 @@ class ContactsState extends State<Contacts> {
   }
 
   Future _getData() async {
-    Map<String, dynamic> data = await findFriend(context: context);
-    Map<String, dynamic> followerData = await findFollower(context: context);
+    Map<String, dynamic> data = await findFollower(context: context);
 
     setState(() {
       list = data['list'];
       count = data['count'];
-      fansCount = followerData['count'];
     });
   }
 
@@ -45,66 +42,60 @@ class ContactsState extends State<Contacts> {
                 itemCount: count,
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                    return GestureDetector(
-                      child: Container(
-                        decoration: BoxDecoration(color: Colors.white),
-                        margin: EdgeInsets.only(top: 10, bottom: 10),
-                        padding: EdgeInsets.only(
-                            top: 8, bottom: 8, left: 16, right: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: ClipRRect(
-                                child: Container(
+                    return Container(
+                      decoration: BoxDecoration(color: Colors.white),
+                      margin: EdgeInsets.only(top: 10, bottom: 10),
+                      padding: EdgeInsets.only(
+                          top: 8, bottom: 8, left: 16, right: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(right: 10),
+                            child: ClipRRect(
+                              child: Container(
+                                width: 56,
+                                height: 56,
+                                decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 248, 248, 248)),
+                                child: Image.network(
+                                  Auth().avatar,
                                   width: 56,
                                   height: 56,
-                                  decoration: BoxDecoration(
-                                      color:
-                                          Color.fromARGB(255, 248, 248, 248)),
-                                  child: Image.network(
-                                    Auth().avatar,
-                                    width: 56,
-                                    height: 56,
-                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(28),
                               ),
+                              borderRadius: BorderRadius.circular(28),
                             ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    '我的粉丝',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .caption
-                                        .copyWith(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(
-                                    fansCount.toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle
-                                        .copyWith(fontSize: 12),
-                                  )
-                                ],
-                              ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  '我的粉丝',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption
+                                      .copyWith(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500),
+                                ),
+                                Text(
+                                  '1280',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle
+                                      .copyWith(fontSize: 12),
+                                )
+                              ],
                             ),
-                            Icon(
-                              Icons.chevron_right,
-                              color: Color.fromARGB(255, 209, 209, 214),
-                            )
-                          ],
-                        ),
+                          ),
+                          Icon(
+                            Icons.chevron_right,
+                            color: Color.fromARGB(255, 209, 209, 214),
+                          )
+                        ],
                       ),
-                      onTap: () {
-                        Navigator.of(context).pushNamed('/friends/fans');
-                      },
                     );
                   }
 
