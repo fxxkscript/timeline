@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:wshop/models/author.dart';
+import 'package:wshop/models/follower.dart';
 import 'package:wshop/utils/http_client.dart';
 
 Future<Map<String, dynamic>> findFollower(
@@ -11,9 +12,9 @@ Future<Map<String, dynamic>> findFollower(
 
   Map<String, dynamic> result = {'count': response['count']};
 
-  result['list'] = List<Author>();
+  result['list'] = List<Follower>();
   response['list'].forEach((item) {
-    result['list'].add(Author.fromJson(item));
+    result['list'].add(Follower.fromJson(item));
   });
 
   return result;

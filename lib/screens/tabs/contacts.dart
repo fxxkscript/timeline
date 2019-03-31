@@ -104,8 +104,9 @@ class ContactsState extends State<Contacts> {
                           ],
                         ),
                       ),
-                      onTap: () {
-                        Navigator.of(context).pushNamed('/friends/fans');
+                      onTap: () async {
+                        await Navigator.of(context).pushNamed('/friends/fans');
+                        await _getData();
                       },
                     );
                   }

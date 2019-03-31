@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wshop/api/friends.dart';
 import 'package:wshop/components/FollowBtn.dart';
-import 'package:wshop/models/author.dart';
+import 'package:wshop/models/follower.dart';
 
 class FansScreen extends StatefulWidget {
   @override
@@ -12,7 +12,7 @@ class FansScreen extends StatefulWidget {
 }
 
 class FansScreenState extends State<FansScreen> {
-  List<Author> list = [];
+  List<Follower> list = [];
   int count = 0;
 
   @override
@@ -90,7 +90,7 @@ class FansScreenState extends State<FansScreen> {
                           ),
                         ),
                         FollowBtn(
-                          isFollowed: false,
+                          isFollowed: list[index].isFriend,
                           onPressed: (bool isFollowed) async {
                             if (isFollowed) {
                               await cancelFriend(
