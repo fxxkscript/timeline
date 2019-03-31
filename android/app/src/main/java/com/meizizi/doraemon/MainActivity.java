@@ -1,4 +1,4 @@
-package com.meizizi.doraemon;
+package com.doraemon.meizizi;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -43,7 +43,7 @@ import java.util.List;
 public class MainActivity extends FlutterActivity {
   public static String IMAGE_NAME = "iv_share_";
   public static int i = 0;
-  private static final String CHANNEL = "com.meizizi.doraemon/door";
+  private static final String CHANNEL = "com.doraemon.meizizi/door";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

@@ -14,8 +14,8 @@ class HttpClient {
 
   static const domain = 'http://api.ippapp.com/';
 
-  Future post(
-      BuildContext context, String endPoint, Map<String, dynamic> data) async {
+  Future post(BuildContext context, String endPoint,
+      [Map<String, dynamic> data = const {}]) async {
     Map<String, String> headers = {
       'X-Client-Id': 'weapp_wtzz_v1',
       'X-Tid': '1',

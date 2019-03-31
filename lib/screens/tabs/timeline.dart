@@ -17,7 +17,7 @@ class TimelineTab extends StatefulWidget {
 }
 
 class TimelineTabState extends State<TimelineTab> {
-  static const channel = const MethodChannel('com.meizizi.doraemon/door');
+  static const channel = const MethodChannel('com.doraemon.meizizi/door');
   List<Feed> _items = [];
   Feeds feeds;
 
@@ -161,8 +161,8 @@ class TimelineTabState extends State<TimelineTab> {
                                 CupertinoButton(
                                     child: Image.asset('assets/star.png',
                                         width: 22, height: 22),
-                                    onPressed: () {
-                                      _share(_items[index].pics);
+                                    onPressed: () async {
+                                      await star(context, _items[index]);
                                     }),
                                 Text(
                                   _items[index].star.toString(),

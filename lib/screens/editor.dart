@@ -20,7 +20,7 @@ class Editor extends StatefulWidget {
 }
 
 class EditorState extends State<Editor> {
-  static const channel = const MethodChannel('com.meizizi.doraemon/door');
+  static const channel = const MethodChannel('com.doraemon.meizizi/door');
 
   static const maxPhotos = 9;
 

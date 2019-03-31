@@ -38,7 +38,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.meizizi.doraemon"
+        applicationId "com.doraemon.meizizi"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode flutterVersionCode.toInteger()

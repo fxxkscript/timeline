@@ -8,7 +8,7 @@
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   FlutterViewController* controller = (FlutterViewController*)self.window.rootViewController;
   FlutterMethodChannel* channel = [FlutterMethodChannel
-                                          methodChannelWithName:@"com.meizizi.doraemon/door"
+                                          methodChannelWithName:@"com.doraemon.meizizi/door"
                                           binaryMessenger:controller];
   
   __weak typeof(self) weakSelf = self;

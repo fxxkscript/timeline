@@ -15,7 +15,7 @@ class UserScreen extends StatefulWidget {
 }
 
 class UserScreenState extends State<UserScreen> {
-  static const channel = const MethodChannel('com.meizizi.doraemon/door');
+  static const channel = const MethodChannel('com.doraemon.meizizi/door');
   List<Feed> _items = [];
   Feeds feeds;
   int alpha = 0;

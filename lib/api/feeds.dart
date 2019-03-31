@@ -23,3 +23,14 @@ Future<void> publish(context, Feed feed) async {
     print(e);
   }
 }
+
+Future<void> star(context, Feed feed) async {
+  try {
+    int id = feed.id;
+    var response =
+        await HttpClient().post(context, 'feeds/tweet/zan?tweetId=$id', {});
+    print(response);
+  } catch (e) {
+    print(e);
+  }
+}
