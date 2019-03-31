@@ -56,9 +56,15 @@ public class MainActivity extends FlutterActivity {
           public void onMethodCall(MethodCall call, Result result) {
             if (call.method.equals("weixin")) {
               share(call.arguments);
+            } else if (call.method.equals("upload")) {
+              upload(call.arguments, result);
             }
           }
         });
+  }
+
+  private void upload(Object arguments, Result result) {
+
   }
 
   protected void share(Object paths) {
