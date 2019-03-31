@@ -33,11 +33,14 @@
 
 - (void)share:(NSArray *)array
 {
+  NSLog(@"%@", array);
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
     NSMutableArray *imageList = [[NSMutableArray alloc] init];
     for (NSString *imageUrl in array) {
-      NSURL *imageURL = [NSURL URLWithString:imageUrl];
-      NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+      NSLog(@"%@", imageUrl);
+      NSString* webStringURL = [imageUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
+      NSURL *url = [NSURL URLWithString:webStringURL];
+      NSData *imageData = [NSData dataWithContentsOfURL:url];
       [imageList addObject:imageData];
     }
     
