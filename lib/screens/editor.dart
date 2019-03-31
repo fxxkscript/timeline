@@ -24,7 +24,7 @@ class EditorState extends State<Editor> {
 
   static const maxPhotos = 9;
 
-  List<Asset> images = List<Asset>();
+  List<Asset> images = List<Asset>(0);
   final textController = TextEditingController();
 
   @override
@@ -41,10 +41,10 @@ class EditorState extends State<Editor> {
 
   Future getImage() async {
     setState(() {
-      images = List<Asset>();
+      images = [];
     });
 
-    List<Asset> resultList;
+    List<Asset> resultList = [];
 
     try {
       resultList = await MultiImagePicker.pickImages(
