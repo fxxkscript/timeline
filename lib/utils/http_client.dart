@@ -21,13 +21,10 @@ class HttpClient {
       'X-Tid': '1',
       'Content-Type': 'application/json',
     };
-
     var token = await HttpClient.getCache('accessToken');
     if (token != null) {
       headers['X-Access-Token'] = token;
     }
-
-    print('token: ' + token);
 
     try {
       final response = await http.post(domain + endPoint,

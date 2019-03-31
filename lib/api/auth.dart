@@ -27,6 +27,8 @@ Future login(context, String mobile, String code) async {
 
 Future<bool> loginByWechat(context, String code) async {
   try {
+    print(code);
+
     var response = await HttpClient().post(context, 'uc/auth/weappAuthorize', {
       'authDetail': {'authorizationCode': code},
       'authorizationType': 'wechat_app',
@@ -39,7 +41,7 @@ Future<bool> loginByWechat(context, String code) async {
       return true;
     }
   } catch (e) {
-    print(e.toString());
+    print(e);
     return false;
   }
 
