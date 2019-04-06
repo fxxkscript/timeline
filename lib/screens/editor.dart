@@ -126,7 +126,8 @@ class EditorState extends State<Editor> {
                             imgList,
                             '',
                             0,
-                            ''));
+                            '',
+                            false));
 
                     Navigator.pop(context, 'save');
                   });

@@ -159,10 +159,15 @@ class TimelineTabState extends State<TimelineTab> {
                               right: 70,
                               child: Row(children: [
                                 CupertinoButton(
-                                    child: Image.asset('assets/star.png',
-                                        width: 22, height: 22),
+                                    child: _items[index].isZan
+                                        ? Image.asset('assets/stared.png',
+                                            width: 22, height: 22)
+                                        : Image.asset('assets/star.png',
+                                            width: 22, height: 22),
                                     onPressed: () async {
-                                      await star(context, _items[index]);
+                                      if (!_items[index].isZan) {
+                                        await star(context, _items[index]);
+                                      }
                                     }),
                                 Text(
                                   _items[index].star.toString(),

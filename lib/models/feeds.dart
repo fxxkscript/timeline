@@ -8,10 +8,11 @@ class Feed {
   String video;
   int sourceId;
   int star;
+  bool isZan;
   String createdAt;
 
   Feed(this.id, this.star, this.author, this.content, this.pics, this.video,
-      this.sourceId, this.createdAt);
+      this.sourceId, this.createdAt, this.isZan);
 
   Map<String, dynamic> toJson() =>
       {'content': content, 'pics': pics, 'video': video, 'sourceId': sourceId};
@@ -45,7 +46,8 @@ class Feeds {
           pics,
           item['video'],
           item['sourceId'],
-          item['createdAt']));
+          item['createdAt'],
+          item['isZan']));
     });
 
     return Feeds(json['hasNext'], json['nextCursor'], list);
