@@ -8,6 +8,7 @@ import 'package:wshop/components/FeedImage.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/models/feeds.dart';
 import 'package:wshop/screens/editor.dart';
+import 'package:wshop/screens/user.dart';
 
 class TimelineTab extends StatefulWidget {
   @override
@@ -127,7 +128,12 @@ class TimelineTabState extends State<TimelineTab> {
                                     ),
                                   ),
                                   onTap: () {
-                                    Navigator.of(context).pushNamed('/user');
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) {
+                                      return UserScreen(
+                                          author: _items[index].author);
+                                    }));
                                   },
                                 ),
                                 Expanded(
@@ -166,6 +172,8 @@ class TimelineTabState extends State<TimelineTab> {
                                             width: 22, height: 22),
                                     onPressed: () async {
                                       if (!_items[index].isZan) {
+                                        _items[index].isZan = true;
+                                        _items[index].star++;
                                         await star(context, _items[index]);
                                       }
                                     }),

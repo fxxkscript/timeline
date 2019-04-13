@@ -4,10 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wshop/api/feeds.dart';
+import 'package:wshop/components/FeedImage.dart';
 import 'package:wshop/models/auth.dart';
+import 'package:wshop/models/author.dart';
 import 'package:wshop/models/feeds.dart';
 
 class UserScreen extends StatefulWidget {
+  final Author author;
+
+  UserScreen({Key key, @required this.author});
+
   @override
   State<StatefulWidget> createState() {
     return UserScreenState();
@@ -32,22 +38,22 @@ class UserScreenState extends State<UserScreen> {
   @override
   void initState() {
     super.initState();
-
-    _getList();
   }
 
   Future<void> _getList() async {
     if (feeds != null && !feeds.hasNext) {
       return;
     }
-
     int cursor = feeds != null ? feeds.nextCursor : 0;
 
-    feeds = await getTimeline(context, cursor);
-
-    setState(() {
-      _items.addAll(feeds.list);
-    });
+    try {
+      feeds = await getUserFeeds(context, widget.author.uid, cursor);
+      setState(() {
+        _items.addAll(feeds.list);
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -105,7 +111,7 @@ class UserScreenState extends State<UserScreen> {
                           Positioned(
                             left: 92,
                             top: 101,
-                            child: Text(Auth().nickname,
+                            child: Text(widget.author.nickname,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline
@@ -191,34 +197,18 @@ class UserScreenState extends State<UserScreen> {
                                   ),
                                 ),
                                 Container(
-                                  width: 74,
-                                  height: 74,
-                                  margin: EdgeInsets.only(right: 10),
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Wrap(
-                                        spacing: 2,
-                                        runSpacing: 2,
-                                        children: <Widget>[
-                                          Image.asset('assets/share.png',
-                                              width: 36, height: 36),
-                                          Image.asset('assets/share.png',
-                                              width: 36, height: 36),
-                                          Image.asset('assets/share.png',
-                                              width: 36, height: 36),
-                                          Image.asset('assets/share.png',
-                                              width: 36, height: 36),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                    width: 74,
+                                    height: 74,
+                                    margin: EdgeInsets.only(right: 10),
+                                    child: FeedImage(
+                                        size: FeedImageSize.mini,
+                                        imageList: _items[index].pics)),
                                 Expanded(
                                     child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text('好大的雪❄️，下到凌晨三点才停啊啊啊啊啊',
+                                    Text(_items[index].content,
                                         style:
                                             Theme.of(context).textTheme.body1),
                                     Row(
@@ -262,10 +252,15 @@ class UserScreenState extends State<UserScreen> {
               decoration:
                   BoxDecoration(color: Color.fromARGB(alpha, 237, 237, 237)),
               child: Row(children: [
-                Icon(
-                  Icons.navigate_before,
-                  color: Colors.white,
-                  size: 40,
+                GestureDetector(
+                  child: Icon(
+                    Icons.navigate_before,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
                 )
               ]),
             ))

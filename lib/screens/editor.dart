@@ -25,6 +25,8 @@ class EditorState extends State<Editor> {
   static const maxPhotos = 9;
 
   List<Asset> images = List<Asset>(0);
+  List<String> imgList = [];
+
   final textController = TextEditingController();
 
   @override
@@ -54,9 +56,20 @@ class EditorState extends State<Editor> {
     } catch (e) {
 //      error = e.message;
     }
+    List<String> list = [];
+    Future.forEach(resultList, (img) async {
+      ByteData byteData = await img.requestOriginal();
+      Uint8List imageData = byteData.buffer.asUint8List();
+      String key = await upload(context, imageData);
+      list.add(key);
+      img.releaseOriginal();
+    }).then((response) async {
+      setState(() {
+        imgList = list;
+      });
+    });
 
     if (!mounted) return;
-
     setState(() {
       images = resultList;
     });
@@ -106,16 +119,13 @@ class EditorState extends State<Editor> {
                   style: TextStyle(color: Colors.white),
                 ),
                 padding: EdgeInsets.zero,
-                onPressed: () {
-                  List<String> imgList = [];
-
-                  Future.forEach(images, (img) async {
-                    ByteData byteData = await img.requestOriginal();
-                    Uint8List imageData = byteData.buffer.asUint8List();
-                    String key = await upload(context, imageData);
-                    imgList.add(key);
-                    img.releaseOriginal();
-                  }).then((response) async {
+                onPressed: () async {
+                  if (images.length > imgList.length) {
+                    showDialog(
+                        context: context,
+                        builder: (context) => CupertinoAlertDialog(
+                            title: Text('图片正在上传中, 请稍等'), content: Text('')));
+                  } else if (images.length == imgList.length) {
                     await publish(
                         context,
                         Feed(
@@ -130,7 +140,7 @@ class EditorState extends State<Editor> {
                             false));
 
                     Navigator.pop(context, 'save');
-                  });
+                  }
                 },
               )),
         ),
