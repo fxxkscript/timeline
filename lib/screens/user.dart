@@ -21,7 +21,7 @@ class UserScreen extends StatefulWidget {
 }
 
 class UserScreenState extends State<UserScreen> {
-  static const channel = const MethodChannel('com.doraemon.meizizi/door');
+  static const channel = const MethodChannel('com.meizizi.doraemon/door');
   List<Feed> _items = [];
   Feeds feeds;
   int alpha = 0;
@@ -68,6 +68,7 @@ class UserScreenState extends State<UserScreen> {
             onRefresh: () {
               setState(() {
                 _items.clear();
+                feeds = null;
               });
               return _getList();
             },

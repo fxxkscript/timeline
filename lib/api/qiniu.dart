@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/utils/http_client.dart';
 
-const channel = const MethodChannel('com.doraemon.meizizi/door');
+const channel = const MethodChannel('com.meizizi.doraemon/door');
 
 Future<String> getToken({
   @required BuildContext context,

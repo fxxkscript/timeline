@@ -18,7 +18,7 @@ class TimelineTab extends StatefulWidget {
 }
 
 class TimelineTabState extends State<TimelineTab> {
-  static const channel = const MethodChannel('com.doraemon.meizizi/door');
+  static const channel = const MethodChannel('com.meizizi.doraemon/door');
   List<Feed> _items = [];
   Feeds feeds;
   bool showHeaderBg = false;
