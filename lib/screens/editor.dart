@@ -64,6 +64,7 @@ class EditorState extends State<Editor> {
       list.add(key);
       img.releaseOriginal();
     }).then((response) async {
+      print(list);
       setState(() {
         imgList = list;
       });
