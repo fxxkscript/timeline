@@ -126,6 +126,9 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
                     return val.length != 11 ? "手机号不正确" : null;
                   },
                   decoration: InputDecoration(labelText: "手机号"),
+                  buildCounter: (BuildContext context,
+                          {int currentLength, int maxLength, bool isFocused}) =>
+                      null,
                 ),
               ),
               Stack(
@@ -140,6 +143,11 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
                         validator: (val) {
                           return val.length != 4 ? "验证码格式不正确" : null;
                         },
+                        buildCounter: (BuildContext context,
+                                {int currentLength,
+                                int maxLength,
+                                bool isFocused}) =>
+                            null,
                         decoration: InputDecoration(labelText: "验证码"),
                       )),
                   Positioned(
