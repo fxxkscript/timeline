@@ -108,7 +108,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
     var loginForm = Column(
       children: <Widget>[
         Text(
-          '登录',
+          '手机号登录',
           textScaleFactor: 2.0,
         ),
         Form(

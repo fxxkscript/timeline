@@ -2,21 +2,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wshop/components/ImagePreview.dart';
 
-enum FeedImageSize { normal, mini }
+enum FeedImageType { normal, multiple }
 
 class FeedImage extends StatelessWidget {
-  FeedImage({this.imageList, this.size = FeedImageSize.normal});
+  FeedImage({this.imageList, this.type = FeedImageType.normal});
 
   final List<String> imageList;
-  final FeedImageSize size;
+  final FeedImageType type;
 
   List<Widget> getImageList(BuildContext context, List<String> links) {
     double width = 80;
     double height = 80;
 
-    if (size == FeedImageSize.mini) {
-      width = 36;
-      height = 36;
+    if (type == FeedImageType.multiple) {
+      switch (links.length) {
+        case 1:
+          width = 74;
+          height = 74;
+          break;
+        case 4:
+          width = 36;
+          height = 36;
+          break;
+      }
     }
 
     List<Widget> result = [];
@@ -38,14 +46,16 @@ class FeedImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double spacing = 8;
-
-    if (size == FeedImageSize.mini) {
+    bool isMultipleType = type == FeedImageType.multiple;
+    if (isMultipleType) {
       spacing = 2;
     }
 
     if (this.imageList.length == 4) {
       return Container(
-          margin: EdgeInsets.only(right: 10, bottom: 10, top: 10),
+          margin: isMultipleType
+              ? EdgeInsets.all(0)
+              : EdgeInsets.only(right: 10, bottom: 10, top: 10),
           child: Column(
             children: [
               Wrap(
@@ -64,7 +74,9 @@ class FeedImage extends StatelessWidget {
     }
 
     return Container(
-        margin: EdgeInsets.only(right: 10, bottom: 10, top: 10),
+        margin: isMultipleType
+            ? EdgeInsets.all(0)
+            : EdgeInsets.only(right: 10, bottom: 10, top: 10),
         child: Wrap(
           spacing: spacing,
           runSpacing: spacing,

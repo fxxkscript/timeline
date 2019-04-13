@@ -21,6 +21,7 @@ class TimelineTabState extends State<TimelineTab> {
   static const channel = const MethodChannel('com.doraemon.meizizi/door');
   List<Feed> _items = [];
   Feeds feeds;
+  bool showHeaderBg = false;
 
   Future<void> _share(List<String> pics) async {
     try {
@@ -70,6 +71,15 @@ class TimelineTabState extends State<TimelineTab> {
                   if (scrollInfo.metrics.pixels ==
                       scrollInfo.metrics.maxScrollExtent) {
                     _getList();
+                  }
+                  if (scrollInfo.metrics.pixels > 100) {
+                    setState(() {
+                      showHeaderBg = true;
+                    });
+                  } else {
+                    setState(() {
+                      showHeaderBg = false;
+                    });
                   }
                 },
                 child: ListView.builder(
@@ -201,8 +211,10 @@ class TimelineTabState extends State<TimelineTab> {
               padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
               width: MediaQuery.of(context).size.width,
               height: 42 + MediaQuery.of(context).padding.top,
-              decoration:
-                  BoxDecoration(color: Color.fromARGB(0, 237, 237, 237)),
+              decoration: BoxDecoration(
+                  color: showHeaderBg
+                      ? Color.fromARGB(255, 237, 237, 237)
+                      : Color.fromARGB(0, 237, 237, 237)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

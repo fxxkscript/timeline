@@ -35,7 +35,7 @@ class EditorState extends State<Editor> {
   }
 
   @override
-  void disponse() {
+  void dispose() {
     textController.dispose();
 
     super.dispose();

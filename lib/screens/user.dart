@@ -38,6 +38,8 @@ class UserScreenState extends State<UserScreen> {
   @override
   void initState() {
     super.initState();
+
+    _getList();
   }
 
   Future<void> _getList() async {
@@ -201,7 +203,7 @@ class UserScreenState extends State<UserScreen> {
                                     height: 74,
                                     margin: EdgeInsets.only(right: 10),
                                     child: FeedImage(
-                                        size: FeedImageSize.mini,
+                                        type: FeedImageType.multiple,
                                         imageList: _items[index].pics)),
                                 Expanded(
                                     child: Column(
@@ -215,7 +217,7 @@ class UserScreenState extends State<UserScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
-                                        Text('共 5 张',
+                                        Text('共 ${_items[index].pics.length} 张',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .subtitle

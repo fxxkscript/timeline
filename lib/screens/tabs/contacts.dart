@@ -178,6 +178,5 @@ class ContactsState extends State<Contacts> {
                   );
                 }),
             onRefresh: () => _getData()));
-    ;
   }
 }
