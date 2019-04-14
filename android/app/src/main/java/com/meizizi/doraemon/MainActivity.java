@@ -2,13 +2,9 @@ package com.meizizi.doraemon;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -25,19 +21,12 @@ import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.sch.share.WXShareMultiImageHelper;
 
-import android.content.ContextWrapper;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.StrictMode;
-import android.provider.MediaStore;
+
 import android.util.Log;
 
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -46,8 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends FlutterActivity {
-  public static String IMAGE_NAME = "iv_share_";
-  public static int i = 0;
   private UploadManager uploadManager;
   private static final String CHANNEL = "com.meizizi.doraemon/door";
 
