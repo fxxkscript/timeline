@@ -21,7 +21,7 @@ class TimelineTabState extends State<TimelineTab> {
   static const channel = const MethodChannel('com.meizizi.doraemon/door');
   List<Feed> _items = [];
   Feeds feeds;
-  bool showHeaderBg = false;
+  int showHeaderBg = 0;
 
   Future<void> _share(List<String> pics) async {
     try {
@@ -72,13 +72,20 @@ class TimelineTabState extends State<TimelineTab> {
                       scrollInfo.metrics.maxScrollExtent) {
                     _getList();
                   }
-                  if (scrollInfo.metrics.pixels > 100) {
+
+                  if (scrollInfo.metrics.pixels < 0) {
                     setState(() {
-                      showHeaderBg = true;
+                      showHeaderBg = 0;
                     });
-                  } else {
+                  } else if (scrollInfo.metrics.pixels > 0 &&
+                      scrollInfo.metrics.pixels < 100) {
                     setState(() {
-                      showHeaderBg = false;
+                      showHeaderBg =
+                          (scrollInfo.metrics.pixels / 100 * 255).round();
+                    });
+                  } else if (scrollInfo.metrics.pixels > 0) {
+                    setState(() {
+                      showHeaderBg = 255;
                     });
                   }
                 },
@@ -212,9 +219,7 @@ class TimelineTabState extends State<TimelineTab> {
               width: MediaQuery.of(context).size.width,
               height: 42 + MediaQuery.of(context).padding.top,
               decoration: BoxDecoration(
-                  color: showHeaderBg
-                      ? Color.fromARGB(255, 237, 237, 237)
-                      : Color.fromARGB(0, 237, 237, 237)),
+                  color: Color.fromARGB(showHeaderBg, 237, 237, 237)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -224,7 +229,7 @@ class TimelineTabState extends State<TimelineTab> {
                   ),
                   Expanded(
                     flex: 4,
-                    child: Text('动态',
+                    child: Text('',
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
