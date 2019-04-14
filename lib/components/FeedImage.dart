@@ -43,7 +43,8 @@ class FeedImage extends StatelessWidget {
                   width: width,
                   height: height,
                   child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+              errorWidget: (context, url, error) => Container(
+                  width: width, height: height, child: Icon(Icons.error)),
               width: width,
               height: height,
               fit: BoxFit.cover)));

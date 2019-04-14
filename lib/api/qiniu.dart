@@ -21,13 +21,12 @@ Future<String> getToken({
 Future upload(BuildContext context, Uint8List data) async {
   String token = await getToken(context: context);
 
-  String key = (new DateTime.now()).millisecondsSinceEpoch.toString() +
-      Random(Auth().uid).nextInt(100000).toString();
+  String key = DateTime.now().millisecondsSinceEpoch.toString() +
+      Random(Auth().uid).nextInt(100000).toString() +
+      '.jpg';
 
-  var result = await channel.invokeMethod('upload',
+  channel.invokeMethod('upload',
       <String, dynamic>{'imageData': data, 'token': token, 'key': key});
-
-  print(result);
 
   return key;
 }

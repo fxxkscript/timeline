@@ -63,16 +63,16 @@ class EditorState extends State<Editor> {
     });
 
     List<String> list = [];
-    Future.forEach(resultList, (img) async {
+    await Future.wait(resultList.map((img) async {
       ByteData byteData = await img.requestOriginal();
       Uint8List imageData = byteData.buffer.asUint8List();
       String key = await upload(context, imageData);
       list.add(key);
       img.releaseOriginal();
-    }).then((response) async {
-      setState(() {
-        imgList = List.from(imgList)..addAll(list);
-      });
+    }));
+
+    setState(() {
+      imgList = List.from(imgList)..addAll(list);
     });
   }
 
@@ -121,27 +121,20 @@ class EditorState extends State<Editor> {
                 ),
                 padding: EdgeInsets.zero,
                 onPressed: () async {
-                  if (images.length > imgList.length) {
-                    showDialog(
-                        context: context,
-                        builder: (context) => CupertinoAlertDialog(
-                            title: Text('图片正在上传中, 请稍等'), content: Text('')));
-                  } else if (images.length == imgList.length) {
-                    await publish(
-                        context,
-                        Feed(
-                            0,
-                            0,
-                            Author(Auth().uid, Auth().nickname, Auth().avatar),
-                            textController.text,
-                            imgList,
-                            '',
-                            0,
-                            '',
-                            false));
+                  await publish(
+                      context,
+                      Feed(
+                          0,
+                          0,
+                          Author(Auth().uid, Auth().nickname, Auth().avatar),
+                          textController.text,
+                          imgList,
+                          '',
+                          0,
+                          '',
+                          false));
 
-                    Navigator.pop(context, 'save');
-                  }
+                  Navigator.pop(context, 'save');
                 },
               )),
         ),
