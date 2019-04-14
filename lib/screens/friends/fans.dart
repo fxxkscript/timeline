@@ -107,6 +107,5 @@ class FansScreenState extends State<FansScreen> {
                   );
                 }),
             onRefresh: () => _getData()));
-    ;
   }
 }

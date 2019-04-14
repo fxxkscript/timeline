@@ -7,7 +7,6 @@ Future<Feeds> getTimeline(context, int cursor, [int pageSize = 10]) async {
   try {
     var response = await HttpClient().post(context, 'feeds/timeline/home',
         {'cursor': cursor, 'pageSize': pageSize});
-    print(response);
     return Feeds.fromJson(response);
   } catch (e) {
     print(e);
@@ -22,7 +21,6 @@ Future<Feeds> getUserFeeds(context, int userId, int cursor,
       'uid': userId,
       'cursorPaginationRequest': {'cursor': cursor, 'pageSize': pageSize}
     });
-    print(response);
     return Feeds.fromJson(response);
   } catch (e) {
     print(e);

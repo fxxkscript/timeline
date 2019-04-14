@@ -22,6 +22,7 @@ class TimelineTabState extends State<TimelineTab> {
   List<Feed> _items = [];
   Feeds feeds;
   int showHeaderBg = 0;
+  bool isLoading = false;
 
   Future<void> _share(List<String> pics) async {
     try {
@@ -40,9 +41,15 @@ class TimelineTabState extends State<TimelineTab> {
   }
 
   Future<void> _getList() async {
+    if (isLoading) {
+      return;
+    }
+    isLoading = true;
+
     if (feeds != null && !feeds.hasNext) {
       return;
     }
+    print('loading list');
 
     int cursor = feeds != null ? feeds.nextCursor : 0;
 
@@ -50,7 +57,16 @@ class TimelineTabState extends State<TimelineTab> {
 
     setState(() {
       _items.addAll(feeds.list);
+      isLoading = false;
     });
+  }
+
+  Future<void> _refresh() {
+    setState(() {
+      feeds = null;
+      _items.clear();
+    });
+    return _getList();
   }
 
   @override
@@ -59,17 +75,11 @@ class TimelineTabState extends State<TimelineTab> {
       child: Stack(children: [
         RefreshIndicator(
             displacement: 80,
-            onRefresh: () {
-              setState(() {
-                feeds = null;
-                _items.clear();
-              });
-              return _getList();
-            },
+            onRefresh: () => _refresh(),
             child: NotificationListener<ScrollNotification>(
                 onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo.metrics.pixels ==
-                      scrollInfo.metrics.maxScrollExtent) {
+                  if (scrollInfo.metrics.pixels >
+                      scrollInfo.metrics.maxScrollExtent - 300) {
                     _getList();
                   }
 
@@ -90,7 +100,7 @@ class TimelineTabState extends State<TimelineTab> {
                   }
                 },
                 child: ListView.builder(
-                  padding: EdgeInsets.only(top: 0, bottom: 30),
+                  padding: EdgeInsets.only(top: 0, bottom: 100),
                   itemCount: _items.length + 1,
                   itemBuilder: (context, index) {
                     if (index == 0) {
@@ -255,7 +265,7 @@ class TimelineTabState extends State<TimelineTab> {
                                           Editor()));
 
                               if (result == 'save') {
-                                _getList();
+                                _refresh();
                               }
                             },
                           )),

@@ -39,8 +39,11 @@ class FeedImage extends StatelessWidget {
           },
           child: CachedNetworkImage(
               imageUrl: links[i],
-              placeholder: (context, url) => new CircularProgressIndicator(),
-              errorWidget: (context, url, error) => new Icon(Icons.error),
+              placeholder: (context, url) => Container(
+                  width: width,
+                  height: height,
+                  child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => Icon(Icons.error),
               width: width,
               height: height,
               fit: BoxFit.cover)));

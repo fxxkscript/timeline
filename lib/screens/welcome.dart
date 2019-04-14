@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:wshop/models/auth.dart';
-import 'package:wshop/api/auth.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override

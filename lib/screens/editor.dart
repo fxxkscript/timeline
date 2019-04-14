@@ -24,7 +24,7 @@ class EditorState extends State<Editor> {
 
   static const maxPhotos = 9;
 
-  List<Asset> images = List<Asset>(0);
+  List<Asset> images = [];
   List<String> imgList = [];
 
   final textController = TextEditingController();
@@ -42,20 +42,26 @@ class EditorState extends State<Editor> {
   }
 
   Future getImage() async {
-    setState(() {
-      images = [];
-    });
-
     List<Asset> resultList = [];
 
     try {
       resultList = await MultiImagePicker.pickImages(
-        maxImages: maxPhotos,
+        maxImages: maxPhotos - images.length,
         enableCamera: true,
       );
     } catch (e) {
-//      error = e.message;
+      showDialog(
+          context: context,
+          builder: (context) =>
+              CupertinoAlertDialog(title: Text(''), content: Text(e.message)));
     }
+
+    if (!mounted) return;
+
+    setState(() {
+      images = List.from(images)..addAll(resultList);
+    });
+
     List<String> list = [];
     Future.forEach(resultList, (img) async {
       ByteData byteData = await img.requestOriginal();
@@ -64,15 +70,9 @@ class EditorState extends State<Editor> {
       list.add(key);
       img.releaseOriginal();
     }).then((response) async {
-      print(list);
       setState(() {
-        imgList = list;
+        imgList = List.from(imgList)..addAll(list);
       });
-    });
-
-    if (!mounted) return;
-    setState(() {
-      images = resultList;
     });
   }
 

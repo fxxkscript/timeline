@@ -12,7 +12,6 @@ void main() async {
 
     initalRoute = '/';
   } catch (e) {
-    print(e.toString());
     initalRoute = '/login';
   }
 

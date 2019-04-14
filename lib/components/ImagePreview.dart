@@ -11,7 +11,7 @@ class ImagePreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => {Navigator.of(context).maybePop()},
+        onTap: () => Navigator.of(context).maybePop(),
         child: CarouselSlider(
           height: 400.0,
           initialPage: page,
