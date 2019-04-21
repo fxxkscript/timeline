@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:wshop/api/feeds.dart';
 import 'package:wshop/components/FeedImage.dart';
 import 'package:wshop/models/auth.dart';
@@ -23,6 +24,7 @@ class TimelineTabState extends State<TimelineTab> {
   Feeds feeds;
   int showHeaderBg = 0;
   bool isLoading = false;
+  final PublishSubject<int> subject = PublishSubject<int>();
 
   Future<void> _share(List<String> pics) async {
     try {
@@ -38,6 +40,12 @@ class TimelineTabState extends State<TimelineTab> {
     super.initState();
 
     _getList();
+  }
+
+  @override
+  void dispose() {
+    subject.close();
+    super.dispose();
   }
 
   Future<void> _getList() async {
@@ -84,19 +92,13 @@ class TimelineTabState extends State<TimelineTab> {
                   }
 
                   if (scrollInfo.metrics.pixels < 0) {
-                    setState(() {
-                      showHeaderBg = 0;
-                    });
+                    subject.add(0);
                   } else if (scrollInfo.metrics.pixels > 0 &&
                       scrollInfo.metrics.pixels < 100) {
-                    setState(() {
-                      showHeaderBg =
-                          (scrollInfo.metrics.pixels / 100 * 255).round();
-                    });
+                    subject
+                        .add((scrollInfo.metrics.pixels / 100 * 255).round());
                   } else if (scrollInfo.metrics.pixels > 0) {
-                    setState(() {
-                      showHeaderBg = 255;
-                    });
+                    subject.add(255);
                   }
                 },
                 child: ListView.builder(
@@ -224,56 +226,62 @@ class TimelineTabState extends State<TimelineTab> {
         Positioned(
             left: 0,
             top: 0,
-            child: Container(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-              width: MediaQuery.of(context).size.width,
-              height: 42 + MediaQuery.of(context).padding.top,
-              decoration: BoxDecoration(
-                  color: Color.fromARGB(showHeaderBg, 237, 237, 237)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Text(''),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Text('',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .title
-                            .copyWith(fontSize: 17)),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: ButtonTheme(
-                      minWidth: 60,
-                      height: 30,
-                      child: Container(
-                          margin: EdgeInsets.only(right: 16),
-                          child: CupertinoButton(
-                            child: Icon(Icons.photo_camera),
-                            padding: EdgeInsets.only(bottom: 0),
-                            onPressed: () async {
-                              String result = await Navigator.of(context).push(
-                                  CupertinoPageRoute(
-                                      fullscreenDialog: true,
-                                      title: '新建',
-                                      builder: (BuildContext context) =>
-                                          Editor()));
+            child: StreamBuilder(
+                stream: subject.stream.debounce(Duration(milliseconds: 100)),
+                initialData: 0,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  return Container(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).padding.top),
+                    width: MediaQuery.of(context).size.width,
+                    height: 42 + MediaQuery.of(context).padding.top,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(snapshot.data, 237, 237, 237)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Text(''),
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: Text('',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .title
+                                  .copyWith(fontSize: 17)),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: ButtonTheme(
+                            minWidth: 60,
+                            height: 30,
+                            child: Container(
+                                margin: EdgeInsets.only(right: 16),
+                                child: CupertinoButton(
+                                  child: Icon(Icons.photo_camera),
+                                  padding: EdgeInsets.only(bottom: 0),
+                                  onPressed: () async {
+                                    String result = await Navigator.of(context)
+                                        .push(CupertinoPageRoute(
+                                            fullscreenDialog: true,
+                                            title: '新建',
+                                            builder: (BuildContext context) =>
+                                                Editor()));
 
-                              if (result == 'save') {
-                                _refresh();
-                              }
-                            },
-                          )),
+                                    if (result == 'save') {
+                                      _refresh();
+                                    }
+                                  },
+                                )),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
-            ))
+                  );
+                }))
       ]),
     );
   }

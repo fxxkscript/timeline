@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wshop/components/ImagePreview.dart';
@@ -37,17 +36,7 @@ class FeedImage extends StatelessWidget {
                 builder: (BuildContext context) =>
                     ImagePreview(imageList: links, page: i)));
           },
-          child: CachedNetworkImage(
-              imageUrl: links[i],
-              placeholder: (context, url) => Container(
-                  width: width,
-                  height: height,
-                  child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => Container(
-                  width: width, height: height, child: Icon(Icons.error)),
-              width: width,
-              height: height,
-              fit: BoxFit.cover)));
+          child: Image.network(links[i], width: width, height: height)));
     }
 
     return result;

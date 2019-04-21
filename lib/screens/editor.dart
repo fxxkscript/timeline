@@ -41,7 +41,7 @@ class EditorState extends State<Editor> {
     super.dispose();
   }
 
-  Future getImage() async {
+  void getImage() async {
     List<Asset> resultList = [];
 
     try {
@@ -58,6 +58,10 @@ class EditorState extends State<Editor> {
 
     if (!mounted) return;
 
+    uploadToken(resultList);
+  }
+
+  void uploadToken(List<Asset> resultList) async {
     setState(() {
       images = List.from(images)..addAll(resultList);
     });
@@ -120,8 +124,8 @@ class EditorState extends State<Editor> {
                   style: TextStyle(color: Colors.white),
                 ),
                 padding: EdgeInsets.zero,
-                onPressed: () async {
-                  await publish(
+                onPressed: () {
+                  publish(
                       context,
                       Feed(
                           0,
