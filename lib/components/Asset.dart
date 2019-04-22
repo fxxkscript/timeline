@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class AssetView extends StatefulWidget {
@@ -14,6 +15,7 @@ class AssetView extends StatefulWidget {
 class AssetState extends State<AssetView> {
   Asset _asset;
   DeleteCallback _delete;
+  ByteData _thumb;
   AssetState(this._asset, this._delete);
 
   @override
@@ -22,17 +24,17 @@ class AssetState extends State<AssetView> {
     _loadImage();
   }
 
-  void _loadImage() async {
-    await this._asset.requestThumbnail(300, 300, quality: 50);
-
+  void _loadImage() {
     if (this.mounted) {
-      setState(() {});
+      setState(() async {
+        this._thumb = await this._asset.requestThumbnail(300, 300, quality: 50);
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (null != this._asset.thumbData) {
+    if (null != this._thumb) {
       return Container(
           width: 120,
           height: 120,
@@ -41,7 +43,7 @@ class AssetState extends State<AssetView> {
             fit: StackFit.expand,
             children: <Widget>[
               Image.memory(
-                this._asset.thumbData.buffer.asUint8List(),
+                this._thumb.buffer.asUint8List(),
                 fit: BoxFit.cover,
                 gaplessPlayback: true,
                 width: 120,

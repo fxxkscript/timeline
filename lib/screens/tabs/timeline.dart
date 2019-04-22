@@ -79,7 +79,6 @@ class TimelineTabState extends State<TimelineTab> {
 
   @override
   Widget build(BuildContext context) {
-    print('build');
     return Container(
       child: Stack(children: [
         RefreshIndicator(
