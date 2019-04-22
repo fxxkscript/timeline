@@ -58,7 +58,9 @@ class EditorState extends State<Editor> {
 
     if (!mounted) return;
 
+    print(11111);
     uploadToken(resultList);
+    print(22222);
   }
 
   void uploadToken(List<Asset> resultList) async {
@@ -72,7 +74,6 @@ class EditorState extends State<Editor> {
       Uint8List imageData = byteData.buffer.asUint8List();
       String key = await upload(context, imageData);
       list.add(key);
-      img.releaseOriginal();
     }));
 
     setState(() {

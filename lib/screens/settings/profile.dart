@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:multi_image_picker/asset.dart';
-import 'package:multi_image_picker/picker.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:wshop/models/auth.dart';
 
 class ProfileScreen extends StatefulWidget {
