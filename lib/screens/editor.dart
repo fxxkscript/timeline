@@ -58,12 +58,6 @@ class EditorState extends State<Editor> {
 
     if (!mounted) return;
 
-    print(11111);
-    uploadToken(resultList);
-    print(22222);
-  }
-
-  void uploadToken(List<Asset> resultList) async {
     setState(() {
       images = List.from(images)..addAll(resultList);
     });
@@ -126,20 +120,22 @@ class EditorState extends State<Editor> {
                 ),
                 padding: EdgeInsets.zero,
                 onPressed: () {
-                  publish(
-                      context,
-                      Feed(
-                          0,
-                          0,
-                          Author(Auth().uid, Auth().nickname, Auth().avatar),
-                          textController.text,
-                          imgList,
-                          '',
-                          0,
-                          '',
-                          false));
+                  if (textController.text.length > 0 || imgList.length > 0) {
+                    publish(
+                        context,
+                        Feed(
+                            0,
+                            0,
+                            Author(Auth().uid, Auth().nickname, Auth().avatar),
+                            textController.text,
+                            imgList,
+                            '',
+                            0,
+                            '',
+                            false));
 
-                  Navigator.pop(context, 'save');
+                    Navigator.pop(context, 'save');
+                  }
                 },
               )),
         ),
