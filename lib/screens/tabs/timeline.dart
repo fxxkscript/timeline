@@ -201,8 +201,10 @@ class TimelineTabState extends State<TimelineTab> {
                                             width: 22, height: 22),
                                     onPressed: () async {
                                       if (!_items[index].isZan) {
-                                        _items[index].isZan = true;
-                                        _items[index].star++;
+                                        setState(() {
+                                          _items[index].isZan = true;
+                                          _items[index].star++;
+                                        });
                                         await star(context, _items[index]);
                                       }
                                     }),
