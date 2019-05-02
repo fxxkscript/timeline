@@ -15,6 +15,8 @@ class ImagePreview extends StatelessWidget {
         child: CarouselSlider(
           height: 400.0,
           initialPage: page,
+          enableInfiniteScroll: false,
+          viewportFraction: 1.0,
           items: imageList.map((link) {
             return Builder(
               builder: (BuildContext context) {
