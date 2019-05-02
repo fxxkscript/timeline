@@ -30,23 +30,27 @@ class FeedImage extends StatelessWidget {
 
     List<Widget> result = [];
     for (var i = 0; i < links.length; i++) {
-      result.add(GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                fullscreenDialog: true,
-                builder: (BuildContext context) =>
-                    ImagePreview(imageList: links, page: i)));
-          },
-          child: CachedNetworkImage(
-              imageUrl: links[i],
-              placeholder: (context, url) => Container(
-                  width: width,
-                  height: height,
-                  child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-              width: width,
-              height: height,
-              fit: BoxFit.cover)));
+      result.add(Container(
+        width: width,
+        height: height,
+        child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  fullscreenDialog: true,
+                  builder: (BuildContext context) =>
+                      ImagePreview(imageList: links, page: i)));
+            },
+            child: CachedNetworkImage(
+                imageUrl: links[i],
+                placeholder: (context, url) => Container(
+                    width: width,
+                    height: height,
+                    child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+                width: width,
+                height: height,
+                fit: BoxFit.cover)),
+      ));
     }
 
     return result;
