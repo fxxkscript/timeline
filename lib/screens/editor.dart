@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:wshop/api/feeds.dart';
 import 'package:wshop/api/qiniu.dart';
@@ -25,7 +25,6 @@ class EditorState extends State<Editor> {
   static const maxPhotos = 9;
 
   List<Asset> images = [];
-  List<String> imgList = [];
 
   final textController = TextEditingController();
 
@@ -60,18 +59,6 @@ class EditorState extends State<Editor> {
 
     setState(() {
       images = List.from(images)..addAll(resultList);
-    });
-
-    List<String> list = [];
-    await Future.wait(resultList.map((img) async {
-      ByteData byteData = await img.requestOriginal();
-      Uint8List imageData = byteData.buffer.asUint8List();
-      String key = await upload(context, imageData);
-      list.add(key);
-    }));
-
-    setState(() {
-      imgList = List.from(imgList)..addAll(list);
     });
   }
 
@@ -119,16 +106,30 @@ class EditorState extends State<Editor> {
                   style: TextStyle(color: Colors.white),
                 ),
                 padding: EdgeInsets.zero,
-                onPressed: () {
-                  if (textController.text.length > 0 || imgList.length > 0) {
-                    publish(
+                onPressed: () async {
+                  if (textController.text.length > 0) {
+                    String token = await Qiniu.getToken(context: context);
+
+                    List<String> list = [];
+                    await Future.wait(images.map((img) async {
+                      ByteData byteData = await img.requestOriginal();
+                      Uint8List imageData = byteData.buffer.asUint8List();
+                      Uint8List imageDataCompressed = Uint8List.fromList(
+                          await FlutterImageCompress.compressWithList(
+                              imageData));
+                      String key = await Qiniu.upload(
+                          context, imageDataCompressed, token);
+                      list.add(key);
+                    }));
+
+                    await publish(
                         context,
                         Feed(
                             0,
                             0,
                             Author(Auth().uid, Auth().nickname, Auth().avatar),
                             textController.text,
-                            imgList,
+                            list,
                             '',
                             0,
                             '',
