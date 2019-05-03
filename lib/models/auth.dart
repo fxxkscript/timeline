@@ -18,7 +18,12 @@ class Auth {
   }
 
   Auth update(
-      {String mobile, String token, String avatar = '', String nickname = ''}) {
+      {int uid,
+      String mobile,
+      String token,
+      String avatar = '',
+      String nickname = ''}) {
+    this.uid = uid;
     this.mobile = mobile;
     this.token = token;
     this.avatar = avatar.isNotEmpty

@@ -52,7 +52,10 @@ Future<void> getUserBasic({
   var response =
       await HttpClient().post(context, 'uc/userBasic/getUserBasicByUid', {});
   print(response);
-  Auth().update(nickname: response['nickname'], avatar: response['avatar']);
+  Auth().update(
+      nickname: response['nickname'],
+      avatar: response['avatar'],
+      uid: response['uid']);
   return response;
 }
 
