@@ -180,7 +180,9 @@ class TimelineTabState extends State<TimelineTab> {
           onRefresh: () => _refresh(),
           child: CustomScrollView(slivers: [
             SliverAppBar(
-              backgroundColor: Color.fromARGB(100, 255, 255, 255),
+              backgroundColor: Theme.of(context).backgroundColor,
+              brightness: Brightness.light,
+              title: Text('动态'),
               actions: [
                 ButtonTheme(
                   minWidth: 60,
