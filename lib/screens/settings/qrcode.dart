@@ -27,8 +27,8 @@ class QRCodeState extends State<QRCodeScreen> {
           ),
           FlatButton(
               onPressed: () async {
-                await fluwx.share(
-                    fluwx.WeChatShareWebPageModel(webPage: link, title: "关注我"));
+                await fluwx.share(fluwx.WeChatShareWebPageModel(
+                    webPage: link, title: "关注我", thumbnail: Auth().avatar));
               },
               child: Container(
                 width: 287,
