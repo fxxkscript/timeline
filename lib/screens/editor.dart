@@ -23,6 +23,7 @@ class EditorState extends State<Editor> {
   static const channel = const MethodChannel('com.meizizi.doraemon/door');
 
   static const maxPhotos = 9;
+  bool saving = false;
 
   List<Asset> images = [];
 
@@ -106,38 +107,47 @@ class EditorState extends State<Editor> {
                   style: TextStyle(color: Colors.white),
                 ),
                 padding: EdgeInsets.zero,
-                onPressed: () async {
-                  if (textController.text.length > 0) {
-                    String token = await Qiniu.getToken(context: context);
+                onPressed: saving
+                    ? null
+                    : () async {
+                        if (textController.text.length > 0) {
+                          setState(() {
+                            saving = true;
+                          });
+                          String token = await Qiniu.getToken(context: context);
 
-                    List<String> list = [];
-                    await Future.wait(images.map((img) async {
-                      ByteData byteData = await img.requestOriginal();
-                      Uint8List imageData = byteData.buffer.asUint8List();
-                      Uint8List imageDataCompressed = Uint8List.fromList(
-                          await FlutterImageCompress.compressWithList(
-                              imageData));
-                      String key = await Qiniu.upload(
-                          context, imageDataCompressed, token);
-                      list.add(key);
-                    }));
+                          List<String> list = [];
+                          await Future.wait(images.map((img) async {
+                            ByteData byteData = await img.requestOriginal();
+                            Uint8List imageData = byteData.buffer.asUint8List();
+                            Uint8List imageDataCompressed = Uint8List.fromList(
+                                await FlutterImageCompress.compressWithList(
+                                    imageData));
+                            String key = await Qiniu.upload(
+                                context, imageDataCompressed, token);
+                            list.add(key);
+                          }));
 
-                    await publish(
-                        context,
-                        Feed(
-                            0,
-                            0,
-                            Author(Auth().uid, Auth().nickname, Auth().avatar),
-                            textController.text,
-                            list,
-                            '',
-                            0,
-                            '',
-                            false));
+                          await publish(
+                              context,
+                              Feed(
+                                  0,
+                                  0,
+                                  Author(Auth().uid, Auth().nickname,
+                                      Auth().avatar),
+                                  textController.text,
+                                  list,
+                                  '',
+                                  0,
+                                  '',
+                                  false));
 
-                    Navigator.pop(context, 'save');
-                  }
-                },
+                          setState(() {
+                            saving = false;
+                          });
+                          Navigator.pop(context, 'save');
+                        }
+                      },
               )),
         ),
         child: GestureDetector(
