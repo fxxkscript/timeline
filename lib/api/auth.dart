@@ -5,14 +5,18 @@ import 'package:wshop/models/auth.dart';
 import 'package:wshop/utils/http_client.dart';
 
 void getCode(context, String mobile) async {
-  await HttpClient().post(context, 'account/auth/sendVerifyCode',
+  await HttpClient().post(context, 'http://api.laima.online/account/auth/sendVerifyCode',
       {'mobile': mobile, 'sendType': 'sms'});
 }
 
 Future login(context, String mobile, String code) async {
   try {
-    final response = await HttpClient().post(context, 'account/auth/verifyCode',
-        {'mobile': mobile, 'verifyCode': code, 'clientId': 'app'});
+    final response =
+        await HttpClient().post(context, 'uc/auth/verifyCodeAuthorize', {
+      "client": {"clientId": "weapp_wtzz_v1"},
+      "authorizationType": "verify_code",
+      "authDetail": {"mobile": mobile, "verifyCode": code, "source": ""}
+    });
     if (response != null) {
       HttpClient.setCache('accessToken', response['accessToken']);
       HttpClient.setCache('refreshToken', response['refreshToken']);

@@ -27,11 +27,13 @@ class HttpClient {
     }
 
     try {
-      final response = await http.post(domain + endPoint,
-          headers: headers, body: json.encode(data));
-      print(json.encode(data));
+      var url = RegExp(r'^(https?:)?//').hasMatch(endPoint)
+          ? endPoint
+          : domain + endPoint;
+      final response =
+          await http.post(url, headers: headers, body: json.encode(data));
       var statusCode = response.statusCode;
-      print(statusCode);
+      print(url + ' ' + statusCode.toString() + ' ' + json.encode(data));
       if (statusCode == 200) {
         return json.decode(response.body);
       } else if (statusCode == 401 && endPoint != 'account/auth/refreshToken') {
