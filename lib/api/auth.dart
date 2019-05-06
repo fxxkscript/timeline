@@ -5,7 +5,7 @@ import 'package:wshop/models/auth.dart';
 import 'package:wshop/utils/http_client.dart';
 
 void getCode(context, String mobile) async {
-  await HttpClient().post(context, 'http://api.laima.online/account/auth/sendVerifyCode',
+  await HttpClient().post(context, 'account/auth/sendVerifyCode',
       {'mobile': mobile, 'sendType': 'sms'});
 }
 
