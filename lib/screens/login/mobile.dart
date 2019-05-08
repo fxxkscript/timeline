@@ -118,7 +118,8 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  controller: mobileController,
+                  initialValue: '15658857801',
+                  // controller: mobileController,
                   keyboardType: TextInputType.phone,
                   onSaved: (val) => _mobile = val,
                   maxLength: 11,
@@ -136,6 +137,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
                   Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        initialValue: '8888',
                         focusNode: focusNode,
                         maxLength: 4,
                         keyboardType: TextInputType.number,
