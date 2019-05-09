@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wshop/models/auth.dart';
 import 'package:wshop/api/my.dart';
 import 'package:wshop/models/my.dart';
 
@@ -51,7 +50,7 @@ class MyTab extends StatelessWidget {
                                                 color: Color.fromARGB(
                                                     255, 248, 248, 248)),
                                             child: Image.network(
-                                              Auth().avatar,
+                                              snapshot.data.user.avatar,
                                               width: 64,
                                               height: 64,
                                             ),
@@ -70,7 +69,7 @@ class MyTab extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
-                                                Auth().nickname,
+                                                snapshot.data.user.nickname,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .title,
