@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class HttpClient {
   static final HttpClient _instance = new HttpClient._internal();
@@ -13,7 +11,9 @@ class HttpClient {
 
   factory HttpClient() => _instance;
 
-  static const domain = 'api.ippapp.com';
+  static const baseUrl = 'https://api.ippapp.com/';
+
+  Dio dio = Dio(BaseOptions(baseUrl: baseUrl));
 
   Future post(BuildContext context, String endPoint,
       [Map<String, dynamic> data = const {}]) async {
@@ -28,17 +28,14 @@ class HttpClient {
     }
 
     try {
-      var url = RegExp(r'^(https?:)?//').hasMatch(endPoint)
-          ? endPoint
-          : Uri.https(domain, endPoint);
-      final response =
-          await http.post(url, headers: headers, body: json.encode(data));
+      final response = await this
+          .dio
+          .post(endPoint, options: Options(headers: headers), data: data);
+
       var statusCode = response.statusCode;
-      print("port $statusCode $url ${json.encode(data)}");
+
       if (statusCode == 200) {
-        var result = json.decode(response.body);
-        print(json.encode(result));
-        return result;
+        return response.data;
       } else if (statusCode == 401 && endPoint != 'account/auth/refreshToken') {
         await refreshToken();
       } else if (statusCode == 422 || statusCode == 511) {
@@ -66,16 +63,12 @@ class HttpClient {
     }
 
     try {
-      var url = RegExp(r'^(https?:)?//').hasMatch(endPoint)
-          ? endPoint
-          : Uri.https(domain, endPoint, params);
-      final response = await http.get(url, headers: headers);
+      final response =
+          await this.dio.get(endPoint, options: Options(headers: headers));
       var statusCode = response.statusCode;
-      print("get $statusCode $url");
+      print("get $statusCode $endPoint");
       if (statusCode == 200) {
-        var result = json.decode(response.body);
-        print(json.encode(result));
-        return result;
+        return response.data;
       } else if (statusCode == 401 && endPoint != 'account/auth/refreshToken') {
         await refreshToken();
       } else if (statusCode == 422 || statusCode == 511) {
