@@ -50,17 +50,15 @@ Future<bool> loginByWechat(context, String code) async {
   return false;
 }
 
-Future<void> getUserBasic({
+Future<Auth> getUserBasic({
   @required BuildContext context,
 }) async {
-  var response =
+  final response =
       await HttpClient().post(context, 'uc/userBasic/getUserBasicByUid', {});
-  print(response);
-  Auth().update(
+  return Auth().update(
       nickname: response['nickname'],
       avatar: response['avatar'],
       uid: response['uid']);
-  return response;
 }
 
 Future<void> checkLogin() async {

@@ -13,7 +13,7 @@ class MyTab extends StatelessWidget {
             future: fetchMy(context),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return new CircularProgressIndicator();
+                return Center(child: new CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return new Text("${snapshot.error}");
               }
