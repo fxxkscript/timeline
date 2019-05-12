@@ -87,6 +87,8 @@ class EditorState extends State<Editor> {
 
   @override
   Widget build(BuildContext context) {
+    String title = saving ? '上传中...' : '发表';
+
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text('发表动态'),
@@ -102,8 +104,9 @@ class EditorState extends State<Editor> {
               height: 30,
               child: FlatButton(
                 color: Theme.of(context).primaryColor,
-                child: const Text(
-                  '发表',
+                disabledColor: Theme.of(context).primaryColor,
+                child: Text(
+                  title,
                   style: TextStyle(color: Colors.white),
                 ),
                 padding: EdgeInsets.zero,
@@ -114,6 +117,7 @@ class EditorState extends State<Editor> {
                           setState(() {
                             saving = true;
                           });
+
                           String token = await Qiniu.getToken(context: context);
 
                           List<String> list = [];
@@ -145,6 +149,7 @@ class EditorState extends State<Editor> {
                           setState(() {
                             saving = false;
                           });
+
                           Navigator.pop(context, 'save');
                         }
                       },
