@@ -12,18 +12,38 @@ Uuid uuid = new Uuid();
 Dio dio = new Dio(BaseOptions(baseUrl: 'http://upload.qiniup.com'));
 
 class Qiniu {
+  static const TOKEN_NAME = 'qiniu_token';
+
   static Future<String> getToken({
+    @required BuildContext context,
+  }) async {
+    String token = await HttpClient.getCache(TOKEN_NAME);
+    if (token != null && token.length > 0) {
+      return token;
+    }
+    var response = await HttpClient().post(context, 'toolkit/uploadToken/get',
+        {'materialType': 0, 'bizName': 'wtzz'});
+
+    token = response['token'];
+    await HttpClient.setCache(TOKEN_NAME, token);
+    return token;
+  }
+
+  static Future<String> refreshToken({
     @required BuildContext context,
   }) async {
     var response = await HttpClient().post(context, 'toolkit/uploadToken/get',
         {'materialType': 0, 'bizName': 'wtzz'});
 
-    return response['token'];
+    String token = response['token'];
+    await HttpClient.setCache(TOKEN_NAME, token);
+    return token;
   }
 
-  static Future<String> upload(
-      BuildContext context, Uint8List data, String token) async {
+  static Future<String> upload(BuildContext context, Uint8List data) async {
     String key = uuid.v1() + '.jpg';
+
+    String token = await Qiniu.getToken(context: context);
 
     FormData formData = new FormData.from({
       'token': token,
@@ -48,7 +68,8 @@ class Qiniu {
         print(e.request);
         print(e.message);
       }
-      throw e;
+      await refreshToken(context: context);
+      return await upload(context, data);
     }
 
     return key;

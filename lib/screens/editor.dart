@@ -118,8 +118,6 @@ class EditorState extends State<Editor> {
                             saving = true;
                           });
 
-                          String token = await Qiniu.getToken(context: context);
-
                           List<String> list = [];
                           await Future.wait(images.map((img) async {
                             ByteData byteData = await img.requestOriginal();
@@ -128,7 +126,7 @@ class EditorState extends State<Editor> {
                                 await FlutterImageCompress.compressWithList(
                                     imageData));
                             String key = await Qiniu.upload(
-                                context, imageDataCompressed, token);
+                                context, imageDataCompressed);
                             list.add(key);
                           }));
 
