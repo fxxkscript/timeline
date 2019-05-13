@@ -1,9 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:wshop/models/profile.dart';
 import 'package:wshop/api/profile.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:wshop/api/qiniu.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -37,19 +41,41 @@ class ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
-  Future uploadImage() async {
-    List<Asset> resultList;
+  void selectQrCode() async {
+    List<Asset> resultList = [];
 
     try {
       resultList = await MultiImagePicker.pickImages(
         maxImages: 1,
-        enableCamera: false,
+        enableCamera: true,
       );
     } catch (e) {
-//      error = e.message;
+      showDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(title: Text(e.message)));
     }
 
     if (!mounted) return;
+
+    setState(() async {
+      ByteData byteData = await resultList[0].requestOriginal();
+      Uint8List imageData = byteData.buffer.asUint8List();
+      Uint8List imageDataCompressed = Uint8List.fromList(
+          await FlutterImageCompress.compressWithList(imageData));
+      _data.wechatQrCode = await Qiniu.upload(context, imageDataCompressed);
+    });
+  }
+
+  void save(context) async {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      final bool result = await saveProfile(context, _data.toMap());
+
+      final snackBar = SnackBar(
+        content: Text(result ? '保存成功' : '保存失败', textAlign: TextAlign.center),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
   }
 
   @override
@@ -225,6 +251,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                                                 padding:
                                                     EdgeInsets.only(right: 16),
                                                 child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: <Widget>[
                                                     Text(
                                                       '微信二维码',
@@ -237,17 +266,16 @@ class ProfileScreenState extends State<ProfileScreen> {
                                                                   FontWeight
                                                                       .normal),
                                                     ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        '点击上传',
-                                                        style: TextStyle(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .primaryColor,
-                                                            fontSize: 16),
-                                                        textAlign:
-                                                            TextAlign.right,
-                                                      ),
+                                                    CupertinoButton(
+                                                      padding:
+                                                          EdgeInsets.all(0),
+                                                      child: Text('点击上传',
+                                                          style: TextStyle(
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .primaryColor,
+                                                              fontSize: 16)),
+                                                      onPressed: selectQrCode,
                                                     ),
                                                   ],
                                                 ),
@@ -374,28 +402,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                                                       color: Colors.white),
                                                 ),
                                                 padding: EdgeInsets.zero,
-                                                onPressed: () async {
-                                                  if (_formKey.currentState
-                                                      .validate()) {
-                                                    _formKey.currentState
-                                                        .save();
-                                                    print(_data.mobile);
-                                                    final bool result =
-                                                        await saveProfile(
-                                                            context,
-                                                            _data.toMap());
-
-                                                    final snackBar = SnackBar(
-                                                      content: Text(
-                                                          result
-                                                              ? '保存成功'
-                                                              : '保存失败',
-                                                          textAlign:
-                                                              TextAlign.center),
-                                                    );
-                                                    Scaffold.of(context)
-                                                        .showSnackBar(snackBar);
-                                                  }
+                                                onPressed: () {
+                                                  this.save(context);
                                                 },
                                               ),
                                             )),
