@@ -3,14 +3,29 @@ import 'package:wshop/api/my.dart';
 import 'package:wshop/models/my.dart';
 
 
-class MyTab extends StatelessWidget {
+class MyTab extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return MyTabState();
+  }
+}
+
+class MyTabState extends State<MyTab> {
+  Future<My> _fetchMy;
+
+  @override
+  void initState() {
+    _fetchMy = fetchMy(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: LayoutBuilder(
       builder: (BuildContext context, BoxConstraints viewportConstraints) {
         return SingleChildScrollView(
           child: new FutureBuilder<My>(
-            future: fetchMy(context),
+            future: _fetchMy,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(child: new CircularProgressIndicator());

@@ -9,5 +9,6 @@ Future<My> fetchMy(context) async {
     return new My.fromJson(response);
   } catch(e) {
     print(e);
+    return new My();
   }
 }

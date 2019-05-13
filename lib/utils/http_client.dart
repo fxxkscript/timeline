@@ -27,14 +27,17 @@ class HttpClient {
       headers['X-Access-Token'] = token;
     }
 
+    print("post $endPoint $data");
+
     try {
       final response = await this
           .dio
           .post(endPoint, options: Options(headers: headers), data: data);
 
       var statusCode = response.statusCode;
-
       if (statusCode == 200) {
+        print("$statusCode $endPoint ${response.data}");
+        print(response.data);
         return response.data;
       } else if (statusCode == 401 && endPoint != 'account/auth/refreshToken') {
         await refreshToken();
@@ -62,12 +65,13 @@ class HttpClient {
       headers['X-Access-Token'] = token;
     }
 
+    print("get $endPoint $params");
     try {
       final response =
-          await this.dio.get(endPoint, options: Options(headers: headers));
+          await this.dio.get(endPoint, options: RequestOptions(headers: headers, queryParameters: params));
       var statusCode = response.statusCode;
-      print("get $statusCode $endPoint");
       if (statusCode == 200) {
+        print("$statusCode $endPoint ${response.data}");
         return response.data;
       } else if (statusCode == 401 && endPoint != 'account/auth/refreshToken') {
         await refreshToken();
