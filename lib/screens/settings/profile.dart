@@ -35,6 +35,7 @@ class _ProfileData {
 class ProfileScreenState extends State<ProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   _ProfileData _data = new _ProfileData();
+  Uint8List _selectedImage;
 
   @override
   void initState() {
@@ -60,6 +61,7 @@ class ProfileScreenState extends State<ProfileScreen> {
     setState(() async {
       ByteData byteData = await resultList[0].requestOriginal();
       Uint8List imageData = byteData.buffer.asUint8List();
+      _selectedImage = imageData;
       Uint8List imageDataCompressed = Uint8List.fromList(
           await FlutterImageCompress.compressWithList(imageData));
       _data.wechatQrCode = await Qiniu.upload(context, imageDataCompressed);
@@ -266,17 +268,45 @@ class ProfileScreenState extends State<ProfileScreen> {
                                                                   FontWeight
                                                                       .normal),
                                                     ),
-                                                    CupertinoButton(
-                                                      padding:
-                                                          EdgeInsets.all(0),
-                                                      child: Text('点击上传',
-                                                          style: TextStyle(
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .primaryColor,
-                                                              fontSize: 16)),
-                                                      onPressed: selectQrCode,
-                                                    ),
+                                                    Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: <Widget>[
+                                                          _selectedImage != null
+                                                              ? Image.memory(
+                                                                  _selectedImage,
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  gaplessPlayback:
+                                                                      true,
+                                                                  width: 40,
+                                                                  height: 40,
+                                                                )
+                                                              : Image.network(
+                                                                  snapshot
+                                                                      .data
+                                                                      .detail
+                                                                      .wechatQrCode,
+                                                                  width: 40,
+                                                                  height: 40,
+                                                                  fit: BoxFit
+                                                                      .cover),
+                                                          CupertinoButton(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 16),
+                                                            child: Text('点击上传',
+                                                                style: TextStyle(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryColor,
+                                                                    fontSize:
+                                                                        16)),
+                                                            onPressed:
+                                                                selectQrCode,
+                                                          ),
+                                                        ])
                                                   ],
                                                 ),
                                               ),
