@@ -48,34 +48,33 @@ class TimelineTabState extends State<TimelineTab> {
     super.dispose();
   }
 
-  Future<void> _getList() async {
+  Future<void> _getList({bool refresh = false}) async {
     if (isLoading) {
       return;
     }
     isLoading = true;
 
-    if (feeds != null && !feeds.hasNext) {
+    if (feeds != null && !feeds.hasNext && !refresh) {
       return;
     }
-    print('loading list');
+    int cursor;
 
-    int cursor = feeds != null ? feeds.nextCursor : 0;
+    if (refresh) {
+      cursor = 0;
+    } else {
+      cursor = feeds != null ? feeds.nextCursor : 0;
+    }
 
     feeds = await getTimeline(context, cursor);
 
     setState(() {
+      if (refresh) {
+        _items.clear();
+      }
       _items.addAll(feeds.list);
-      isLoading = false;
     });
-  }
 
-  Future<void> _refresh() {
-    print('refresh');
-    setState(() {
-      feeds = null;
-      _items.clear();
-    });
-    return _getList();
+    isLoading = false;
   }
 
   @override
@@ -84,7 +83,9 @@ class TimelineTabState extends State<TimelineTab> {
       child: Stack(children: [
         RefreshIndicator(
             displacement: 80,
-            onRefresh: () => _refresh(),
+            onRefresh: () {
+              return _getList(refresh: true);
+            },
             child: NotificationListener<ScrollNotification>(
                 onNotification: (ScrollNotification scrollInfo) {
                   if (scrollInfo.metrics.pixels >
@@ -227,7 +228,13 @@ class TimelineTabState extends State<TimelineTab> {
                   },
                 ))),
         Positioned(
-            left: 0, top: 0, child: TopBar(subject: subject, refresh: _refresh))
+            left: 0,
+            top: 0,
+            child: TopBar(
+                subject: subject,
+                refresh: () {
+                  _getList(refresh: true);
+                }))
       ]),
     );
   }
