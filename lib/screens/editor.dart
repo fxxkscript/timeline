@@ -118,14 +118,12 @@ class EditorState extends State<Editor> {
     if (saving) {
       list.add(Stack(
         children: [
-          new Opacity(
+          Opacity(
             opacity: 0.3,
             child: const ModalBarrier(dismissible: false, color: Colors.grey),
           ),
-          new Center(
-            child: new CupertinoActivityIndicator(
-              radius: 20,
-            ),
+          Center(
+            child: const CircularProgressIndicator(),
           ),
         ],
       ));
