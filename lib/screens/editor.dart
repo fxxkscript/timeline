@@ -89,6 +89,48 @@ class EditorState extends State<Editor> {
   Widget build(BuildContext context) {
     String title = saving ? '上传中...' : '发表';
 
+    var list = List<Widget>();
+
+    list.addAll(<Widget>[
+      ListView(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: TextFormField(
+                controller: textController,
+                maxLines: 6,
+                decoration: InputDecoration(
+                    border: InputBorder.none, hintText: '这一刻的想法...')),
+          ),
+          Center(
+              child: SizedBox(
+                  width: 380,
+                  child: Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    alignment: WrapAlignment.start,
+                    children: listWidget(),
+                  ))),
+        ],
+      ),
+    ]);
+
+    if (saving) {
+      list.add(Stack(
+        children: [
+          new Opacity(
+            opacity: 0.3,
+            child: const ModalBarrier(dismissible: false, color: Colors.grey),
+          ),
+          new Center(
+            child: new CupertinoActivityIndicator(
+              radius: 20,
+            ),
+          ),
+        ],
+      ));
+    }
+
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text('发表动态'),
@@ -158,27 +200,7 @@ class EditorState extends State<Editor> {
             FocusScope.of(context).requestFocus(FocusNode());
           },
           child: Material(
-            child: ListView(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  child: TextFormField(
-                      controller: textController,
-                      maxLines: 6,
-                      decoration: InputDecoration(
-                          border: InputBorder.none, hintText: '这一刻的想法...')),
-                ),
-                Center(
-                    child: SizedBox(
-                        width: 380,
-                        child: Wrap(
-                          spacing: 10,
-                          runSpacing: 10,
-                          alignment: WrapAlignment.start,
-                          children: listWidget(),
-                        ))),
-              ],
-            ),
+            child: Stack(children: list),
           ),
         ));
   }

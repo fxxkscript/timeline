@@ -70,6 +70,7 @@ class TimelineTabState extends State<TimelineTab> {
   }
 
   Future<void> _refresh() {
+    print('refresh');
     setState(() {
       feeds = null;
       _items.clear();
