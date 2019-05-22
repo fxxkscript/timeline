@@ -20,9 +20,9 @@ void main() async {
 }
 
 class App extends StatelessWidget {
-  final String initalRoute;
+  final String initialRoute;
 
-  App(this.initalRoute);
+  App(this.initialRoute);
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +32,7 @@ class App extends StatelessWidget {
           brightness: Brightness.light,
           primaryColor: Color.fromARGB(255, 12, 193, 96),
           backgroundColor: Color.fromARGB(255, 237, 237, 237),
+          scaffoldBackgroundColor: Color.fromARGB(255, 237, 237, 237),
           dividerColor: Color.fromARGB(255, 229, 229, 229),
           primaryColorDark: Color.fromARGB(255, 19, 19, 19),
           buttonTheme:
@@ -61,7 +62,7 @@ class App extends StatelessWidget {
                   color: Color.fromARGB(255, 19, 19, 19),
                   fontWeight: FontWeight.bold))),
       title: '相册',
-      initialRoute: initalRoute,
+      initialRoute: initialRoute,
       routes: routes,
     );
   }

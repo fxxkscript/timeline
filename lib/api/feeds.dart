@@ -30,8 +30,7 @@ Future<Feeds> getUserFeeds(context, int userId, int cursor,
 
 Future<void> publish(context, Feed feed) async {
   try {
-    var response =
-        await HttpClient().post(context, 'feeds/tweet/publish', feed.toJson());
+    await HttpClient().post(context, 'feeds/tweet/publish', feed.toJson());
   } catch (e) {
     print(e);
   }

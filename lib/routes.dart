@@ -6,6 +6,7 @@ import 'package:wshop/screens/login/mobile.dart';
 import 'package:wshop/screens/settings/profile.dart';
 import 'package:wshop/screens/settings/qrcode.dart';
 import 'package:wshop/screens/welcome.dart';
+import 'package:wshop/screens/authorization/purchase.dart';
 
 final routes = {
   '/': (BuildContext context) => HomeScreen(),
@@ -15,4 +16,5 @@ final routes = {
   '/friends/fans': (BuildContext context) => FansScreen(),
   '/settings/profile': (BuildContext context) => ProfileScreen(),
   '/settings/qrcode': (BuildContext context) => QRCodeScreen(),
+  '/authorization/purchase': (BuildContext context) => PurchaseScreen(),
 };

@@ -33,7 +33,7 @@ class MyTabState extends State<MyTab> {
                 return new Text("${snapshot.error}");
               }
               return Container(
-                  color: Color.fromARGB(255, 237, 237, 237),
+                  color: Theme.of(context).backgroundColor,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: viewportConstraints.maxHeight,
@@ -172,7 +172,9 @@ class MyTabState extends State<MyTab> {
                                       width: 343,
                                       height: 52,
                                     ),
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed("/authorization/purchase");
+                                    },
                                   ),
                                 )
                               ]),
