@@ -37,7 +37,6 @@ class HttpClient {
       var statusCode = response.statusCode;
       if (statusCode == 200) {
         print("$statusCode $endPoint ${response.data}");
-        print(response.data);
         return response.data;
       } else if (statusCode == 401 && endPoint != 'account/auth/refreshToken') {
         await refreshToken();

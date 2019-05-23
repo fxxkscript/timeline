@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:wshop/api/auth.dart';
 import 'package:wshop/routes.dart';
+import 'package:oktoast/oktoast.dart';
 
 void main() async {
   String initalRoute = '/login';
@@ -26,7 +27,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return OKToast(child: MaterialApp(
       theme: ThemeData(
           primarySwatch: Colors.lightBlue,
           brightness: Brightness.light,
@@ -64,6 +65,6 @@ class App extends StatelessWidget {
       title: '相册',
       initialRoute: initialRoute,
       routes: routes,
-    );
+    ));
   }
 }

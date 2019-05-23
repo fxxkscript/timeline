@@ -68,6 +68,7 @@ class MyTabState extends State<MyTab> {
                                               snapshot.data.user.avatar,
                                               width: 64,
                                               height: 64,
+                                              fit: BoxFit.cover
                                             ),
                                           ),
                                           borderRadius: BorderRadius.circular(28),

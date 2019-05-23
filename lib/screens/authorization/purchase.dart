@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wshop/models/auth.dart';
+import 'package:wshop/api/member.dart';
+import 'package:oktoast/oktoast.dart';
 
 class PurchaseScreen extends StatefulWidget {
   PurchaseScreen({Key key});
@@ -21,30 +24,42 @@ class PurchaseState extends State<PurchaseScreen> {
       ),
       body: Padding(
           padding: const EdgeInsets.only(left: 25, right: 25),
-          child: Column(children: <Widget>[UserInfoBrief(), new _Body()])),
+          child: Column(children: <Widget>[
+            UserInfoBrief(),
+            Container(height: 20),
+            new _Content()
+          ])),
     );
   }
 }
 
-class _Body extends StatelessWidget {
+class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-      ),
-      child: Column(
-        children: <Widget>[
-          PriceCard(120),
-          PurchaseButton('已有授权码，输入兑换 >', () {
-            _showPurchaseModal(context);
-          }),
-          Padding(
-            padding: const EdgeInsets.only(top: 5.0),
-            child: Text('购买请联系客服',
-                style: TextStyle(fontSize: 12, color: Color(0xff666666))),
-          )
-        ],
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            children: <Widget>[
+              PriceCard(120),
+              Container(height: 10),
+              PurchaseButton('已有授权码，输入兑换 >', () async {
+                final code = await createActivation(context);
+                print(code);
+                _showPurchaseModal(context);
+              }),
+              Padding(
+                padding: const EdgeInsets.only(top: 5.0),
+                child: Text('购买请联系客服',
+                    style: TextStyle(fontSize: 12, color: Color(0xff666666))),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -93,10 +108,9 @@ class PurchaseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return RawMaterialButton(
         onPressed: onPressed,
         child: Container(
-            width: 311,
             height: 44,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(22),
@@ -128,7 +142,7 @@ class UserInfoBrief extends StatelessWidget {
                 height: 44,
                 decoration:
                     BoxDecoration(color: Color.fromARGB(255, 248, 248, 248)),
-                child: Image.network(Auth().avatar, fit: BoxFit.contain),
+                child: Image.network(Auth().avatar, fit: BoxFit.cover),
               ),
               borderRadius: BorderRadius.circular(28),
             ),
@@ -160,17 +174,42 @@ class UserInfoBrief extends StatelessWidget {
 }
 
 _showPurchaseModal(context) {
+  final textController = TextEditingController();
   return showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(height: 200, child: Column(
-            children: <Widget>[
-              TextField(),
-              PurchaseButton('确认兑换', () {}),
-            ],
-          )),
-        );
+        return Container(
+            height: 300,
+            decoration: BoxDecoration(color: Colors.white),
+            child: Padding(
+              padding: const EdgeInsets.all(64.0),
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    controller: textController,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: '输入授权码',
+                        fillColor: Color(0xFFF6F6F6),
+                        filled: true),
+                  ),
+                  Container(height: 24),
+                  PurchaseButton('确认兑换', () async {
+                    if (textController.text.isEmpty) {
+                      return;
+                    }
+                    String msg;
+                    try {
+                      await createMember(context, textController.text);
+                      msg = '激活成功';
+                      Navigator.pop(context);
+                    } catch (e) {
+                      msg = e.toString();
+                    }
+                    showToast(msg, textPadding: EdgeInsets.all(15));
+                  }),
+                ],
+              ),
+            ));
       });
 }
