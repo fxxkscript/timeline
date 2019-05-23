@@ -48,6 +48,7 @@ class _Content extends StatelessWidget {
               PriceCard(120),
               Container(height: 10),
               PurchaseButton('已有授权码，输入兑换 >', () async {
+                // TODO: remove test code
                 final code = await createActivation(context);
                 print(code);
                 _showPurchaseModal(context);
