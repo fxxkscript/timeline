@@ -11,17 +11,18 @@ class FeedImage extends StatelessWidget {
   final List<String> imageList;
   final FeedImageType type;
 
-  List<Widget> getImageList(BuildContext context, List<String> links) {
-    double width = 80;
-    double height = 80;
-
-    if (type == FeedImageType.multiple) {
+  List<Widget> getImageList(BuildContext context, List<String> links, {double width = 80, double height = 80}) {
+    if (type == FeedImageType.multiple && width == 80 && height == 80) {
       switch (links.length) {
         case 1:
           width = 74;
           height = 74;
           break;
-        case 4:
+        case 2:
+          width = 36;
+          height = 74;
+          break;
+        default:
           width = 36;
           height = 36;
           break;
@@ -64,11 +65,29 @@ class FeedImage extends StatelessWidget {
       spacing = 2;
     }
 
-    if (this.imageList.length == 4) {
+    if (isMultipleType && this.imageList.length > 2) {
+      var widgets = [
+        Wrap(
+          spacing: spacing,
+          runSpacing: spacing,
+          children: getImageList(context, this.imageList.sublist(0, 2), width: 36, height: 36),
+        ),
+        SizedBox(height: spacing),
+        Wrap(
+          spacing: spacing,
+          runSpacing: spacing,
+          children: getImageList(context, this.imageList.length >= 4 ? this.imageList.sublist(2, 4) : this.imageList.sublist(2), width: 36, height: 36),
+        )
+      ];
+
       return Container(
-          margin: isMultipleType
-              ? EdgeInsets.all(0)
-              : EdgeInsets.only(right: 10, bottom: 10, top: 10),
+          margin: EdgeInsets.all(0),
+          child: Column(
+            children: widgets,
+          ));
+    } else if (this.imageList.length == 4) {
+      return Container(
+          margin: EdgeInsets.only(right: 10, bottom: 10, top: 10),
           child: Column(
             children: [
               Wrap(
@@ -84,16 +103,16 @@ class FeedImage extends StatelessWidget {
               )
             ],
           ));
+    } else {
+      return Container(
+          margin: isMultipleType
+              ? EdgeInsets.all(0)
+              : EdgeInsets.only(right: 10, bottom: 10, top: 10),
+          child: Wrap(
+            spacing: spacing,
+            runSpacing: spacing,
+            children: getImageList(context, this.imageList),
+          ));
     }
-
-    return Container(
-        margin: isMultipleType
-            ? EdgeInsets.all(0)
-            : EdgeInsets.only(right: 10, bottom: 10, top: 10),
-        child: Wrap(
-          spacing: spacing,
-          runSpacing: spacing,
-          children: getImageList(context, this.imageList),
-        ));
   }
 }

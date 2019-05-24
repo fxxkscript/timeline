@@ -84,7 +84,7 @@ class UserScreenState extends State<UserScreen> {
                     });
                   }
                   if (scrollInfo.metrics.pixels ==
-                      scrollInfo.metrics.maxScrollExtent) {
+                      scrollInfo.metrics.maxScrollExtent - 300) {
                     _getList();
                   }
                 },
@@ -166,6 +166,8 @@ class UserScreenState extends State<UserScreen> {
                       );
                     }
                     index = index - 1;
+                    var time = DateTime.parse(_items[index].createdAt);
+
                     return Container(
                         decoration: BoxDecoration(),
                         padding: EdgeInsets.only(bottom: 10, right: 20),
@@ -182,7 +184,7 @@ class UserScreenState extends State<UserScreen> {
                                       Positioned(
                                         left: 0,
                                         top: 0,
-                                        child: Text('12',
+                                        child: Text('${time.day}',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .title
@@ -191,7 +193,7 @@ class UserScreenState extends State<UserScreen> {
                                       Positioned(
                                           left: 40,
                                           top: 16,
-                                          child: Text('12月',
+                                          child: Text('${time.month}月',
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .title
