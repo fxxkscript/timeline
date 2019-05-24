@@ -83,6 +83,7 @@ class FeedImage extends StatelessWidget {
       return Container(
           margin: EdgeInsets.all(0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: widgets,
           ));
     } else if (this.imageList.length == 4) {
