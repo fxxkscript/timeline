@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/api/member.dart';
+import 'package:wshop/models/purchase.dart';
+import 'package:wshop/api/purchase.dart';
 import 'package:oktoast/oktoast.dart';
 
 class PurchaseScreen extends StatefulWidget {
@@ -13,7 +15,23 @@ class PurchaseScreen extends StatefulWidget {
   }
 }
 
-class PurchaseState extends State<PurchaseScreen> {
+class PurchaseState extends State<PurchaseScreen>
+    with SingleTickerProviderStateMixin {
+  Future<List<Right>> _fetchRights;
+  TabController _controller;
+
+  @override
+  void initState() {
+    _fetchRights = fetchRights(context);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,13 +40,27 @@ class PurchaseState extends State<PurchaseScreen> {
         elevation: 0,
         backgroundColor: Theme.of(context).backgroundColor,
       ),
-      body: Padding(
-          padding: const EdgeInsets.only(left: 25, right: 25),
-          child: Column(children: <Widget>[
-            UserInfoBrief(),
-            Container(height: 20),
-            new _Content()
-          ])),
+      body: new FutureBuilder<List<Right>>(
+          future: _fetchRights,
+          builder: (BuildContext context, AsyncSnapshot<List<Right>> snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: new CircularProgressIndicator());
+            }
+            _controller =
+                new TabController(length: snapshot.data.length, vsync: this);
+            return Padding(
+                padding: const EdgeInsets.only(left: 25, right: 25),
+                child: Column(children: <Widget>[
+                  UserInfoBrief(),
+                  Container(height: 20),
+                  new TabBar(
+                      controller: _controller,
+                      tabs: snapshot.data
+                          .map((right) => new Tab(text: right.level.name))
+                          .toList()),
+                  new _Content()
+                ]));
+          }),
     );
   }
 }

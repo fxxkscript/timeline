@@ -4,8 +4,8 @@ import 'package:wshop/models/member.dart';
 import 'package:wshop/utils/http_client.dart';
 
 Future<Member> fetchMemberInfo(context) async {
-  final response = await HttpClient().get(context, 'uc/page/get');
   try {
+    final response = await HttpClient().get(context, 'uc/page/get');
     return new Member.fromJson(response);
   } catch (e) {
     print(e);

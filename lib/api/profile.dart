@@ -5,8 +5,8 @@ import 'package:wshop/utils/http_client.dart';
 import 'package:wshop/models/auth.dart';
 
 Future<Profile> fetchProfile(context) async {
-  final response = await HttpClient().get(context, 'uc/profile/get', {'uid': Auth().uid.toString()});
   try {
+    final response = await HttpClient().get(context, 'uc/profile/get', {'uid': Auth().uid.toString()});
     return new Profile.fromJson(response);
   } catch(e) {
     print(e);
