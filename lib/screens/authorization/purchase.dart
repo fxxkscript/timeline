@@ -16,7 +16,7 @@ class PurchaseScreen extends StatefulWidget {
 }
 
 class PurchaseState extends State<PurchaseScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   Future<List<Right>> _fetchRights;
   TabController _controller;
 
@@ -40,25 +40,31 @@ class PurchaseState extends State<PurchaseScreen>
         elevation: 0,
         backgroundColor: Theme.of(context).backgroundColor,
       ),
-      body: new FutureBuilder<List<Right>>(
+      body: FutureBuilder<List<Right>>(
           future: _fetchRights,
           builder: (BuildContext context, AsyncSnapshot<List<Right>> snapshot) {
             if (!snapshot.hasData) {
-              return Center(child: new CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator());
             }
             _controller =
-                new TabController(length: snapshot.data.length, vsync: this);
+                TabController(length: snapshot.data.length, vsync: this);
             return Padding(
                 padding: const EdgeInsets.only(left: 25, right: 25),
                 child: Column(children: <Widget>[
                   UserInfoBrief(),
                   Container(height: 20),
-                  new TabBar(
+                  TabBar(
                       controller: _controller,
                       tabs: snapshot.data
-                          .map((right) => new Tab(text: right.level.name))
+                          .map((right) => Tab(text: right.level.name))
                           .toList()),
-                  new _Content()
+                  Expanded(
+                    child: TabBarView(
+                        controller: _controller,
+                        children: snapshot.data
+                            .map((right) => _Content(right))
+                            .toList()),
+                  )
                 ]));
           }),
     );
@@ -66,32 +72,35 @@ class PurchaseState extends State<PurchaseScreen>
 }
 
 class _Content extends StatelessWidget {
+  final Right right;
+
+  _Content(this.right);
+
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: <Widget>[
-              PriceCard(120),
-              Container(height: 10),
-              PurchaseButton('已有授权码，输入兑换 >', () async {
-                // TODO: remove test code
-                final code = await createActivation(context);
-                print(code);
-                _showPurchaseModal(context);
-              }),
-              Padding(
-                padding: const EdgeInsets.only(top: 5.0),
-                child: Text('购买请联系客服',
-                    style: TextStyle(fontSize: 12, color: Color(0xff666666))),
-              )
-            ],
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: <Widget>[
+            PriceCard(120),
+            Container(height: 10),
+            PurchaseButton('已有授权码，输入兑换 >', () async {
+              // TODO: remove test code
+              final code = await createActivation(context);
+              print(code);
+              _showPurchaseModal(context);
+            }),
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0, bottom: 30),
+              child: Text('购买请联系客服',
+                  style: TextStyle(fontSize: 12, color: Color(0xff666666))),
+            ),
+            _FeatureList(right.features)
+          ],
         ),
       ),
     );
@@ -156,6 +165,20 @@ class PurchaseButton extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 16,
                         color: Color.fromARGB(255, 252, 234, 184))))));
+  }
+}
+
+class _FeatureList extends StatelessWidget {
+  final List<Feature> features;
+
+  _FeatureList(this.features);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: Column(
+      children: features.map((item) => Text(item.name)).toList(),
+    ));
   }
 }
 
