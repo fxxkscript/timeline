@@ -26,7 +26,8 @@ class Level {
         id: json['id'],
         level: json['level'],
         name: json['name'],
-        icon: json['icon'],
+        // icon: json['icon'],
+        icon: 'https://i.loli.net/2019/06/09/5cfcecf50b1a933337.png',
         desc: json['desc']);
   }
 }
@@ -41,7 +42,8 @@ class Feature {
   factory Feature.fromJSON(Map<dynamic, dynamic> json) {
     return new Feature(
       name: json['name'],
-      icon: json['icon'],
+      // icon: json['icon'],
+      icon: 'https://i.loli.net/2019/06/09/5cfcecf50b1a933337.png',
       desc: json['desc'],
     );
   }

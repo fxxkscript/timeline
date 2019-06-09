@@ -5,6 +5,7 @@ import 'package:wshop/api/member.dart';
 import 'package:wshop/models/purchase.dart';
 import 'package:wshop/api/purchase.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:wshop/components/PurchaseTabIndicator.dart';
 
 class PurchaseScreen extends StatefulWidget {
   PurchaseScreen({Key key});
@@ -53,11 +54,25 @@ class PurchaseState extends State<PurchaseScreen>
                 child: Column(children: <Widget>[
                   UserInfoBrief(),
                   Container(height: 20),
-                  TabBar(
-                      controller: _controller,
-                      tabs: snapshot.data
-                          .map((right) => Tab(text: right.level.name))
-                          .toList()),
+                  Container(
+                      color: Color(0xfff6f6f6),
+                      child: TabBar(
+                          controller: _controller,
+                          indicator: PurchaseTabIndicator(),
+                          tabs: snapshot.data
+                              .map((right) => Tab(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Image.network(right.level.icon,
+                                            width: 16, height: 16),
+                                        Container(width: 4),
+                                        Text(right.level.name,
+                                            style: TextStyle(
+                                                color: Color(0xff333333))),
+                                      ],
+                                    ),
+                                  ))
+                              .toList())),
                   Expanded(
                     child: TabBarView(
                         controller: _controller,
@@ -95,11 +110,11 @@ class _Content extends StatelessWidget {
               _showPurchaseModal(context);
             }),
             Padding(
-              padding: const EdgeInsets.only(top: 5.0, bottom: 30),
+              padding: const EdgeInsets.only(top: 5.0, bottom: 60),
               child: Text('购买请联系客服',
                   style: TextStyle(fontSize: 12, color: Color(0xff666666))),
             ),
-            _FeatureList(right.features)
+            _FeatureList(right.level.name, right.features)
           ],
         ),
       ),
@@ -170,14 +185,60 @@ class PurchaseButton extends StatelessWidget {
 
 class _FeatureList extends StatelessWidget {
   final List<Feature> features;
+  final String title;
 
-  _FeatureList(this.features);
+  _FeatureList(this.title, this.features);
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> items = [
+      Container(
+        padding: EdgeInsets.only(top: 20),
+        height: 170,
+        child: GridView.count(
+            crossAxisCount: 3,
+            mainAxisSpacing: 20,
+            crossAxisSpacing: 5,
+            childAspectRatio: 1.7,
+            children: features
+                .map((item) => GridTile(
+                        child: Container(
+                      padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Image.network(item.icon, width: 31, height: 31),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 5.0),
+                                  child: Text(item.name,
+                                      style: TextStyle(fontSize: 12)),
+                                ),
+                              ],
+                            ),
+                            Spacer(),
+                            Text(
+                              item.desc,
+                              style: TextStyle(
+                                  fontSize: 12, color: Color(0xff999999)),
+                            )
+                          ]),
+                    )))
+                .toList()),
+      )
+    ];
+    items.insert(
+        0,
+        Text('${this.title}特权',
+            style: Theme.of(context)
+                .textTheme
+                .headline
+                .copyWith(fontWeight: FontWeight.bold)));
     return Container(
         child: Column(
-      children: features.map((item) => Text(item.name)).toList(),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: items,
     ));
   }
 }
