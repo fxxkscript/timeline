@@ -63,8 +63,10 @@ class PurchaseState extends State<PurchaseScreen>
                               .map((right) => Tab(
                                     child: Row(
                                       children: <Widget>[
-                                        Image.network(right.level.icon,
-                                            width: 16, height: 16),
+                                        right.level.icon.isEmpty
+                                            ? Container()
+                                            : Image.network(right.level.icon,
+                                                width: 16, height: 16),
                                         Container(width: 4),
                                         Text(right.level.name,
                                             style: TextStyle(
@@ -101,7 +103,7 @@ class _Content extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: <Widget>[
-            PriceCard(120),
+            PriceCard(right.levelGoods),
             Container(height: 10),
             PurchaseButton('已有授权码，输入兑换 >', () async {
               // TODO: remove test code
@@ -123,9 +125,9 @@ class _Content extends StatelessWidget {
 }
 
 class PriceCard extends StatelessWidget {
-  final int price;
+  final LevelGoods levelGoods;
 
-  PriceCard(this.price);
+  PriceCard(this.levelGoods);
 
   @override
   Widget build(BuildContext context) {
@@ -136,22 +138,31 @@ class PriceCard extends StatelessWidget {
           'assets/price_bg.png',
           fit: BoxFit.contain,
         ),
-        Positioned(
-            child: Row(
+        DefaultTextStyle(
+          style: TextStyle(color: Color(0xFFFCEAB8)),
+          child: Positioned(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5.0),
-                    child: Text(price.toString(),
-                        style:
-                            TextStyle(color: Color(0xFFFCEAB8), fontSize: 48)),
-                  ),
-                  Text('${(price / 12)}元/月',
-                      style: TextStyle(color: Color(0xFFFCEAB8), fontSize: 13))
+                  Text('${levelGoods.typeName}⋅${levelGoods.days}天',
+                      style: TextStyle(fontSize: 15)),
+                  Container(height: 12),
+                  Row(
+                      children: <Widget>[
+                        Text('￥', style: TextStyle(fontSize: 18)),
+                        Text(levelGoods.price, style: TextStyle(fontSize: 48)),
+                        Container(width: 5),
+                        Text(
+                            '${levelGoods.perPrice}元/${levelGoods.perUnitName}',
+                            style: TextStyle(fontSize: 13))
+                      ],
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic),
                 ],
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic),
-            left: 65,
-            bottom: 28),
+              ),
+              left: 60,
+              top: 45),
+        ),
       ],
     ));
   }
@@ -199,7 +210,7 @@ class _FeatureList extends StatelessWidget {
             crossAxisCount: 3,
             mainAxisSpacing: 20,
             crossAxisSpacing: 5,
-            childAspectRatio: 1.7,
+            childAspectRatio: 1.8,
             children: features
                 .map((item) => GridTile(
                         child: Container(
