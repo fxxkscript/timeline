@@ -168,6 +168,76 @@ class UserScreenState extends State<UserScreen> {
                     index = index - 1;
                     var time = DateTime.parse(_items[index].createdAt);
 
+                    List<Widget> widgets = <Widget>[
+                      Container(
+                        width: 80,
+                        height: 100,
+                        child: Stack(
+                          children: <Widget>[
+                            Positioned(
+                              left: 0,
+                              top: 0,
+                              child: Text('${time.day}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .title
+                                      .copyWith(fontSize: 30)),
+                            ),
+                            Positioned(
+                                left: 40,
+                                top: 16,
+                                child: Text('${time.month}月',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .title
+                                        .copyWith(fontSize: 12))),
+                          ],
+                        ),
+                      ),
+                    ];
+                    if (_items[index].pics.length > 0) {
+                      widgets.add(Container(
+                          width: 74,
+                          height: 74,
+                          margin: EdgeInsets.only(right: 10),
+                          child: FeedImage(
+                              type: FeedImageType.multiple,
+                              imageList: _items[index].pics)));
+                    }
+                    widgets.add(Expanded(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(_items[index].content,
+                            style: Theme.of(context).textTheme.body1),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text('共 ${_items[index].pics.length} 张',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle
+                                    .copyWith(fontSize: 12)),
+                            ButtonTheme(
+                              minWidth: 40,
+                              child: FlatButton(
+                                  child: Text(
+                                    '分享',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .body1
+                                        .copyWith(fontSize: 12),
+                                  ),
+                                  onPressed: () {
+                                    _share(_items[index].pics);
+                                  }),
+                            )
+                          ],
+                        ),
+                      ],
+                    )));
+
                     return Container(
                         decoration: BoxDecoration(),
                         padding: EdgeInsets.only(bottom: 10, right: 20),
@@ -175,75 +245,7 @@ class UserScreenState extends State<UserScreen> {
                         child: Stack(children: [
                           Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  width: 80,
-                                  height: 100,
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Positioned(
-                                        left: 0,
-                                        top: 0,
-                                        child: Text('${time.day}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .title
-                                                .copyWith(fontSize: 30)),
-                                      ),
-                                      Positioned(
-                                          left: 40,
-                                          top: 16,
-                                          child: Text('${time.month}月',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .title
-                                                  .copyWith(fontSize: 12))),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                    width: 74,
-                                    height: 74,
-                                    margin: EdgeInsets.only(right: 10),
-                                    child: FeedImage(
-                                        type: FeedImageType.multiple,
-                                        imageList: _items[index].pics)),
-                                Expanded(
-                                    child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(_items[index].content,
-                                        style:
-                                            Theme.of(context).textTheme.body1),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text('共 ${_items[index].pics.length} 张',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle
-                                                .copyWith(fontSize: 12)),
-                                        ButtonTheme(
-                                          minWidth: 40,
-                                          child: FlatButton(
-                                              child: Text(
-                                                '分享',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .body1
-                                                    .copyWith(fontSize: 12),
-                                              ),
-                                              onPressed: () {
-                                                _share(_items[index].pics);
-                                              }),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                              ]),
+                              children: widgets),
                         ]));
                   },
                 ))),
