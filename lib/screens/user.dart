@@ -204,22 +204,39 @@ class UserScreenState extends State<UserScreen> {
                               type: FeedImageType.multiple,
                               imageList: _items[index].pics)));
                     }
+
+                    List<Widget> infos = [
+                      Text(_items[index].content,
+                          style: Theme.of(context).textTheme.body1)
+                    ];
+
+                    if (_items[index].pics.length > 0) {
+                      infos.add(Text('共 ${_items[index].pics.length} 张',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle
+                              .copyWith(fontSize: 12)));
+                    }
+
                     widgets.add(Expanded(
                         child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(_items[index].content,
-                            style: Theme.of(context).textTheme.body1),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text('共 ${_items[index].pics.length} 张',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle
-                                    .copyWith(fontSize: 12)),
-                            ButtonTheme(
+                      children: infos,
+                    )));
+
+                    return Container(
+                        decoration: BoxDecoration(),
+                        padding: EdgeInsets.only(bottom: 10, right: 20),
+                        margin: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                        child: Stack(children: [
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: widgets),
+                          Positioned(
+                            right: 10,
+                            bottom: 10,
+                            child: ButtonTheme(
                               minWidth: 40,
                               child: FlatButton(
                                   child: Text(
@@ -232,20 +249,8 @@ class UserScreenState extends State<UserScreen> {
                                   onPressed: () {
                                     _share(_items[index].pics);
                                   }),
-                            )
-                          ],
-                        ),
-                      ],
-                    )));
-
-                    return Container(
-                        decoration: BoxDecoration(),
-                        padding: EdgeInsets.only(bottom: 10, right: 20),
-                        margin: EdgeInsets.only(left: 10, top: 10, bottom: 10),
-                        child: Stack(children: [
-                          Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: widgets),
+                            ),
+                          )
                         ]));
                   },
                 ))),
