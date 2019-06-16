@@ -47,7 +47,7 @@ class HttpClient {
             context, '/login', (Route<dynamic> route) => false);
       }
     } on Exception catch (e) {
-      print(e.toString());
+      print(catchRequestError(e));
       throw (e);
     }
   }
@@ -81,7 +81,7 @@ class HttpClient {
             context, '/login', (Route<dynamic> route) => false);
       }
     } on Exception catch (e) {
-      print(e.toString());
+      print(catchRequestError(e));
       throw (e);
     }
   }
@@ -97,5 +97,13 @@ class HttpClient {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString(
         key, (value != null && value.length > 0) ? value : "");
+  }
+
+  static catchRequestError(e) {
+    if (e.response is Response) {
+      return e.response.data["message"];
+    } else {
+      return e.message;
+    }
   }
 }

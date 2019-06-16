@@ -3,8 +3,8 @@ import 'package:wshop/models/auth.dart';
 import 'package:wshop/api/member.dart';
 import 'package:wshop/models/purchase.dart';
 import 'package:wshop/api/purchase.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:wshop/components/PurchaseTabIndicator.dart';
+import 'package:wshop/components/PurchaseModal.dart';
 
 class PurchaseScreen extends StatefulWidget {
   PurchaseScreen({Key key});
@@ -108,7 +108,7 @@ class _Content extends StatelessWidget {
               // TODO: remove test code
               final code = await createActivation(context);
               print(code);
-              _showPurchaseModal(context);
+              showPurchaseModal(context, '输入授权码', '确认兑换', createMember);
             }),
             Padding(
               padding: const EdgeInsets.only(top: 5.0, bottom: 60),
@@ -133,11 +133,7 @@ class PriceCard extends StatelessWidget {
     return Container(
         child: Stack(
       children: <Widget>[
-        Image.asset(
-          'assets/price_bg.png',
-          fit: BoxFit.contain,
-          width: 300
-        ),
+        Image.asset('assets/price_bg.png', fit: BoxFit.contain, width: 300),
         DefaultTextStyle(
           style: TextStyle(color: Color(0xFFFCEAB8)),
           child: Positioned(
@@ -165,32 +161,6 @@ class PriceCard extends StatelessWidget {
         ),
       ],
     ));
-  }
-}
-
-class PurchaseButton extends StatelessWidget {
-  final String text;
-  final Function onPressed;
-
-  PurchaseButton(this.text, this.onPressed);
-
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-        onPressed: onPressed,
-        child: Container(
-            height: 44,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(22),
-                gradient: LinearGradient(colors: [
-                  Color.fromARGB(255, 65, 61, 62),
-                  Color.fromARGB(255, 27, 25, 26)
-                ])),
-            child: Center(
-                child: Text(text,
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(255, 252, 234, 184))))));
   }
 }
 
@@ -299,45 +269,4 @@ class UserInfoBrief extends StatelessWidget {
       ),
     );
   }
-}
-
-_showPurchaseModal(context) {
-  final textController = TextEditingController();
-  return showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-            height: 300,
-            decoration: BoxDecoration(color: Colors.white),
-            child: Padding(
-              padding: const EdgeInsets.all(64.0),
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    controller: textController,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: '输入授权码',
-                        fillColor: Color(0xFFF6F6F6),
-                        filled: true),
-                  ),
-                  Container(height: 24),
-                  PurchaseButton('确认兑换', () async {
-                    if (textController.text.isEmpty) {
-                      return;
-                    }
-                    String msg;
-                    try {
-                      await createMember(context, textController.text);
-                      msg = '激活成功';
-                      Navigator.pop(context);
-                    } catch (e) {
-                      msg = e.toString();
-                    }
-                    showToast(msg, textPadding: EdgeInsets.all(15));
-                  }),
-                ],
-              ),
-            ));
-      });
 }

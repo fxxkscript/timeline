@@ -13,3 +13,12 @@ Future<UserAgencyIntroData> fetchUserAgencyIntro(context) async {
     return UserAgencyIntroData();
   }
 }
+
+Future invitedByCode(context, String invitationCode) async {
+  try {
+    return await HttpClient().get(context, 'uc/invitation/invitedByCode',
+        {"invitationCode": invitationCode});
+  } catch (e) {
+    throw HttpClient.catchRequestError(e);
+  }
+}

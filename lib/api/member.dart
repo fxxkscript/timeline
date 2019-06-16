@@ -26,5 +26,9 @@ Future<String> createActivation(context) async {
 }
 
 Future createMember(context, String code) async {
-  return await HttpClient().get(context, 'uc/member/create', { "code": code });
+  try {
+    return await HttpClient().get(context, 'uc/member/create', {"code": code});
+  } catch (e) {
+    throw HttpClient.catchRequestError(e);
+  }
 }
