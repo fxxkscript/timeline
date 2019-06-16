@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/api/member.dart';
@@ -137,6 +136,7 @@ class PriceCard extends StatelessWidget {
         Image.asset(
           'assets/price_bg.png',
           fit: BoxFit.contain,
+          width: 300
         ),
         DefaultTextStyle(
           style: TextStyle(color: Color(0xFFFCEAB8)),
@@ -146,7 +146,7 @@ class PriceCard extends StatelessWidget {
                 children: <Widget>[
                   Text('${levelGoods.typeName}⋅${levelGoods.days}天',
                       style: TextStyle(fontSize: 15)),
-                  Container(height: 12),
+                  Container(height: 5),
                   Row(
                       children: <Widget>[
                         Text('￥', style: TextStyle(fontSize: 18)),

@@ -7,6 +7,7 @@ import 'package:wshop/screens/settings/profile.dart';
 import 'package:wshop/screens/settings/qrcode.dart';
 import 'package:wshop/screens/welcome.dart';
 import 'package:wshop/screens/authorization/purchase.dart';
+import 'package:wshop/screens/authorization/userAgencyIntro.dart';
 
 final routes = {
   '/': (BuildContext context) => HomeScreen(),
@@ -17,4 +18,5 @@ final routes = {
   '/settings/profile': (BuildContext context) => ProfileScreen(),
   '/settings/qrcode': (BuildContext context) => QRCodeScreen(),
   '/authorization/purchase': (BuildContext context) => PurchaseScreen(),
+  '/authorization/userAgencyIntro': (BuildContext context) => UserAgencyIntro(),
 };

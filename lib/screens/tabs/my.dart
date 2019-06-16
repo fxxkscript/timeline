@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wshop/api/my.dart';
 import 'package:wshop/models/my.dart';
 
-
 class MyTab extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -49,11 +48,11 @@ class MyTabState extends State<MyTab> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Container(
-                                  margin:
-                                  EdgeInsets.only(top: 50, left: 24, right: 26),
+                                  margin: EdgeInsets.only(
+                                      top: 50, left: 24, right: 26),
                                   child: Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Container(
                                         margin: EdgeInsets.only(right: 10),
@@ -65,13 +64,13 @@ class MyTabState extends State<MyTab> {
                                                 color: Color.fromARGB(
                                                     255, 248, 248, 248)),
                                             child: Image.network(
-                                              snapshot.data.user.avatar,
-                                              width: 64,
-                                              height: 64,
-                                              fit: BoxFit.cover
-                                            ),
+                                                snapshot.data.user.avatar,
+                                                width: 64,
+                                                height: 64,
+                                                fit: BoxFit.cover),
                                           ),
-                                          borderRadius: BorderRadius.circular(28),
+                                          borderRadius:
+                                              BorderRadius.circular(28),
                                         ),
                                       ),
                                       Expanded(
@@ -82,7 +81,7 @@ class MyTabState extends State<MyTab> {
                                           },
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
                                                 snapshot.data.user.nickname,
@@ -119,11 +118,13 @@ class MyTabState extends State<MyTab> {
                                   margin: EdgeInsets.only(top: 20, bottom: 30),
                                   child: Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                        MainAxisAlignment.spaceAround,
                                     children: <Widget>[
                                       Column(
                                         children: <Widget>[
-                                          Text(snapshot.data.statis.tweets.toString(),
+                                          Text(
+                                              snapshot.data.statis.tweets
+                                                  .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .title
@@ -137,7 +138,9 @@ class MyTabState extends State<MyTab> {
                                       ),
                                       Column(
                                         children: <Widget>[
-                                          Text(snapshot.data.statis.friends.toString(),
+                                          Text(
+                                              snapshot.data.statis.friends
+                                                  .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .title
@@ -151,7 +154,9 @@ class MyTabState extends State<MyTab> {
                                       ),
                                       Column(
                                         children: <Widget>[
-                                          Text(snapshot.data.statis.followers.toString(),
+                                          Text(
+                                              snapshot.data.statis.followers
+                                                  .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .title
@@ -174,7 +179,8 @@ class MyTabState extends State<MyTab> {
                                       height: 52,
                                     ),
                                     onTap: () {
-                                      Navigator.of(context).pushNamed("/authorization/purchase");
+                                      Navigator.of(context)
+                                          .pushNamed("/authorization/purchase");
                                     },
                                   ),
                                 )
@@ -186,13 +192,17 @@ class MyTabState extends State<MyTab> {
                           child: Column(
                             children: <Widget>[
                               GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                        "/authorization/userAgencyIntro");
+                                  },
                                   child: Container(
                                     height: 68,
-                                    margin: EdgeInsets.only(left: 16, right: 18),
+                                    margin:
+                                        EdgeInsets.only(left: 16, right: 18),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Container(
                                             margin: EdgeInsets.only(
@@ -205,37 +215,39 @@ class MyTabState extends State<MyTab> {
                                         Expanded(
                                           child: Text(
                                             '邀请好友',
-                                            style:
-                                            Theme.of(context).textTheme.body1,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .body1,
                                           ),
                                         ),
                                         Container(
                                             child: Row(
-                                              children: <Widget>[
-                                                Column(
-                                                  mainAxisAlignment:
+                                          children: <Widget>[
+                                            Column(
+                                              mainAxisAlignment:
                                                   MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      '邀请有奖',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .body1,
-                                                    ),
-                                                    Text('累计邀请${snapshot.data.invitationNum}人',
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .subtitle
-                                                            .copyWith(fontSize: 12))
-                                                  ],
+                                              children: <Widget>[
+                                                Text(
+                                                  '邀请有奖',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .body1,
                                                 ),
-                                                Icon(
-                                                  Icons.chevron_right,
-                                                  color: Color.fromARGB(
-                                                      255, 209, 209, 214),
-                                                )
+                                                Text(
+                                                    '累计邀请${snapshot.data.invitationNum}人',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle
+                                                        .copyWith(fontSize: 12))
                                               ],
-                                            ))
+                                            ),
+                                            Icon(
+                                              Icons.chevron_right,
+                                              color: Color.fromARGB(
+                                                  255, 209, 209, 214),
+                                            )
+                                          ],
+                                        ))
                                       ],
                                     ),
                                   )),
@@ -243,10 +255,11 @@ class MyTabState extends State<MyTab> {
                                   onTap: () {},
                                   child: Container(
                                     height: 68,
-                                    margin: EdgeInsets.only(left: 16, right: 18),
+                                    margin:
+                                        EdgeInsets.only(left: 16, right: 18),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Container(
                                             margin: EdgeInsets.only(
@@ -259,37 +272,39 @@ class MyTabState extends State<MyTab> {
                                         Expanded(
                                           child: Text(
                                             '提现与反佣',
-                                            style:
-                                            Theme.of(context).textTheme.body1,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .body1,
                                           ),
                                         ),
                                         Container(
                                             child: Row(
-                                              children: <Widget>[
-                                                Column(
-                                                  mainAxisAlignment:
+                                          children: <Widget>[
+                                            Column(
+                                              mainAxisAlignment:
                                                   MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      '¥${snapshot.data.withdrawCash.canWithdrawMoney/100} 可提现',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .body1,
-                                                    ),
-                                                    Text('已提现¥${snapshot.data.withdrawCash.withdrawnMoney/100}',
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .subtitle
-                                                            .copyWith(fontSize: 12))
-                                                  ],
+                                              children: <Widget>[
+                                                Text(
+                                                  '¥${snapshot.data.withdrawCash.canWithdrawMoney / 100} 可提现',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .body1,
                                                 ),
-                                                Icon(
-                                                  Icons.chevron_right,
-                                                  color: Color.fromARGB(
-                                                      255, 209, 209, 214),
-                                                )
+                                                Text(
+                                                    '已提现¥${snapshot.data.withdrawCash.withdrawnMoney / 100}',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle
+                                                        .copyWith(fontSize: 12))
                                               ],
-                                            ))
+                                            ),
+                                            Icon(
+                                              Icons.chevron_right,
+                                              color: Color.fromARGB(
+                                                  255, 209, 209, 214),
+                                            )
+                                          ],
+                                        ))
                                       ],
                                     ),
                                   )),
@@ -304,10 +319,11 @@ class MyTabState extends State<MyTab> {
                                   onTap: () {},
                                   child: Container(
                                     height: 68,
-                                    margin: EdgeInsets.only(left: 16, right: 18),
+                                    margin:
+                                        EdgeInsets.only(left: 16, right: 18),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Container(
                                             margin: EdgeInsets.only(
@@ -320,20 +336,21 @@ class MyTabState extends State<MyTab> {
                                         Expanded(
                                           child: Text(
                                             '咨询客服',
-                                            style:
-                                            Theme.of(context).textTheme.body1,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .body1,
                                           ),
                                         ),
                                         Container(
                                             child: Row(
-                                              children: <Widget>[
-                                                Icon(
-                                                  Icons.chevron_right,
-                                                  color: Color.fromARGB(
-                                                      255, 209, 209, 214),
-                                                )
-                                              ],
-                                            ))
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.chevron_right,
+                                              color: Color.fromARGB(
+                                                  255, 209, 209, 214),
+                                            )
+                                          ],
+                                        ))
                                       ],
                                     ),
                                   )),
@@ -341,10 +358,11 @@ class MyTabState extends State<MyTab> {
                                   onTap: () {},
                                   child: Container(
                                     height: 68,
-                                    margin: EdgeInsets.only(left: 16, right: 18),
+                                    margin:
+                                        EdgeInsets.only(left: 16, right: 18),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Container(
                                             margin: EdgeInsets.only(
@@ -357,20 +375,21 @@ class MyTabState extends State<MyTab> {
                                         Expanded(
                                           child: Text(
                                             '设置',
-                                            style:
-                                            Theme.of(context).textTheme.body1,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .body1,
                                           ),
                                         ),
                                         Container(
                                             child: Row(
-                                              children: <Widget>[
-                                                Icon(
-                                                  Icons.chevron_right,
-                                                  color: Color.fromARGB(
-                                                      255, 209, 209, 214),
-                                                )
-                                              ],
-                                            ))
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.chevron_right,
+                                              color: Color.fromARGB(
+                                                  255, 209, 209, 214),
+                                            )
+                                          ],
+                                        ))
                                       ],
                                     ),
                                   )),
