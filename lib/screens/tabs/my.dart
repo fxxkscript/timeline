@@ -252,7 +252,10 @@ class MyTabState extends State<MyTab> {
                                     ),
                                   )),
                               GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                        "/withdraw");
+                                  },
                                   child: Container(
                                     height: 68,
                                     margin:

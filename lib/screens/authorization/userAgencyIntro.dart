@@ -5,16 +5,14 @@ import 'package:wshop/api/userAgencyIntro.dart';
 import 'package:wshop/models/userAgencyIntro.dart';
 import 'package:wshop/components/PurchaseModal.dart';
 
-class UserAgencyIntro extends StatefulWidget {
-  UserAgencyIntro({Key key});
-
+class UserAgencyIntroScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return UserAgencyIntroState();
+    return UserAgencyIntroScreenState();
   }
 }
 
-class UserAgencyIntroState extends State<UserAgencyIntro> {
+class UserAgencyIntroScreenState extends State<UserAgencyIntroScreen> {
   Future<UserAgencyIntroData> _fetchData;
 
   @override

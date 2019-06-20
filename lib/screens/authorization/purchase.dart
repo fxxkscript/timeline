@@ -7,8 +7,6 @@ import 'package:wshop/components/PurchaseTabIndicator.dart';
 import 'package:wshop/components/PurchaseModal.dart';
 
 class PurchaseScreen extends StatefulWidget {
-  PurchaseScreen({Key key});
-
   @override
   State<StatefulWidget> createState() {
     return PurchaseState();
