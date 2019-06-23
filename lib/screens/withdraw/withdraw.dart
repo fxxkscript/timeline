@@ -45,7 +45,9 @@ class WithdrawScreenState extends State<WithdrawScreen> {
             Center(
                 child: Padding(
               padding: const EdgeInsets.only(right: 16.0),
-              child: Text('资金明细'),
+              child: GestureDetector(child: Text('资金明细'), onTap: () {
+                Navigator.pushNamed(context, '/fundFlow');
+              },),
             ))
           ],
         ),
@@ -117,10 +119,39 @@ class WithdrawScreenState extends State<WithdrawScreen> {
   }
 }
 
-class WithdrawModal extends StatelessWidget {
+class WithdrawModal extends StatefulWidget {
   final UserAsset userAsset;
 
   WithdrawModal(this.userAsset);
+
+  @override
+  State<StatefulWidget> createState() {
+    return WithdrawModalState(userAsset);
+  }
+}
+
+class WithdrawModalState extends State<WithdrawModal> {
+  final UserAsset userAsset;
+  final TextEditingController _inputController = new TextEditingController();
+  String inputText = '';
+
+  WithdrawModalState(this.userAsset);
+
+  @override
+  void dispose() {
+    _inputController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    _inputController.addListener(() {
+      setState(() {
+        inputText = _inputController.text;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -187,19 +218,21 @@ class WithdrawModal extends StatelessWidget {
         children: <Widget>[
           Text('提现金额'),
           TextField(
+              controller: _inputController,
+              keyboardType: TextInputType.number,
               cursorColor: Theme.of(context).primaryColor,
               style: TextStyle(fontSize: 36),
               decoration: new InputDecoration(
                   border: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color(0xFFE5E5E5), width: 0.5)
-                  ),
+                      borderSide:
+                          BorderSide(color: Color(0xFFE5E5E5), width: 0.5)),
                   focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color(0xFFE5E5E5), width: 0.5)
-                  ),
+                      borderSide:
+                          BorderSide(color: Color(0xFFE5E5E5), width: 0.5)),
                   prefixIcon: Text(
-                '￥',
-                style: TextStyle(fontSize: 36),
-              ))),
+                    '￥',
+                    style: TextStyle(fontSize: 36),
+                  ))),
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
             child: Text('共￥${userAsset.availableAmount.toStringAsFixed(2)}可提现',
@@ -210,15 +243,19 @@ class WithdrawModal extends StatelessWidget {
             child: FlatButton(
               child: Text('立即提现', style: TextStyle(color: Colors.white)),
               color: Theme.of(context).primaryColor,
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).push(
-                  CupertinoPageRoute<bool>(
-                    fullscreenDialog: true,
-                    builder: (BuildContext context) =>
-                        WithdrawSuccessModal(userAsset),
-                  ),
-                );
-              },
+              disabledColor: Color(0x880CC160),
+              onPressed: inputText.isEmpty
+                  ? null
+                  : () {
+                      Navigator.of(context, rootNavigator: true).push(
+                        CupertinoPageRoute<bool>(
+                          fullscreenDialog: true,
+                          builder: (BuildContext context) =>
+                              WithdrawSuccessModal(userAsset,
+                                  double.parse(_inputController.text)),
+                        ),
+                      );
+                    },
             ),
           )
         ],

@@ -9,6 +9,7 @@ import 'package:wshop/screens/welcome.dart';
 import 'package:wshop/screens/authorization/purchase.dart';
 import 'package:wshop/screens/authorization/userAgencyIntro.dart';
 import 'package:wshop/screens/withdraw/withdraw.dart';
+import 'package:wshop/screens/withdraw/fundFlow.dart';
 
 final routes = {
   '/': (BuildContext context) => HomeScreen(),
@@ -21,4 +22,5 @@ final routes = {
   '/authorization/purchase': (BuildContext context) => PurchaseScreen(),
   '/authorization/userAgencyIntro': (BuildContext context) => UserAgencyIntroScreen(),
   '/withdraw': (BuildContext context) => WithdrawScreen(),
+  '/fundFlow': (BuildContext context) => FundFlowScreen(),
 };
