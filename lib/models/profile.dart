@@ -1,5 +1,6 @@
 import 'package:wshop/models/my.dart';
 
+import 'author.dart';
 
 class Detail {
   final int uid;
@@ -18,7 +19,6 @@ class Detail {
   }
 }
 
-
 class Profile {
   final User user;
   final Detail detail;
@@ -27,8 +27,28 @@ class Profile {
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return new Profile(
-        user: User.fromJson(json['user']),
-        detail: Detail.fromJson(json['detail']),
+      user: User.fromJson(json['user']),
+      detail: Detail.fromJson(json['detail']),
     );
+  }
+}
+
+class TimelineProfile {
+  Author author;
+  String signature;
+  bool isFriend;
+  int news;
+  int tweets;
+
+  TimelineProfile(
+      {this.author, this.signature, this.isFriend, this.news, this.tweets});
+
+  factory TimelineProfile.fromJson(Map<String, dynamic> json) {
+    return TimelineProfile(
+        author: Author.fromJson(json),
+        signature: json['signature'],
+        isFriend: json['isFriend'],
+        news: json['news'],
+        tweets: json['tweets']);
   }
 }

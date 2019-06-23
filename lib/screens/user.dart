@@ -4,10 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wshop/api/feeds.dart';
+import 'package:wshop/api/friends.dart';
+import 'package:wshop/api/profile.dart';
 import 'package:wshop/components/FeedImage.dart';
-import 'package:wshop/models/auth.dart';
+import 'package:wshop/components/FollowBtn.dart';
 import 'package:wshop/models/author.dart';
 import 'package:wshop/models/feeds.dart';
+import 'package:wshop/models/profile.dart';
 
 class UserScreen extends StatefulWidget {
   final Author author;
@@ -25,6 +28,7 @@ class UserScreenState extends State<UserScreen> {
   List<Feed> _items = [];
   Feeds feeds;
   int alpha = 0;
+  TimelineProfile _timelineProfile = TimelineProfile(author: Author(0, '', ''));
 
   Future<void> _share(List<String> pics) async {
     try {
@@ -40,6 +44,14 @@ class UserScreenState extends State<UserScreen> {
     super.initState();
 
     _getList();
+    _getProfile();
+  }
+
+  Future<void> _getProfile() async {
+    var tmp = await getTimelineProfile(context, widget.author.uid);
+    setState(() {
+      _timelineProfile = tmp;
+    });
   }
 
   Future<void> _getList() async {
@@ -106,8 +118,11 @@ class UserScreenState extends State<UserScreen> {
                             left: 12,
                             top: 89,
                             child: ClipRRect(
-                              child: Image.network(Auth().avatar,
-                                  width: 64, height: 64, fit: BoxFit.cover),
+                              child: Image.network(
+                                  _timelineProfile.author.avatar,
+                                  width: 64,
+                                  height: 64,
+                                  fit: BoxFit.cover),
                               borderRadius: BorderRadius.circular(32),
                             ),
                           ),
@@ -123,7 +138,7 @@ class UserScreenState extends State<UserScreen> {
                           Positioned(
                             left: 92,
                             top: 129,
-                            child: Text('知耻而后勇，后来者居上。',
+                            child: Text(_timelineProfile.signature,
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline
@@ -133,7 +148,8 @@ class UserScreenState extends State<UserScreen> {
                           Positioned(
                             left: 92,
                             top: 166,
-                            child: Text('上新 20                总数 100',
+                            child: Text(
+                                '上新 ${_timelineProfile.news}                总数 ${_timelineProfile.tweets}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline
@@ -141,27 +157,23 @@ class UserScreenState extends State<UserScreen> {
                                         color: Colors.white, fontSize: 12)),
                           ),
                           Positioned(
-                            right: 12,
-                            top: 108,
-                            child: FlatButton(
-                              onPressed: () {},
-                              child: Container(
-                                width: 90,
-                                height: 27,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: Center(
-                                    child: Text(
-                                  '关注',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: Color.fromARGB(255, 12, 193, 96)),
-                                )),
-                              ),
-                            ),
-                          )
+                              right: 12,
+                              top: 108,
+                              child: FollowBtn(
+                                isFollowed: _timelineProfile.isFriend,
+                                onPressed: (bool isFollowed) async {
+                                  if (isFollowed) {
+                                    await cancelFriend(
+                                        context: context,
+                                        id: _timelineProfile.author.uid);
+                                  } else {
+                                    await addFriend(
+                                        context: context,
+                                        id: _timelineProfile.author.uid);
+                                  }
+                                  await _getProfile();
+                                },
+                              ))
                         ]),
                       );
                     }
