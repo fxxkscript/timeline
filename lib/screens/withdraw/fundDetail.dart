@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:wshop/models/cashFlow.dart';
 
 class FundDetail extends StatefulWidget {
+  final CashDetail cashDetail;
+
+  FundDetail(this.cashDetail);
+
   @override
   State<StatefulWidget> createState() {
-    return new FundDetailState();
+    return FundDetailState(cashDetail);
   }
 }
 
 class FundDetailState extends State<FundDetail> {
+  final CashDetail cashDetail;
+
+  FundDetailState(this.cashDetail);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,10 +33,10 @@ class FundDetailState extends State<FundDetail> {
               runSpacing: 6,
               children: <Widget>[
                 rowItem(
-                    '交易金额', Text('-405.87', style: TextStyle(fontSize: 36))),
+                    '交易金额', Text(cashDetail.formatDealAmount, style: TextStyle(fontSize: 36))),
                 rowItem(
                     '',
-                    Text('交易失败',
+                    Text(cashDetail.statusName,
                         style: TextStyle(
                             fontSize: 12,
                             color: Theme.of(context).primaryColor))),
@@ -35,10 +44,10 @@ class FundDetailState extends State<FundDetail> {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Divider(height: 0.5, indent: 16),
                 ),
-                rowItem('类型', '提现'),
-                rowItem('时间', '2019-02-19 09:00:00'),
-                rowItem('交易单号', '3865476587657867486237657856'),
-                rowItem('剩余金额', '405.94'),
+                rowItem('类型', cashDetail.cashTypeName),
+                rowItem('时间', cashDetail.createdAt),
+                rowItem('交易单号', cashDetail.payNo),
+                rowItem('剩余金额', cashDetail.formatAfterAvailableAmount),
               ],
             ),
           ),

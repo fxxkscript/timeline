@@ -53,7 +53,7 @@ class HttpClient {
   }
 
   Future get(BuildContext context, String endPoint,
-      [Map<String, String> params = const {}]) async {
+      [Map<String, dynamic> params = const {}]) async {
     Map<String, String> headers = {
       'X-Client-Id': 'weapp_wtzz_v1',
       'X-Tid': '1',
@@ -63,7 +63,6 @@ class HttpClient {
     if (token != null) {
       headers['X-Access-Token'] = token;
     }
-
     print("get $endPoint $params");
     try {
       final response =

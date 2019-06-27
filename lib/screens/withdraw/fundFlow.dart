@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wshop/models/cashFlow.dart';
 import 'fundDetail.dart';
 
 class FundFlowScreen extends StatefulWidget {
@@ -8,9 +9,28 @@ class FundFlowScreen extends StatefulWidget {
   }
 }
 
-const list = [{}, {}, {}];
-
 class FundFlowScreenState extends State<FundFlowScreen> {
+  ScrollController _controller =
+      ScrollController(initialScrollOffset: 0.0, keepScrollOffset: true);
+
+  final CashFlow _cashFlow = CashFlow();
+
+  Future<CashFlow> _fetchCashFlow;
+
+  @override
+  void initState() {
+    _controller.addListener(() {
+      var isEnd = _controller.offset == _controller.position.maxScrollExtent;
+      if (isEnd)
+        setState(() {
+          _fetchCashFlow = _cashFlow.fetchMore(context);
+        });
+    });
+
+    _fetchCashFlow = _cashFlow.fetch(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,23 +39,32 @@ class FundFlowScreenState extends State<FundFlowScreen> {
           elevation: 0,
           backgroundColor: Theme.of(context).backgroundColor,
         ),
-        body: ListView.separated(
-          itemCount: list.length,
-          itemBuilder: (context, index) {
-            return fundItem();
-          },
-          separatorBuilder: (context, index) {
-            return Container(
-                color: Colors.white, child: Divider(height: 1, indent: 16.0));
+        body: FutureBuilder(
+          future: _fetchCashFlow,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: new CircularProgressIndicator());
+            }
+            return ListView.separated(
+              itemCount: _cashFlow.list.length,
+              itemBuilder: (context, index) {
+                return fundItem(_cashFlow.list[index]);
+              },
+              separatorBuilder: (context, index) {
+                return Container(
+                    color: Colors.white,
+                    child: Divider(height: 1, indent: 16.0));
+              },
+            );
           },
         ));
   }
 
-  Widget fundItem() {
+  Widget fundItem(CashDetail cashDetail) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => FundDetail()));
+            context, MaterialPageRoute(builder: (context) => FundDetail(cashDetail)));
       },
       child: Container(
           color: Colors.white,
@@ -46,8 +75,8 @@ class FundFlowScreenState extends State<FundFlowScreen> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('返佣'),
-                      Text('+ 5.00'),
+                      Text(cashDetail.cashTypeName),
+                      Text(cashDetail.formatDealAmount),
                     ]),
                 Container(height: 8),
                 DefaultTextStyle(
@@ -55,9 +84,9 @@ class FundFlowScreenState extends State<FundFlowScreen> {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text('2019-02-19 09:00:00',
+                        Text(cashDetail.createdAt,
                             style: TextStyle(color: Color(0xFFACACAC))),
-                        Text('处理中',
+                        Text(cashDetail.statusName,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor)),
                       ]),
