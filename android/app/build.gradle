@@ -70,7 +70,6 @@ flutter {
 
 dependencies {
     implementation 'com.sch.share:wx-share:1.0.6'
-    implementation 'com.qiniu:qiniu-android-sdk:7.3.15'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
