@@ -1,6 +1,5 @@
 #include "AppDelegate.h"
 #include "GeneratedPluginRegistrant.h"
-#import "QiniuSDK.h"
 
 @implementation AppDelegate
 
@@ -15,8 +14,6 @@
   [channel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
     if ([@"weixin" isEqualToString:call.method]) {
       [weakSelf share:call.arguments];
-    } else if ([@"upload" isEqualToString:call.method]) {
-      [weakSelf upload:call result:result];
     } else {
       result(FlutterMethodNotImplemented);
     }
@@ -58,23 +55,6 @@
       [self.window.rootViewController presentViewController:activityVC animated:TRUE completion:nil];
     });
   });
-}
-
-- (void)upload:(FlutterMethodCall*)call result:(FlutterResult)result
-{
-  NSString *token = call.arguments[@"token"];
-  FlutterStandardTypedData *imageData = call.arguments[@"imageData"];
-  NSString *key = call.arguments[@"key"];
-  
-  QNUploadManager *upManager = [[QNUploadManager alloc] init];
-  [upManager putData:[imageData data] key:key token:token
-            complete: ^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
-              NSLog(@"%@", info);
-              NSLog(@"%@", resp);
-              result(@(info.isOK));
-            } option:[QNUploadOption defaultOptions]];
-
-
 }
 
 @end
