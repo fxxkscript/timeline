@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends FlutterActivity {
-  private UploadManager uploadManager;
   private static final String CHANNEL = "com.meizizi.doraemon/door";
 
   @Override
