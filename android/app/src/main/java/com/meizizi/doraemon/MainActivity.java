@@ -57,14 +57,14 @@ public class MainActivity extends FlutterActivity {
     loadImage((List<String>) map.get("pics"), new OnLoadImageEndCallback() {
       @Override
       public void onEnd(List<Bitmap> bitmapList) {
-        shareToTimeline(bitmapList);
+        shareToTimeline(bitmapList, (String) map.get("text"));
       }
     });
   }
 
   // 分享到朋友圈。
-  private void shareToTimeline(List<Bitmap> bitmapList) {
-    WXShareMultiImageHelper.shareToTimeline(this, bitmapList, "hello");
+  private void shareToTimeline(List<Bitmap> bitmapList, String text) {
+    WXShareMultiImageHelper.shareToTimeline(this, bitmapList, text);
   }
 
 
