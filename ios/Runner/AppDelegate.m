@@ -28,12 +28,11 @@
   return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
 }
 
-- (void)share:(NSArray *)array
+- (void)share:(NSDictionary *)dict
 {
-  NSLog(@"%@", array);
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
     NSMutableArray *imageList = [[NSMutableArray alloc] init];
-    for (NSString *imageUrl in array) {
+    for (NSString *imageUrl in [dict objectForKey:@"pics"]) {
       NSLog(@"%@", imageUrl);
       NSString* webStringURL = [imageUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
       NSURL *url = [NSURL URLWithString:webStringURL];
