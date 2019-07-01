@@ -48,6 +48,11 @@ class EditorState extends State<Editor> {
       resultList = await MultiImagePicker.pickImages(
         maxImages: maxPhotos - images.length,
         enableCamera: true,
+        materialOptions: MaterialOptions(
+          actionBarTitle: "选择图片",
+          allViewTitle: "所有图片",
+          selectionLimitReachedText: "不能再选了",
+        ),
       );
     } catch (e) {
       showDialog(
