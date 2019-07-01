@@ -30,7 +30,7 @@ dependencies:
   flutter_image_compress: ^0.4.0
   qr_flutter: ^2.0.0
   dio: ^2.1.3
-  fluwx: 0.6.1
+  fluwx: 1.0.0
   uuid: ^2.0.1
   oktoast: ^2.1.7
 
