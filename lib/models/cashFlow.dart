@@ -17,9 +17,7 @@ class CashFlow {
 
   Future<CashFlow> fetch(context) async {
     try {
-      final response = await HttpClient().get(
-          context,
-          'trade/asset/findUserCashFlows',
+      final response = await HttpClient().get('trade/asset/findUserCashFlows',
           {"pageSize": pageSize, "cursor": cursor});
       List<CashDetail>.from(response['list']
           .map((item) => list.add(new CashDetail.fromJSON(item))));

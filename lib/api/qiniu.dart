@@ -21,8 +21,8 @@ class Qiniu {
     if (token != null && token.length > 0) {
       return token;
     }
-    var response = await HttpClient().post(context, 'toolkit/uploadToken/get',
-        {'materialType': 0, 'bizName': 'wtzz'});
+    var response = await HttpClient().post(
+        'toolkit/uploadToken/get', {'materialType': 0, 'bizName': 'wtzz'});
 
     token = response['token'];
     await HttpClient.setCache(TOKEN_NAME, token);
@@ -32,8 +32,8 @@ class Qiniu {
   static Future<String> refreshToken({
     @required BuildContext context,
   }) async {
-    var response = await HttpClient().post(context, 'toolkit/uploadToken/get',
-        {'materialType': 0, 'bizName': 'wtzz'});
+    var response = await HttpClient().post(
+        'toolkit/uploadToken/get', {'materialType': 0, 'bizName': 'wtzz'});
 
     String token = response['token'];
     await HttpClient.setCache(TOKEN_NAME, token);

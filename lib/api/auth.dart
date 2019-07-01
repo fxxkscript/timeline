@@ -5,14 +5,13 @@ import 'package:wshop/models/auth.dart';
 import 'package:wshop/utils/http_client.dart';
 
 void getCode(context, String mobile) async {
-  await HttpClient().post(context, 'account/auth/sendVerifyCode',
-      {'mobile': mobile, 'sendType': 'sms'});
+  await HttpClient().post(
+      'account/auth/sendVerifyCode', {'mobile': mobile, 'sendType': 'sms'});
 }
 
 Future login(context, String mobile, String code) async {
   try {
-    final response =
-        await HttpClient().post(context, 'uc/auth/verifyCodeAuthorize', {
+    final response = await HttpClient().post('uc/auth/verifyCodeAuthorize', {
       "client": {"clientId": "weapp_wtzz_v1"},
       "authorizationType": "verify_code",
       "authDetail": {"mobile": mobile, "verifyCode": code, "source": ""}
@@ -38,7 +37,7 @@ Future<bool> logout(context) {
 
 Future<bool> loginByWechat(context, String code) async {
   try {
-    var response = await HttpClient().post(context, 'uc/auth/weappAuthorize', {
+    var response = await HttpClient().post('uc/auth/weappAuthorize', {
       'authDetail': {'authorizationCode': code},
       'authorizationType': 'wechat_app',
       'client': {'clientId': 'weapp_wtzz_v1'}
@@ -61,7 +60,7 @@ Future<Auth> getUserBasic({
   @required BuildContext context,
 }) async {
   final response =
-      await HttpClient().post(context, 'uc/userBasic/getUserBasicByUid', {});
+      await HttpClient().post('uc/userBasic/getUserBasicByUid', {});
   return Auth().update(
       nickname: response['nickname'],
       avatar: response['avatar'],
