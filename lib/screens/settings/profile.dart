@@ -3,11 +3,11 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
-import 'package:wshop/models/profile.dart';
-import 'package:wshop/api/profile.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:wshop/api/profile.dart';
 import 'package:wshop/api/qiniu.dart';
+import 'package:wshop/models/profile.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -71,7 +71,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   void save(context) async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      final bool result = await saveProfile(context, _data.toMap());
+      final bool result = await saveProfile(_data.toMap());
 
       final snackBar = SnackBar(
         content: Text(result ? '保存成功' : '保存失败', textAlign: TextAlign.center),
@@ -83,7 +83,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return new FutureBuilder<Profile>(
-        future: fetchProfile(context),
+        future: fetchProfile(),
         builder: (context, snapshot) {
           final Scaffold scaffold = Scaffold(
               body: Builder(

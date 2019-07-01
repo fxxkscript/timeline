@@ -14,9 +14,7 @@ Dio dio = new Dio(BaseOptions(baseUrl: 'http://upload.qiniup.com'));
 class Qiniu {
   static const TOKEN_NAME = 'qiniu_token';
 
-  static Future<String> getToken({
-    @required BuildContext context,
-  }) async {
+  static Future<String> getToken() async {
     String token = await HttpClient.getCache(TOKEN_NAME);
     if (token != null && token.length > 0) {
       return token;
@@ -29,9 +27,7 @@ class Qiniu {
     return token;
   }
 
-  static Future<String> refreshToken({
-    @required BuildContext context,
-  }) async {
+  static Future<String> refreshToken() async {
     var response = await HttpClient().post(
         'toolkit/uploadToken/get', {'materialType': 0, 'bizName': 'wtzz'});
 
@@ -43,7 +39,7 @@ class Qiniu {
   static Future<String> upload(BuildContext context, Uint8List data) async {
     String key = uuid.v1() + '.jpg';
 
-    String token = await Qiniu.getToken(context: context);
+    String token = await Qiniu.getToken();
 
     FormData formData = new FormData.from({
       'token': token,
@@ -68,7 +64,7 @@ class Qiniu {
         print(e.request);
         print(e.message);
       }
-      await refreshToken(context: context);
+      await refreshToken();
       return await upload(context, data);
     }
 

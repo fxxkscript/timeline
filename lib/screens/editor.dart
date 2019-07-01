@@ -170,19 +170,17 @@ class EditorState extends State<Editor> {
                             list.add(key);
                           }));
 
-                          await publish(
-                              context,
-                              Feed(
-                                  0,
-                                  0,
-                                  Author(Auth().uid, Auth().nickname,
-                                      Auth().avatar),
-                                  textController.text,
-                                  list,
-                                  '',
-                                  0,
-                                  '',
-                                  false));
+                          await publish(Feed(
+                              0,
+                              0,
+                              Author(
+                                  Auth().uid, Auth().nickname, Auth().avatar),
+                              textController.text,
+                              list,
+                              '',
+                              0,
+                              '',
+                              false));
 
                           setState(() {
                             saving = false;

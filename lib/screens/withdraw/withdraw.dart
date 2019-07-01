@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:wshop/models/withdraw.dart';
+import 'package:flutter/material.dart';
 import 'package:wshop/api/withdraw.dart';
+import 'package:wshop/models/withdraw.dart';
+
 import 'withdrawSuccess.dart';
 
 class WithdrawScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class WithdrawScreenState extends State<WithdrawScreen> {
   @override
   void initState() {
     super.initState();
-    this._fetchUserAsset = fetchUserAsset(context);
+    this._fetchUserAsset = fetchUserAsset();
   }
 
   @override
@@ -45,9 +46,12 @@ class WithdrawScreenState extends State<WithdrawScreen> {
             Center(
                 child: Padding(
               padding: const EdgeInsets.only(right: 16.0),
-              child: GestureDetector(child: Text('资金明细'), onTap: () {
-                Navigator.pushNamed(context, '/fundFlow');
-              },),
+              child: GestureDetector(
+                child: Text('资金明细'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/fundFlow');
+                },
+              ),
             ))
           ],
         ),

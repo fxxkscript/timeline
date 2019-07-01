@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:wshop/models/member.dart';
 import 'package:wshop/utils/http_client.dart';
 
-Future<Member> fetchMemberInfo(context) async {
+Future<Member> fetchMemberInfo() async {
   try {
     final response = await HttpClient().get('uc/page/get');
     return new Member.fromJson(response);
@@ -13,7 +13,7 @@ Future<Member> fetchMemberInfo(context) async {
   }
 }
 
-Future<String> createActivation(context) async {
+Future<String> createActivation() async {
   final response = await HttpClient().post('uc/card/create', {
     "codePrefix": "PZ",
     "name": "高级会员年卡",
@@ -25,7 +25,7 @@ Future<String> createActivation(context) async {
   return response['code'];
 }
 
-Future createMember(context, String code) async {
+Future createMember(String code) async {
   try {
     return await HttpClient().get('uc/member/create', {"code": code});
   } catch (e) {

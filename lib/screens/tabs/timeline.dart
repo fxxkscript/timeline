@@ -65,7 +65,7 @@ class TimelineTabState extends State<TimelineTab> {
       cursor = feeds != null ? feeds.nextCursor : 0;
     }
 
-    feeds = await getTimeline(context, cursor);
+    feeds = await getTimeline(cursor);
 
     setState(() {
       if (refresh) {
@@ -207,7 +207,7 @@ class TimelineTabState extends State<TimelineTab> {
                                           _items[index].isZan = true;
                                           _items[index].star++;
                                         });
-                                        await star(context, _items[index]);
+                                        await star(_items[index]);
                                       }
                                     }),
                                 Text(

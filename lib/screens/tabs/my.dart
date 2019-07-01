@@ -15,7 +15,7 @@ class MyTabState extends State<MyTab> {
 
   @override
   void initState() {
-    _fetchMy = fetchMy(context);
+    _fetchMy = fetchMy();
     super.initState();
   }
 
@@ -360,7 +360,7 @@ class MyTabState extends State<MyTab> {
 //                                  )),
                               GestureDetector(
                                   onTap: () async {
-                                    await logout(context);
+                                    await logout();
                                     Navigator.pushReplacementNamed(
                                         context, '/login');
                                   },

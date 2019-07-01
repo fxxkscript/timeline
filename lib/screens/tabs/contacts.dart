@@ -25,8 +25,8 @@ class ContactsState extends State<Contacts> {
   }
 
   Future _getData() async {
-    Map<String, dynamic> data = await findFriend(context: context);
-    Map<String, dynamic> followerData = await findFollower(context: context);
+    Map<String, dynamic> data = await findFriend();
+    Map<String, dynamic> followerData = await findFollower();
 
     setState(() {
       list = data['list'];
@@ -164,11 +164,9 @@ class ContactsState extends State<Contacts> {
                           isFollowed: true,
                           onPressed: (bool isFollowed) async {
                             if (isFollowed) {
-                              await cancelFriend(
-                                  context: context, id: list[index].uid);
+                              await cancelFriend(id: list[index].uid);
                             } else {
-                              await addFriend(
-                                  context: context, id: list[index].uid);
+                              await addFriend(id: list[index].uid);
                             }
                             _getData();
                           },

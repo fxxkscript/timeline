@@ -58,7 +58,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
     if (form.validate()) {
       setState(() => _isLoading = true);
       form.save();
-      bool success = await login(context, _mobile, _code);
+      bool success = await login(_mobile, _code);
 
       setState(() => _isLoading = false);
 
@@ -75,7 +75,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
         _disabled = true;
         _count = timeout;
 
-        getCode(context, mobileController.text);
+        getCode(mobileController.text);
         FocusScope.of(context).requestFocus(focusNode);
       });
 

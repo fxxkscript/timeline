@@ -48,7 +48,7 @@ class UserScreenState extends State<UserScreen> {
   }
 
   Future<void> _getProfile() async {
-    var tmp = await getTimelineProfile(context, widget.author.uid);
+    var tmp = await getTimelineProfile(widget.author.uid);
     setState(() {
       _timelineProfile = tmp;
     });
@@ -61,7 +61,7 @@ class UserScreenState extends State<UserScreen> {
     int cursor = feeds != null ? feeds.nextCursor : 0;
 
     try {
-      feeds = await getUserFeeds(context, widget.author.uid, cursor);
+      feeds = await getUserFeeds(widget.author.uid, cursor);
       setState(() {
         _items.addAll(feeds.list);
       });
@@ -164,11 +164,9 @@ class UserScreenState extends State<UserScreen> {
                                 onPressed: (bool isFollowed) async {
                                   if (isFollowed) {
                                     await cancelFriend(
-                                        context: context,
                                         id: _timelineProfile.author.uid);
                                   } else {
                                     await addFriend(
-                                        context: context,
                                         id: _timelineProfile.author.uid);
                                   }
                                   await _getProfile();

@@ -1,15 +1,14 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/utils/http_client.dart';
 
-void getCode(context, String mobile) async {
+void getCode(String mobile) async {
   await HttpClient().post(
       'account/auth/sendVerifyCode', {'mobile': mobile, 'sendType': 'sms'});
 }
 
-Future login(context, String mobile, String code) async {
+Future login(String mobile, String code) async {
   try {
     final response = await HttpClient().post('uc/auth/verifyCodeAuthorize', {
       "client": {"clientId": "weapp_wtzz_v1"},
@@ -28,14 +27,14 @@ Future login(context, String mobile, String code) async {
   return true;
 }
 
-Future<bool> logout(context) {
+Future<bool> logout() {
   HttpClient.setCache('accessToken', '');
   HttpClient.setCache('refreshToken', '');
 
   return Future.value(true);
 }
 
-Future<bool> loginByWechat(context, String code) async {
+Future<bool> loginByWechat(String code) async {
   try {
     var response = await HttpClient().post('uc/auth/weappAuthorize', {
       'authDetail': {'authorizationCode': code},
@@ -56,9 +55,7 @@ Future<bool> loginByWechat(context, String code) async {
   return false;
 }
 
-Future<Auth> getUserBasic({
-  @required BuildContext context,
-}) async {
+Future<Auth> getUserBasic() async {
   final response =
       await HttpClient().post('uc/userBasic/getUserBasicByUid', {});
   return Auth().update(
