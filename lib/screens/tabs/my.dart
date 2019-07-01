@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wshop/api/auth.dart';
 import 'package:wshop/api/my.dart';
 import 'package:wshop/models/my.dart';
 
@@ -253,8 +254,8 @@ class MyTabState extends State<MyTab> {
                                   )),
                               GestureDetector(
                                   onTap: () {
-                                    Navigator.of(context).pushNamed(
-                                        "/withdraw");
+                                    Navigator.of(context)
+                                        .pushNamed("/withdraw");
                                   },
                                   child: Container(
                                     height: 68,
@@ -358,7 +359,10 @@ class MyTabState extends State<MyTab> {
                                     ),
                                   )),
                               GestureDetector(
-                                  onTap: () {},
+                                  onTap: () async {
+                                    await logout(context);
+                                    print('111');
+                                  },
                                   child: Container(
                                     height: 68,
                                     margin:

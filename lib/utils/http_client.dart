@@ -6,14 +6,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HttpClient {
   static final HttpClient _instance = new HttpClient._internal();
+  Dio dio;
 
-  HttpClient._internal();
+  HttpClient._internal() {
+    dio = Dio(BaseOptions(baseUrl: baseUrl));
+    dio.interceptors.add(InterceptorsWrapper(onError: (DioError e) async {
+      var context = e.request.extra['context'];
+      if (e.response.statusCode == 401 &&
+          e.request.path != 'account/auth/refreshToken') {
+        await refreshToken();
+      } else if (e.response.statusCode == 422 || e.response.statusCode == 511) {
+        await setCache('accessToken', '');
+        // go to signin
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/login', (Route<dynamic> route) => false);
+      }
+    }));
+  }
 
   factory HttpClient() => _instance;
 
   static const baseUrl = 'https://api.ippapp.com/';
-
-  Dio dio = Dio(BaseOptions(baseUrl: baseUrl));
 
   Future post(BuildContext context, String endPoint,
       [Map<String, dynamic> data = const {}]) async {
@@ -29,27 +42,13 @@ class HttpClient {
 
     print("post $endPoint $data");
 
-    try {
-      final response = await this
-          .dio
-          .post(endPoint, options: Options(headers: headers), data: data);
+    final response = await this.dio.post(endPoint,
+        options: Options(headers: headers, extra: {'context': context}),
+        data: data);
 
-      var statusCode = response.statusCode;
-      if (statusCode == 200) {
-        print("$statusCode $endPoint ${response.data}");
-        return response.data;
-      } else if (statusCode == 401 && endPoint != 'account/auth/refreshToken') {
-        await refreshToken();
-      } else if (statusCode == 422 || statusCode == 511) {
-        await setCache('accessToken', '');
-        // go to signin
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/login', (Route<dynamic> route) => false);
-      }
-    } on Exception catch (e) {
-      print(catchRequestError(e));
-      throw (e);
-    }
+    var statusCode = response.statusCode;
+    print("$statusCode $endPoint ${response.data}");
+    return response.data;
   }
 
   Future get(BuildContext context, String endPoint,
@@ -64,25 +63,12 @@ class HttpClient {
       headers['X-Access-Token'] = token;
     }
     print("get $endPoint $params");
-    try {
-      final response =
-          await this.dio.get(endPoint, options: RequestOptions(headers: headers, queryParameters: params));
-      var statusCode = response.statusCode;
-      if (statusCode == 200) {
-        print("$statusCode $endPoint ${response.data}");
-        return response.data;
-      } else if (statusCode == 401 && endPoint != 'account/auth/refreshToken') {
-        await refreshToken();
-      } else if (statusCode == 422 || statusCode == 511) {
-        await setCache('accessToken', '');
-        // go to signin
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/login', (Route<dynamic> route) => false);
-      }
-    } on Exception catch (e) {
-      print(catchRequestError(e));
-      throw (e);
-    }
+
+    final response = await this.dio.get(endPoint,
+        options: RequestOptions(headers: headers, queryParameters: params));
+    var statusCode = response.statusCode;
+    print("$statusCode $endPoint ${response.data}");
+    return response.data;
   }
 
   refreshToken() async {}

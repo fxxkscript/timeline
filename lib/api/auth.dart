@@ -29,6 +29,13 @@ Future login(context, String mobile, String code) async {
   return true;
 }
 
+Future<bool> logout(context) {
+  HttpClient.setCache('accessToken', '');
+  HttpClient.setCache('refreshToken', '');
+
+  return Future.value(true);
+}
+
 Future<bool> loginByWechat(context, String code) async {
   try {
     var response = await HttpClient().post(context, 'uc/auth/weappAuthorize', {
