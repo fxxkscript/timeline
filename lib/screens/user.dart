@@ -30,9 +30,10 @@ class UserScreenState extends State<UserScreen> {
   int alpha = 0;
   TimelineProfile _timelineProfile = TimelineProfile(author: Author(0, '', ''));
 
-  Future<void> _share(List<String> pics) async {
+  Future<void> _share(List<String> pics, String text) async {
     try {
-      final int result = await channel.invokeMethod('weixin', pics);
+      final int result =
+          await channel.invokeMethod('weixin', {'pics': pics, 'text': text});
       debugPrint(result.toString());
     } on PlatformException catch (e) {
       debugPrint(e.toString());
@@ -257,7 +258,8 @@ class UserScreenState extends State<UserScreen> {
                                         .copyWith(fontSize: 12),
                                   ),
                                   onPressed: () {
-                                    _share(_items[index].pics);
+                                    _share(_items[index].pics,
+                                        _items[index].content);
                                   }),
                             ),
                           )

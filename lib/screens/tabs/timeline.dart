@@ -26,9 +26,10 @@ class TimelineTabState extends State<TimelineTab> {
   bool isLoading = false;
   final PublishSubject<int> subject = PublishSubject<int>();
 
-  Future<void> _share(List<String> pics) async {
+  Future<void> _share(List<String> pics, String text) async {
     try {
-      final int result = await channel.invokeMethod('weixin', pics);
+      final int result =
+          await channel.invokeMethod('weixin', {'pics': pics, 'text': text});
       debugPrint(result.toString());
     } on PlatformException catch (e) {
       debugPrint(e.toString());
@@ -222,7 +223,8 @@ class TimelineTabState extends State<TimelineTab> {
                                   child: Image.asset('assets/share.png',
                                       width: 22, height: 22),
                                   onPressed: () {
-                                    _share(_items[index].pics);
+                                    _share(_items[index].pics,
+                                        _items[index].content);
                                   })),
                         ]));
                   },
