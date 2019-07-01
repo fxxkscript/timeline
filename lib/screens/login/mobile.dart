@@ -30,7 +30,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
     super.initState();
     mobileController.addListener(() {
       if (mobileController.text.length == 11) {
-        if (_count == 0) {
+        if (_count <= 0) {
           setState(() {
             _disabled = false;
           });
@@ -118,8 +118,8 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  initialValue: '',
-                  // controller: mobileController,
+//                  initialValue: '',
+                  controller: mobileController,
                   keyboardType: TextInputType.phone,
                   onSaved: (val) => _mobile = val,
                   maxLength: 11,
