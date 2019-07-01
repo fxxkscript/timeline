@@ -361,7 +361,8 @@ class MyTabState extends State<MyTab> {
                               GestureDetector(
                                   onTap: () async {
                                     await logout(context);
-                                    print('111');
+                                    Navigator.pushReplacementNamed(
+                                        context, '/login');
                                   },
                                   child: Container(
                                     height: 68,
@@ -381,7 +382,7 @@ class MyTabState extends State<MyTab> {
                                             )),
                                         Expanded(
                                           child: Text(
-                                            '设置',
+                                            '登出',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .body1,

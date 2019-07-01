@@ -18,8 +18,7 @@ class HttpClient {
       } else if (e.response.statusCode == 422 || e.response.statusCode == 511) {
         await setCache('accessToken', '');
         // go to signin
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/login', (Route<dynamic> route) => false);
+        Navigator.pushReplacementNamed(context, '/login');
       }
     }));
   }
