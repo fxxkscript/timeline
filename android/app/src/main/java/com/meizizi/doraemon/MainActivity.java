@@ -50,10 +50,11 @@ public class MainActivity extends FlutterActivity {
         });
   }
 
-  protected void share(Object paths) {
-    ArrayList<String> urls = (ArrayList<String>) paths;
+  @SuppressWarnings("unchecked")
+  protected void share(Object params) {
+    HashMap<String, Object> map = (HashMap<String, Object>) params;
 
-    loadImage(urls, new OnLoadImageEndCallback() {
+    loadImage((List<String>) map.get("pics"), new OnLoadImageEndCallback() {
       @Override
       public void onEnd(List<Bitmap> bitmapList) {
         shareToTimeline(bitmapList);
