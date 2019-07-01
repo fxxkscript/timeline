@@ -153,7 +153,8 @@ class EditorState extends State<Editor> {
                 onPressed: saving
                     ? null
                     : () async {
-                        if (textController.text.length > 0) {
+                        if (textController.text.length > 0 ||
+                            images.length > 0) {
                           setState(() {
                             saving = true;
                           });
