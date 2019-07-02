@@ -1,7 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:wshop/models/withdraw.dart';
 import 'package:wshop/api/withdraw.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:wshop/api/qiniu.dart';
 import 'withdrawSuccess.dart';
 
 class WithdrawScreen extends StatefulWidget {
@@ -45,9 +51,12 @@ class WithdrawScreenState extends State<WithdrawScreen> {
             Center(
                 child: Padding(
               padding: const EdgeInsets.only(right: 16.0),
-              child: GestureDetector(child: Text('资金明细'), onTap: () {
-                Navigator.pushNamed(context, '/fundFlow');
-              },),
+              child: GestureDetector(
+                child: Text('资金明细'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/fundFlow');
+                },
+              ),
             ))
           ],
         ),
@@ -134,6 +143,8 @@ class WithdrawModalState extends State<WithdrawModal> {
   final UserAsset userAsset;
   final TextEditingController _inputController = new TextEditingController();
   String inputText = '';
+  String qrcodeUrl = '';
+  Uint8List _selectedImage;
 
   WithdrawModalState(this.userAsset);
 
@@ -244,22 +255,80 @@ class WithdrawModalState extends State<WithdrawModal> {
               child: Text('立即提现', style: TextStyle(color: Colors.white)),
               color: Theme.of(context).primaryColor,
               disabledColor: Color(0x880CC160),
-              onPressed: inputText.isEmpty
+              onPressed: inputText.isEmpty || qrcodeUrl.isEmpty
                   ? null
-                  : () {
-                      Navigator.of(context, rootNavigator: true).push(
-                        CupertinoPageRoute<bool>(
-                          fullscreenDialog: true,
-                          builder: (BuildContext context) =>
-                              WithdrawSuccessModal(userAsset,
-                                  double.parse(_inputController.text)),
-                        ),
-                      );
+                  : () async {
+                      try {
+                        var result =
+                            await withdrawMoney(context, inputText, qrcodeUrl);
+                        Navigator.of(context, rootNavigator: true).push(
+                          CupertinoPageRoute<bool>(
+                            fullscreenDialog: true,
+                            builder: (BuildContext context) =>
+                                WithdrawSuccessModal(userAsset,
+                                    double.parse(_inputController.text)),
+                          ),
+                        );
+                      } catch (e) {
+                        showToast(e.toString(),
+                            textPadding: EdgeInsets.all(15));
+                      }
                     },
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            child: Container(
+                width: double.infinity,
+                child: FlatButton(
+                    child: const Text('上传收款二维码',
+                        style: TextStyle(color: Colors.white)),
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () {
+                      selectQrCode();
+                    })),
+          ),
+          Center(
+            child: _selectedImage != null
+                ? Image.memory(
+                    _selectedImage,
+                    fit: BoxFit.cover,
+                    gaplessPlayback: true,
+                    width: 200,
+                    height: 200,
+                  )
+                : Container(),
+          ),
         ],
       ),
     );
+  }
+
+  void selectQrCode() async {
+    List<Asset> resultList = [];
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 1,
+        enableCamera: true,
+      );
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(title: Text(e.message)));
+    }
+
+    if (!mounted) return;
+
+    ByteData byteData = await resultList[0].requestOriginal();
+    Uint8List imageData = byteData.buffer.asUint8List();
+    _selectedImage = imageData;
+    Uint8List imageDataCompressed = Uint8List.fromList(
+        await FlutterImageCompress.compressWithList(imageData));
+    String result = await Qiniu.upload(context, imageDataCompressed);
+
+    setState(() {
+      qrcodeUrl = result;
+    });
   }
 }

@@ -58,13 +58,16 @@ class ProfileScreenState extends State<ProfileScreen> {
 
     if (!mounted) return;
 
+    ByteData byteData = await resultList[0].requestOriginal();
+    Uint8List imageData = byteData.buffer.asUint8List();
+    _selectedImage = imageData;
+    Uint8List imageDataCompressed = Uint8List.fromList(
+        await FlutterImageCompress.compressWithList(imageData));
+
+    String result = await Qiniu.upload(context, imageDataCompressed);
+
     setState(() async {
-      ByteData byteData = await resultList[0].requestOriginal();
-      Uint8List imageData = byteData.buffer.asUint8List();
-      _selectedImage = imageData;
-      Uint8List imageDataCompressed = Uint8List.fromList(
-          await FlutterImageCompress.compressWithList(imageData));
-      _data.wechatQrCode = await Qiniu.upload(context, imageDataCompressed);
+      _data.wechatQrCode = result;
     });
   }
 
