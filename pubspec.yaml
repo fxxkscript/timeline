@@ -7,7 +7,7 @@ description: A new Flutter project.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.0+3
+version: 1.0.0+7
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -30,7 +30,7 @@ dependencies:
   flutter_image_compress: ^0.4.0
   qr_flutter: ^2.0.0
   dio: ^2.1.3
-  fluwx: 0.6.1
+  fluwx: 1.0.0
   uuid: ^2.0.1
   oktoast: ^2.1.7
 

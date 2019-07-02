@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:wshop/models/feeds.dart';
 import 'package:wshop/utils/http_client.dart';
 
-Future<Feeds> getTimeline(context, int cursor, [int pageSize = 10]) async {
+Future<Feeds> getTimeline(int cursor, [int pageSize = 10]) async {
   try {
-    var response = await HttpClient().post(context, 'feeds/timeline/home',
-        {'cursor': cursor, 'pageSize': pageSize});
+    var response = await HttpClient()
+        .post('feeds/timeline/home', {'cursor': cursor, 'pageSize': pageSize});
     return Feeds.fromJson(response);
   } catch (e) {
     print(e);
@@ -14,10 +14,9 @@ Future<Feeds> getTimeline(context, int cursor, [int pageSize = 10]) async {
   }
 }
 
-Future<Feeds> getUserFeeds(context, int userId, int cursor,
-    [int pageSize = 10]) async {
+Future<Feeds> getUserFeeds(int userId, int cursor, [int pageSize = 10]) async {
   try {
-    var response = await HttpClient().post(context, 'feeds/timeline/user', {
+    var response = await HttpClient().post('feeds/timeline/user', {
       'uid': userId,
       'cursorPaginationRequest': {'cursor': cursor, 'pageSize': pageSize}
     });
@@ -28,19 +27,18 @@ Future<Feeds> getUserFeeds(context, int userId, int cursor,
   }
 }
 
-Future<void> publish(context, Feed feed) async {
+Future<void> publish(Feed feed) async {
   try {
-    await HttpClient().post(context, 'feeds/tweet/publish', feed.toJson());
+    await HttpClient().post('feeds/tweet/publish', feed.toJson());
   } catch (e) {
     print(e);
   }
 }
 
-Future<void> star(context, Feed feed) async {
+Future<void> star(Feed feed) async {
   try {
     int id = feed.id;
-    var response =
-        await HttpClient().post(context, 'feeds/tweet/zan?tweetId=$id', {});
+    var response = await HttpClient().post('feeds/tweet/zan?tweetId=$id', {});
     print(response);
   } catch (e) {
     print(e);

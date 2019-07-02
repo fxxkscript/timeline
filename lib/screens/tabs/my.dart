@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wshop/api/auth.dart';
 import 'package:wshop/api/my.dart';
 import 'package:wshop/models/my.dart';
 
@@ -14,7 +15,7 @@ class MyTabState extends State<MyTab> {
 
   @override
   void initState() {
-    _fetchMy = fetchMy(context);
+    _fetchMy = fetchMy();
     super.initState();
   }
 
@@ -253,8 +254,8 @@ class MyTabState extends State<MyTab> {
                                   )),
                               GestureDetector(
                                   onTap: () {
-                                    Navigator.of(context).pushNamed(
-                                        "/withdraw");
+                                    Navigator.of(context)
+                                        .pushNamed("/withdraw");
                                   },
                                   child: Container(
                                     height: 68,
@@ -318,47 +319,51 @@ class MyTabState extends State<MyTab> {
                           color: Colors.white,
                           child: Column(
                             children: <Widget>[
+//                              GestureDetector(
+//                                  onTap: () {},
+//                                  child: Container(
+//                                    height: 68,
+//                                    margin:
+//                                        EdgeInsets.only(left: 16, right: 18),
+//                                    child: Row(
+//                                      mainAxisAlignment:
+//                                          MainAxisAlignment.spaceBetween,
+//                                      children: <Widget>[
+//                                        Container(
+//                                            margin: EdgeInsets.only(
+//                                                left: 16, right: 14),
+//                                            child: Image.asset(
+//                                              'assets/contact.png',
+//                                              width: 24,
+//                                              height: 24,
+//                                            )),
+//                                        Expanded(
+//                                          child: Text(
+//                                            '咨询客服',
+//                                            style: Theme.of(context)
+//                                                .textTheme
+//                                                .body1,
+//                                          ),
+//                                        ),
+//                                        Container(
+//                                            child: Row(
+//                                          children: <Widget>[
+//                                            Icon(
+//                                              Icons.chevron_right,
+//                                              color: Color.fromARGB(
+//                                                  255, 209, 209, 214),
+//                                            )
+//                                          ],
+//                                        ))
+//                                      ],
+//                                    ),
+//                                  )),
                               GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    height: 68,
-                                    margin:
-                                        EdgeInsets.only(left: 16, right: 18),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Container(
-                                            margin: EdgeInsets.only(
-                                                left: 16, right: 14),
-                                            child: Image.asset(
-                                              'assets/contact.png',
-                                              width: 24,
-                                              height: 24,
-                                            )),
-                                        Expanded(
-                                          child: Text(
-                                            '咨询客服',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .body1,
-                                          ),
-                                        ),
-                                        Container(
-                                            child: Row(
-                                          children: <Widget>[
-                                            Icon(
-                                              Icons.chevron_right,
-                                              color: Color.fromARGB(
-                                                  255, 209, 209, 214),
-                                            )
-                                          ],
-                                        ))
-                                      ],
-                                    ),
-                                  )),
-                              GestureDetector(
-                                  onTap: () {},
+                                  onTap: () async {
+                                    await logout();
+                                    Navigator.pushReplacementNamed(
+                                        context, '/login');
+                                  },
                                   child: Container(
                                     height: 68,
                                     margin:
@@ -377,7 +382,7 @@ class MyTabState extends State<MyTab> {
                                             )),
                                         Expanded(
                                           child: Text(
-                                            '设置',
+                                            '登出',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .body1,

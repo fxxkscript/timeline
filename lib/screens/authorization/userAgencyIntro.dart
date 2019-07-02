@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:wshop/api/userAgencyIntro.dart';
-import 'package:wshop/models/userAgencyIntro.dart';
 import 'package:wshop/components/PurchaseModal.dart';
+import 'package:wshop/models/userAgencyIntro.dart';
 
 class UserAgencyIntroScreen extends StatefulWidget {
   @override
@@ -18,7 +18,7 @@ class UserAgencyIntroScreenState extends State<UserAgencyIntroScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchData = fetchUserAgencyIntro(context);
+    _fetchData = fetchUserAgencyIntro();
   }
 
   @override

@@ -28,8 +28,8 @@ class LaunchScreenState extends State<LaunchScreen> {
 
     handler = fluwx.responseFromAuth.listen((response) async {
       setState(() => _isLoading = true);
-      bool success = await loginByWechat(context, response.code);
-      await getUserBasic(context: null);
+      bool success = await loginByWechat(response.code);
+      await getUserBasic();
       setState(() => _isLoading = false);
       if (success) {
         Navigator.pushNamedAndRemoveUntil(

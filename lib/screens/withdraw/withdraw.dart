@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -23,7 +22,7 @@ class WithdrawScreenState extends State<WithdrawScreen> {
   @override
   void initState() {
     super.initState();
-    this._fetchUserAsset = fetchUserAsset(context);
+    this._fetchUserAsset = fetchUserAsset();
   }
 
   @override

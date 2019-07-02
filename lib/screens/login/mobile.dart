@@ -30,7 +30,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
     super.initState();
     mobileController.addListener(() {
       if (mobileController.text.length == 11) {
-        if (_count == 0) {
+        if (_count <= 0) {
           setState(() {
             _disabled = false;
           });
@@ -58,7 +58,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
     if (form.validate()) {
       setState(() => _isLoading = true);
       form.save();
-      bool success = await login(context, _mobile, _code);
+      bool success = await login(_mobile, _code);
 
       setState(() => _isLoading = false);
 
@@ -75,7 +75,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
         _disabled = true;
         _count = timeout;
 
-        getCode(context, mobileController.text);
+        getCode(mobileController.text);
         FocusScope.of(context).requestFocus(focusNode);
       });
 
@@ -118,9 +118,8 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  // TODO: remove test code
-                  initialValue: '15658857801',
-                  // controller: mobileController,
+//                  initialValue: '',
+                  controller: mobileController,
                   keyboardType: TextInputType.phone,
                   onSaved: (val) => _mobile = val,
                   maxLength: 11,
@@ -138,8 +137,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
                   Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
-                        // TODO: remove test code
-                        initialValue: '8888',
+                        initialValue: '',
                         focusNode: focusNode,
                         maxLength: 4,
                         keyboardType: TextInputType.number,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:wshop/models/auth.dart';
 import 'package:wshop/api/member.dart';
-import 'package:wshop/models/purchase.dart';
 import 'package:wshop/api/purchase.dart';
-import 'package:wshop/components/PurchaseTabIndicator.dart';
 import 'package:wshop/components/PurchaseModal.dart';
+import 'package:wshop/components/PurchaseTabIndicator.dart';
+import 'package:wshop/models/auth.dart';
+import 'package:wshop/models/purchase.dart';
 
 class PurchaseScreen extends StatefulWidget {
   @override
@@ -20,7 +20,7 @@ class PurchaseState extends State<PurchaseScreen>
 
   @override
   void initState() {
-    _fetchRights = fetchRights(context);
+    _fetchRights = fetchRights();
     super.initState();
   }
 
@@ -104,7 +104,7 @@ class _Content extends StatelessWidget {
             Container(height: 10),
             PurchaseButton('已有授权码，输入兑换 >', () async {
               // TODO: remove test code
-              final code = await createActivation(context);
+              final code = await createActivation();
               print(code);
               showPurchaseModal(context, '输入授权码', '确认兑换', createMember);
             }),

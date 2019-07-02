@@ -48,6 +48,11 @@ class EditorState extends State<Editor> {
       resultList = await MultiImagePicker.pickImages(
         maxImages: maxPhotos - images.length,
         enableCamera: true,
+        materialOptions: MaterialOptions(
+          actionBarTitle: "选择图片",
+          allViewTitle: "所有图片",
+          selectionLimitReachedText: "不能再选了",
+        ),
       );
     } catch (e) {
       showDialog(
@@ -153,7 +158,8 @@ class EditorState extends State<Editor> {
                 onPressed: saving
                     ? null
                     : () async {
-                        if (textController.text.length > 0) {
+                        if (textController.text.length > 0 ||
+                            images.length > 0) {
                           setState(() {
                             saving = true;
                           });
@@ -170,19 +176,17 @@ class EditorState extends State<Editor> {
                             list.add(key);
                           }));
 
-                          await publish(
-                              context,
-                              Feed(
-                                  0,
-                                  0,
-                                  Author(Auth().uid, Auth().nickname,
-                                      Auth().avatar),
-                                  textController.text,
-                                  list,
-                                  '',
-                                  0,
-                                  '',
-                                  false));
+                          await publish(Feed(
+                              0,
+                              0,
+                              Author(
+                                  Auth().uid, Auth().nickname, Auth().avatar),
+                              textController.text,
+                              list,
+                              '',
+                              0,
+                              '',
+                              false));
 
                           setState(() {
                             saving = false;
