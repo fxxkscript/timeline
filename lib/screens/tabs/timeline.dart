@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wshop/api/feeds.dart';
 import 'package:wshop/components/FeedImage.dart';
@@ -10,6 +9,7 @@ import 'package:wshop/components/TopBar.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/models/feeds.dart';
 import 'package:wshop/screens/user.dart';
+import 'package:wshop/utils/share.dart';
 
 class TimelineTab extends StatefulWidget {
   @override
@@ -19,22 +19,11 @@ class TimelineTab extends StatefulWidget {
 }
 
 class TimelineTabState extends State<TimelineTab> {
-  static const channel = const MethodChannel('com.meizizi.doraemon/door');
   List<Feed> _items = [];
   Feeds feeds;
   int showHeaderBg = 0;
   bool isLoading = false;
   final PublishSubject<int> subject = PublishSubject<int>();
-
-  Future<void> _share(List<String> pics, String text) async {
-    try {
-      final int result =
-          await channel.invokeMethod('weixin', {'pics': pics, 'text': text});
-      debugPrint(result.toString());
-    } on PlatformException catch (e) {
-      debugPrint(e.toString());
-    }
-  }
 
   @override
   void initState() {
@@ -223,7 +212,7 @@ class TimelineTabState extends State<TimelineTab> {
                                   child: Image.asset('assets/share.png',
                                       width: 22, height: 22),
                                   onPressed: () {
-                                    _share(_items[index].pics,
+                                    Share().timeline(_items[index].pics,
                                         _items[index].content);
                                   })),
                         ]));

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:wshop/api/feeds.dart';
 import 'package:wshop/api/friends.dart';
 import 'package:wshop/api/profile.dart';
@@ -11,6 +10,7 @@ import 'package:wshop/components/FollowBtn.dart';
 import 'package:wshop/models/author.dart';
 import 'package:wshop/models/feeds.dart';
 import 'package:wshop/models/profile.dart';
+import 'package:wshop/utils/share.dart';
 
 class UserScreen extends StatefulWidget {
   final Author author;
@@ -24,21 +24,10 @@ class UserScreen extends StatefulWidget {
 }
 
 class UserScreenState extends State<UserScreen> {
-  static const channel = const MethodChannel('com.meizizi.doraemon/door');
   List<Feed> _items = [];
   Feeds feeds;
   int alpha = 0;
   TimelineProfile _timelineProfile = TimelineProfile(author: Author(0, '', ''));
-
-  Future<void> _share(List<String> pics, String text) async {
-    try {
-      final int result =
-          await channel.invokeMethod('weixin', {'pics': pics, 'text': text});
-      debugPrint(result.toString());
-    } on PlatformException catch (e) {
-      debugPrint(e.toString());
-    }
-  }
 
   @override
   void initState() {
@@ -258,7 +247,7 @@ class UserScreenState extends State<UserScreen> {
                                         .copyWith(fontSize: 12),
                                   ),
                                   onPressed: () {
-                                    _share(_items[index].pics,
+                                    Share().timeline(_items[index].pics,
                                         _items[index].content);
                                   }),
                             ),
