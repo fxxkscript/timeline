@@ -55,8 +55,8 @@ class Share {
   void miniprogram(List<String> pics, String text) async {
     await fluwx.share(fluwx.WeChatShareMiniProgramModel(
         webPageUrl: 'https://qq.com',
-        userName: 'wx16eca2fd6c01beda',
-        path: '/pages/media',
+        userName: 'gh_1e6607d61edc',
+        path: '/',
         description: '小牛菜急急急',
         thumbnail:
             'https://img.ippapp.com/155464043722716101?imageView2/0/interlace/1/q/50%7Cimageslim'));
