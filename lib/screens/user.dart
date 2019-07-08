@@ -247,7 +247,7 @@ class UserScreenState extends State<UserScreen> {
                                         .copyWith(fontSize: 12),
                                   ),
                                   onPressed: () {
-                                    Share().timeline(_items[index].pics,
+                                    Share().share(context, _items[index].pics,
                                         _items[index].content);
                                   }),
                             ),

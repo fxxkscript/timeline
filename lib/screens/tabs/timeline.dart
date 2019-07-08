@@ -212,7 +212,7 @@ class TimelineTabState extends State<TimelineTab> {
                                   child: Image.asset('assets/share.png',
                                       width: 22, height: 22),
                                   onPressed: () {
-                                    Share().timeline(_items[index].pics,
+                                    Share().share(context, _items[index].pics,
                                         _items[index].content);
                                   })),
                         ]));
