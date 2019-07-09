@@ -61,6 +61,71 @@ class UserScreenState extends State<UserScreen> {
     }
   }
 
+  Widget header() {
+    return Container(
+      height: 300,
+      child: Stack(children: [
+        Image.asset(
+          'assets/bg.png',
+          height: 211,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+        ),
+        Positioned(
+          left: 12,
+          top: 89,
+          child: ClipRRect(
+            child: Image.network(_timelineProfile.author.avatar,
+                width: 64, height: 64, fit: BoxFit.cover),
+            borderRadius: BorderRadius.circular(32),
+          ),
+        ),
+        Positioned(
+          left: 92,
+          top: 101,
+          child: Text(widget.author.nickname,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline
+                  .copyWith(color: Colors.white)),
+        ),
+        Positioned(
+          left: 92,
+          top: 129,
+          child: Text(_timelineProfile.signature,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline
+                  .copyWith(color: Colors.white, fontSize: 12)),
+        ),
+        Positioned(
+          left: 92,
+          top: 166,
+          child: Text(
+              '上新 ${_timelineProfile.news}                总数 ${_timelineProfile.tweets}',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline
+                  .copyWith(color: Colors.white, fontSize: 12)),
+        ),
+        Positioned(
+            right: 12,
+            top: 108,
+            child: FollowBtn(
+              isFollowed: _timelineProfile.isFriend,
+              onPressed: (bool isFollowed) async {
+                if (isFollowed) {
+                  await cancelFriend(id: _timelineProfile.author.uid);
+                } else {
+                  await addFriend(id: _timelineProfile.author.uid);
+                }
+                await _getProfile();
+              },
+            ))
+      ]),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,106 +161,56 @@ class UserScreenState extends State<UserScreen> {
                   itemCount: _items.length + 1,
                   itemBuilder: (context, index) {
                     if (index == 0) {
-                      return Container(
-                        height: 300,
-                        child: Stack(children: [
-                          Image.asset(
-                            'assets/bg.png',
-                            height: 211,
-                            width: MediaQuery.of(context).size.width,
-                            fit: BoxFit.cover,
-                          ),
-                          Positioned(
-                            left: 12,
-                            top: 89,
-                            child: ClipRRect(
-                              child: Image.network(
-                                  _timelineProfile.author.avatar,
-                                  width: 64,
-                                  height: 64,
-                                  fit: BoxFit.cover),
-                              borderRadius: BorderRadius.circular(32),
-                            ),
-                          ),
-                          Positioned(
-                            left: 92,
-                            top: 101,
-                            child: Text(widget.author.nickname,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline
-                                    .copyWith(color: Colors.white)),
-                          ),
-                          Positioned(
-                            left: 92,
-                            top: 129,
-                            child: Text(_timelineProfile.signature,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline
-                                    .copyWith(
-                                        color: Colors.white, fontSize: 12)),
-                          ),
-                          Positioned(
-                            left: 92,
-                            top: 166,
-                            child: Text(
-                                '上新 ${_timelineProfile.news}                总数 ${_timelineProfile.tweets}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline
-                                    .copyWith(
-                                        color: Colors.white, fontSize: 12)),
-                          ),
-                          Positioned(
-                              right: 12,
-                              top: 108,
-                              child: FollowBtn(
-                                isFollowed: _timelineProfile.isFriend,
-                                onPressed: (bool isFollowed) async {
-                                  if (isFollowed) {
-                                    await cancelFriend(
-                                        id: _timelineProfile.author.uid);
-                                  } else {
-                                    await addFriend(
-                                        id: _timelineProfile.author.uid);
-                                  }
-                                  await _getProfile();
-                                },
-                              ))
-                        ]),
-                      );
+                      return header();
                     }
                     index = index - 1;
-                    var time = DateTime.parse(_items[index].createdAt);
+                    DateTime time = DateTime.parse(_items[index].createdAt);
+                    bool showTime = true;
+                    if (index > 0) {
+                      DateTime preTime =
+                          DateTime.parse(_items[index - 1].createdAt);
 
-                    List<Widget> widgets = <Widget>[
-                      Container(
-                        width: 80,
-                        height: 100,
-                        child: Stack(
-                          children: <Widget>[
-                            Positioned(
-                              left: 0,
-                              top: 0,
-                              child: Text('${time.day}',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .title
-                                      .copyWith(fontSize: 30)),
+                      if (preTime.day == time.day &&
+                          preTime.month == time.month &&
+                          preTime.year == time.year) {
+                        showTime = false;
+                      }
+                    }
+
+                    List<Widget> widgets = showTime
+                        ? <Widget>[
+                            Container(
+                              width: 80,
+                              height: 100,
+                              child: Stack(
+                                children: <Widget>[
+                                  Positioned(
+                                    left: 0,
+                                    top: 0,
+                                    child: Text('${time.day}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .title
+                                            .copyWith(fontSize: 30)),
+                                  ),
+                                  Positioned(
+                                      left: 40,
+                                      top: 16,
+                                      child: Text('${time.month}月',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .title
+                                              .copyWith(fontSize: 12))),
+                                ],
+                              ),
                             ),
-                            Positioned(
-                                left: 40,
-                                top: 16,
-                                child: Text('${time.month}月',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .title
-                                        .copyWith(fontSize: 12))),
-                          ],
-                        ),
-                      ),
-                    ];
+                          ]
+                        : <Widget>[
+                            SizedBox(
+                              width: 80,
+                              height: 100,
+                            )
+                          ];
                     if (_items[index].pics.length > 0) {
                       widgets.add(Container(
                           width: 74,
