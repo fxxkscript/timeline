@@ -27,7 +27,8 @@ class UserScreenState extends State<UserScreen> {
   List<Feed> _items = [];
   Feeds feeds;
   int alpha = 0;
-  TimelineProfile _timelineProfile = TimelineProfile(author: Author(0, '', ''));
+  TimelineProfile _timelineProfile =
+      TimelineProfile(author: Author(0, '', ''), signature: '');
 
   @override
   void initState() {

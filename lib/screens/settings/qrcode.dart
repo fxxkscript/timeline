@@ -15,36 +15,39 @@ class QRCodeState extends State<QRCodeScreen> {
   @override
   Widget build(BuildContext context) {
     String link = "https://wap.ippapp.com/focus.html?friend=${Auth().uid}";
-    return Scaffold(
-        body: Container(
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          QrImage(
-            data: link,
-            size: 200.0,
+    return CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          leading: Text('关注'),
+        ),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              QrImage(
+                data: link,
+                size: 200.0,
+              ),
+              FlatButton(
+                  onPressed: () async {
+                    await fluwx.share(fluwx.WeChatShareWebPageModel(
+                        webPage: link, title: "关注我", thumbnail: Auth().avatar));
+                  },
+                  child: Container(
+                    width: 287,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Center(
+                        child: Text(
+                      '一键分享',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    )),
+                  ))
+            ],
           ),
-          FlatButton(
-              onPressed: () async {
-                await fluwx.share(fluwx.WeChatShareWebPageModel(
-                    webPage: link, title: "关注我", thumbnail: Auth().avatar));
-              },
-              child: Container(
-                width: 287,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Center(
-                    child: Text(
-                  '一键分享',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                )),
-              ))
-        ],
-      ),
-    ));
+        ));
   }
 }

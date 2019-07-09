@@ -73,5 +73,7 @@
     <string>需要访问您的相册</string>
     <key>NSCameraUsageDescription</key>
     <string>需要访问您的相机</string>
+    <key>io.flutter.embedded_views_preview</key>
+    <string>YES</string>
 </dict>
 </plist>
