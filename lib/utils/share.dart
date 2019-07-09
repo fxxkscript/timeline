@@ -17,11 +17,9 @@ class Share {
     showCupertinoModalPopup(
         context: context,
         builder: (_) => CupertinoActionSheet(
-              title: const Text('分享到微信'),
-//              message: const Text('123'),
               actions: <Widget>[
                 CupertinoActionSheetAction(
-                  child: const Text('分享到朋友圈'),
+                  child: const Text('分享到微信朋友圈'),
                   onPressed: () => this.timeline(pics, text),
                 ),
                 CupertinoActionSheetAction(
