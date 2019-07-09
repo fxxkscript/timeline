@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:wshop/components/Back.dart';
 import 'package:wshop/models/auth.dart';
 
 class QRCodeScreen extends StatefulWidget {
@@ -17,7 +18,9 @@ class QRCodeState extends State<QRCodeScreen> {
     String link = "https://wap.ippapp.com/focus.html?friend=${Auth().uid}";
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          leading: Text('关注'),
+          leading: Back(
+            color: Theme.of(context).primaryColorDark,
+          ),
         ),
         child: Container(
           width: MediaQuery.of(context).size.width,
