@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wshop/api/friends.dart';
+import 'package:wshop/components/Back.dart';
 import 'package:wshop/components/FollowBtn.dart';
 import 'package:wshop/models/follower.dart';
 
@@ -35,6 +36,9 @@ class FansScreenState extends State<FansScreen> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
+          leading: Back(
+            color: Theme.of(context).primaryColorDark,
+          ),
           middle: Text('我的粉丝'),
         ),
         child: RefreshIndicator(
