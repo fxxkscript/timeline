@@ -25,7 +25,7 @@ class ImagePreview extends StatelessWidget {
                 return Container(
                     width: MediaQuery.of(context).size.width,
                     margin: EdgeInsets.symmetric(horizontal: 5.0),
-                    decoration: BoxDecoration(color: Colors.amber),
+                    decoration: BoxDecoration(color: Colors.transparent),
                     child: Image.network(link,
                         width: 400, height: 400, fit: BoxFit.cover));
               },
