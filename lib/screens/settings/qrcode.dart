@@ -15,7 +15,8 @@ class QRCodeScreen extends StatefulWidget {
 class QRCodeState extends State<QRCodeScreen> {
   @override
   Widget build(BuildContext context) {
-    String link = "https://wap.ippapp.com/focus.html?friend=${Auth().uid}";
+    String link = 'https://wap.ippapp.com/focus.html?friend=${Auth().uid}';
+
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           leading: Back(
@@ -34,7 +35,7 @@ class QRCodeState extends State<QRCodeScreen> {
               FlatButton(
                   onPressed: () async {
                     await fluwx.share(fluwx.WeChatShareWebPageModel(
-                        webPage: link, title: "关注我", thumbnail: Auth().avatar));
+                        webPage: link, title: '关注我', thumbnail: Auth().avatar));
                   },
                   child: Container(
                     width: 287,
