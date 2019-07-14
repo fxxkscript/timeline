@@ -43,71 +43,78 @@ class FansScreenState extends State<FansScreen> {
         ),
         child: RefreshIndicator(
             displacement: 80,
-            child: ListView.builder(
-                itemCount: count,
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(color: Colors.white),
-                    padding:
-                        EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(right: 10),
-                          child: ClipRRect(
-                            child: Container(
-                              width: 56,
-                              height: 56,
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 248, 248, 248)),
-                              child: Image.network(
-                                list[index].avatar,
-                                width: 56,
-                                height: 56,
+            child: count == 0
+                ? Center(
+                    child: Text(
+                    '没有数据',
+                    style: Theme.of(context).textTheme.body1,
+                  ))
+                : ListView.builder(
+                    itemCount: count,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        decoration: BoxDecoration(color: Colors.white),
+                        padding: EdgeInsets.only(
+                            top: 8, bottom: 8, left: 16, right: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(right: 10),
+                              child: ClipRRect(
+                                child: Container(
+                                  width: 56,
+                                  height: 56,
+                                  decoration: BoxDecoration(
+                                      color:
+                                          Color.fromARGB(255, 248, 248, 248)),
+                                  child: Image.network(
+                                    list[index].avatar,
+                                    width: 56,
+                                    height: 56,
+                                  ),
+                                ),
+                                borderRadius: BorderRadius.circular(28),
                               ),
                             ),
-                            borderRadius: BorderRadius.circular(28),
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                list[index].nickname,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    .copyWith(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    list[index].nickname,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption
+                                        .copyWith(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                  ),
+                                  Text(
+                                    '上新12 共110',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle
+                                        .copyWith(fontSize: 12),
+                                  )
+                                ],
                               ),
-                              Text(
-                                '上新12 共110',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle
-                                    .copyWith(fontSize: 12),
-                              )
-                            ],
-                          ),
+                            ),
+                            FollowBtn(
+                              isFollowed: list[index].isFriend,
+                              onPressed: (bool isFollowed) async {
+                                if (isFollowed) {
+                                  await cancelFriend(id: list[index].uid);
+                                } else {
+                                  await addFriend(id: list[index].uid);
+                                }
+                                _getData();
+                              },
+                            )
+                          ],
                         ),
-                        FollowBtn(
-                          isFollowed: list[index].isFriend,
-                          onPressed: (bool isFollowed) async {
-                            if (isFollowed) {
-                              await cancelFriend(id: list[index].uid);
-                            } else {
-                              await addFriend(id: list[index].uid);
-                            }
-                            _getData();
-                          },
-                        )
-                      ],
-                    ),
-                  );
-                }),
+                      );
+                    }),
             onRefresh: () => _getData()));
   }
 }

@@ -35,6 +35,67 @@ class ContactsState extends State<Contacts> {
     });
   }
 
+  Widget myFans() {
+    return GestureDetector(
+      child: Container(
+        decoration: BoxDecoration(color: Colors.white),
+        margin: EdgeInsets.only(top: 10, bottom: 10),
+        padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(right: 10),
+              child: ClipRRect(
+                child: Container(
+                  width: 56,
+                  height: 56,
+                  decoration:
+                      BoxDecoration(color: Color.fromARGB(255, 248, 248, 248)),
+                  child: Image.network(
+                    Auth().avatar,
+                    width: 56,
+                    height: 56,
+                  ),
+                ),
+                borderRadius: BorderRadius.circular(28),
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    '我的粉丝',
+                    style: Theme.of(context)
+                        .textTheme
+                        .caption
+                        .copyWith(fontSize: 14, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    fansCount.toString(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle
+                        .copyWith(fontSize: 12),
+                  )
+                ],
+              ),
+            ),
+            Icon(
+              Icons.chevron_right,
+              color: Color.fromARGB(255, 209, 209, 214),
+            )
+          ],
+        ),
+      ),
+      onTap: () async {
+        await Navigator.of(context).pushNamed('/friends/fans');
+        await _getData();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -44,71 +105,10 @@ class ContactsState extends State<Contacts> {
         child: RefreshIndicator(
             displacement: 80,
             child: ListView.builder(
-                itemCount: count,
+                itemCount: count + 1,
                 itemBuilder: (context, index) {
                   if (index == 0) {
-                    return GestureDetector(
-                      child: Container(
-                        decoration: BoxDecoration(color: Colors.white),
-                        margin: EdgeInsets.only(top: 10, bottom: 10),
-                        padding: EdgeInsets.only(
-                            top: 8, bottom: 8, left: 16, right: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: ClipRRect(
-                                child: Container(
-                                  width: 56,
-                                  height: 56,
-                                  decoration: BoxDecoration(
-                                      color:
-                                          Color.fromARGB(255, 248, 248, 248)),
-                                  child: Image.network(
-                                    Auth().avatar,
-                                    width: 56,
-                                    height: 56,
-                                  ),
-                                ),
-                                borderRadius: BorderRadius.circular(28),
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    '我的粉丝',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .caption
-                                        .copyWith(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(
-                                    fansCount.toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle
-                                        .copyWith(fontSize: 12),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Icon(
-                              Icons.chevron_right,
-                              color: Color.fromARGB(255, 209, 209, 214),
-                            )
-                          ],
-                        ),
-                      ),
-                      onTap: () async {
-                        await Navigator.of(context).pushNamed('/friends/fans');
-                        await _getData();
-                      },
-                    );
+                    return myFans();
                   }
 
                   index = index - 1;

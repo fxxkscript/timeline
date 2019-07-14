@@ -155,6 +155,7 @@ class UserScreenState extends State<UserScreen> {
                       scrollInfo.metrics.maxScrollExtent - 300) {
                     _getList();
                   }
+                  return true;
                 },
                 child: ListView.builder(
                   padding: EdgeInsets.all(0),
