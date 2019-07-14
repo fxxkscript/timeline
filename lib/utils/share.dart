@@ -19,11 +19,11 @@ class Share {
         builder: (_) => CupertinoActionSheet(
               actions: <Widget>[
                 CupertinoActionSheetAction(
-                  child: const Text('分享到微信朋友圈'),
+                  child: const Text('分享至微信朋友圈'),
                   onPressed: () => this.timeline(pics, text),
                 ),
                 CupertinoActionSheetAction(
-                  child: const Text('分享小程序给微信好友'),
+                  child: const Text('分享至微信好友'),
                   onPressed: () => this.miniprogram(pics, text),
                 )
               ],

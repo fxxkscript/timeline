@@ -92,6 +92,7 @@ class TimelineTabState extends State<TimelineTab> {
                   } else if (scrollInfo.metrics.pixels > 0) {
                     subject.add(255);
                   }
+                  return true;
                 },
                 child: ListView.builder(
                   padding: EdgeInsets.only(top: 0, bottom: 100),

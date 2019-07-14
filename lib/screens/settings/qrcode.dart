@@ -33,9 +33,30 @@ class QRCodeState extends State<QRCodeScreen> {
                 size: 200.0,
               ),
               FlatButton(
-                  onPressed: () async {
-                    await fluwx.share(fluwx.WeChatShareWebPageModel(
-                        webPage: link, title: '关注我', thumbnail: Auth().avatar));
+                  onPressed: () {
+                    showCupertinoModalPopup(
+                        context: context,
+                        builder: (_) => CupertinoActionSheet(
+                              actions: <Widget>[
+                                CupertinoActionSheetAction(
+                                  child: const Text('分享至微信朋友圈'),
+                                  onPressed: () async => await fluwx.share(
+                                      fluwx.WeChatShareWebPageModel(
+                                          scene: fluwx.WeChatScene.TIMELINE,
+                                          webPage: link,
+                                          title: '关注我',
+                                          thumbnail: Auth().avatar)),
+                                ),
+                                CupertinoActionSheetAction(
+                                    child: const Text('分享至微信好友'),
+                                    onPressed: () async => await fluwx.share(
+                                        fluwx.WeChatShareWebPageModel(
+                                            scene: fluwx.WeChatScene.SESSION,
+                                            webPage: link,
+                                            title: '关注我',
+                                            thumbnail: Auth().avatar)))
+                              ],
+                            ));
                   },
                   child: Container(
                     width: 287,
