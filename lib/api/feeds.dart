@@ -27,19 +27,27 @@ Future<Feeds> getUserFeeds(int userId, int cursor, [int pageSize = 10]) async {
   }
 }
 
-Future<void> publish(Feed feed) async {
+Future publish(Feed feed) async {
   try {
-    await HttpClient().post('feeds/tweet/publish', feed.toJson());
+    return await HttpClient().post('feeds/tweet/publish', feed.toJson());
   } catch (e) {
     print(e);
   }
 }
 
-Future<void> star(Feed feed) async {
+Future star(Feed feed) async {
   try {
     int id = feed.id;
-    var response = await HttpClient().post('feeds/tweet/zan?tweetId=$id', {});
-    print(response);
+    return await HttpClient().post('feeds/tweet/zan?tweetId=$id', {});
+  } catch (e) {
+    print(e);
+  }
+}
+
+Future unstar(Feed feed) async {
+  try {
+    int id = feed.id;
+    return await HttpClient().post('feeds/tweet/zan?tweetId=$id', {});
   } catch (e) {
     print(e);
   }
