@@ -53,7 +53,7 @@ class Share {
   void miniprogram(int id, String text) async {
     await fluwx.share(fluwx.WeChatShareMiniProgramModel(
         webPageUrl: 'https://ippapp.com',
-        userName: 'gh_1e6607d61edc',
+        userName: 'gh_8d035903cde6',
         path: 'pages/index/index?tweetId=$id',
         description: text,
         thumbnail:
