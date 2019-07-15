@@ -13,7 +13,7 @@ class Share {
 
   static const channel = const MethodChannel('com.meizizi.doraemon/door');
 
-  void share(context, List<String> pics, String text) async {
+  void share(context, List<String> pics, String text, int id) async {
     showCupertinoModalPopup(
         context: context,
         builder: (_) => CupertinoActionSheet(
@@ -24,7 +24,7 @@ class Share {
                 ),
                 CupertinoActionSheetAction(
                   child: const Text('分享至微信好友'),
-                  onPressed: () => this.miniprogram(pics, text),
+                  onPressed: () => this.miniprogram(id, text),
                 )
               ],
             ));
@@ -50,12 +50,12 @@ class Share {
         image: pics[0], scene: fluwx.WeChatScene.SESSION));
   }
 
-  void miniprogram(List<String> pics, String text) async {
+  void miniprogram(int id, String text) async {
     await fluwx.share(fluwx.WeChatShareMiniProgramModel(
-        webPageUrl: 'https://qq.com',
+        webPageUrl: 'https://ippapp.com',
         userName: 'gh_1e6607d61edc',
-        path: '/',
-        description: '小牛菜急急急',
+        path: 'pages/index/index?tweetId=$id',
+        description: text,
         thumbnail:
             'https://img.ippapp.com/155464043722716101?imageView2/0/interlace/1/q/50%7Cimageslim'));
   }
