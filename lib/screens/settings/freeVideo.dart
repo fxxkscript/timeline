@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:wshop/components/Back.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class FreeVideo extends StatefulWidget {
   @override
@@ -11,17 +10,22 @@ class FreeVideo extends StatefulWidget {
 }
 
 class FreeVideoState extends State<FreeVideo> {
+  final flutterWebviewPlugin = FlutterWebviewPlugin();
+
+  @override
+  void initState() {
+//    this.flutterWebviewPlugin.evalJavascript('alert(1111);');
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-        navigationBar: CupertinoNavigationBar(
-          leading: Back(
-            color: Theme.of(context).primaryColorDark,
-          ),
-        ),
-        child: Container(
-          child: WebView(initialUrl: 'https://iqiyi.com'),
-          margin: EdgeInsets.only(top: 90),
-        ));
+    return WebviewScaffold(
+      url: 'https://www.iqiyi.com',
+      appBar: AppBar(
+        title: Text('爱奇艺'),
+      ),
+    );
   }
 }

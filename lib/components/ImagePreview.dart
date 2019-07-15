@@ -19,7 +19,8 @@ class ImagePreview extends StatelessWidget {
           viewportFraction: 1.0,
           items: imageList.map((link) {
             // 缩略图替换成大图
-            link = link.replaceAll(RegExp(r'\-tweet_pic_v1'), '');
+            link = link.replaceAll(RegExp(r'\-tweet_pic_v1'), '-raw');
+            print(link);
             return Builder(
               builder: (BuildContext context) {
                 return Container(

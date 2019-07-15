@@ -56,7 +56,6 @@ class Share {
         userName: 'gh_8d035903cde6',
         path: 'pages/index/index?tweetId=$id',
         description: text,
-        thumbnail:
-            'https://img.ippapp.com/155464043722716101?imageView2/0/interlace/1/q/50%7Cimageslim'));
+        thumbnail: 'https://img.ippapp.com/logo.png'));
   }
 }
