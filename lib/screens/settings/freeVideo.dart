@@ -28,8 +28,6 @@ class FreeVideoState extends State<FreeVideo> {
 
   @override
   void initState() {
-    loadJS('test');
-
     super.initState();
   }
 
@@ -39,6 +37,23 @@ class FreeVideoState extends State<FreeVideo> {
       url: 'https://www.iqiyi.com',
       appBar: AppBar(
         title: Text('爱奇艺'),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          children: <Widget>[
+            FlatButton(
+              color: Theme.of(context).primaryColor,
+              child: Text('线路1'),
+              onPressed: () async {
+                String link = await flutterWebviewPlugin
+                    .evalJavascript('window.location.href');
+                String url = 'http://zy.1717yun.com/1717yun/?url=' + link;
+
+                flutterWebviewPlugin.launch(url);
+              },
+            )
+          ],
+        ),
       ),
     );
   }
