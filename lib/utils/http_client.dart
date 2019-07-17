@@ -9,12 +9,32 @@ class HttpClient {
   static final HttpClient _instance = new HttpClient._internal();
   Dio dio;
 
+  Map<String, String> headers = {
+    'X-Client-Id': 'weapp_wtzz_v1',
+    'X-Tid': '1',
+    'Content-Type': 'application/json',
+  };
+
   HttpClient._internal() {
     dio = Dio(BaseOptions(baseUrl: baseUrl));
     dio.interceptors.add(InterceptorsWrapper(onError: (DioError e) async {
       if (e.response.statusCode == 401 &&
           e.request.path != 'account/auth/refreshToken') {
+        dio.interceptors.requestLock.lock();
         await refreshToken();
+        dio.interceptors.requestLock.unlock();
+
+        try {
+          var resp;
+          if (e.request.method == 'get') {
+            resp = await this.get(e.request.path, e.request.data);
+          } else {
+            resp = await this.post(e.request.path, e.request.data);
+          }
+          dio.resolve(resp);
+        } catch (e) {
+          dio.reject(e);
+        }
       } else if (e.response.statusCode == 422 || e.response.statusCode == 511) {
         await setCache('accessToken', '');
         // go to signin
@@ -28,11 +48,6 @@ class HttpClient {
   static const baseUrl = 'https://api.ippapp.com/';
 
   Future post(String endPoint, [Map<String, dynamic> data = const {}]) async {
-    Map<String, String> headers = {
-      'X-Client-Id': 'weapp_wtzz_v1',
-      'X-Tid': '1',
-      'Content-Type': 'application/json',
-    };
     var token = await HttpClient.getCache('accessToken');
     if (token != null) {
       headers['X-Access-Token'] = token;
@@ -50,15 +65,11 @@ class HttpClient {
   }
 
   Future get(String endPoint, [Map<String, dynamic> params = const {}]) async {
-    Map<String, String> headers = {
-      'X-Client-Id': 'weapp_wtzz_v1',
-      'X-Tid': '1',
-      'Content-Type': 'application/json',
-    };
     var token = await HttpClient.getCache('accessToken');
     if (token != null) {
       headers['X-Access-Token'] = token;
     }
+
     print("get $endPoint $params");
 
     final response = await this.dio.get(endPoint,
@@ -68,7 +79,13 @@ class HttpClient {
     return response.data;
   }
 
-  refreshToken() async {}
+  Future refreshToken() async {
+    var response = await this.dio.get('account/auth/refreshToken',
+        options: RequestOptions(headers: headers));
+    await HttpClient.setCache('accessToken', response.data);
+
+    return response.data;
+  }
 
   static getCache(String key) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
