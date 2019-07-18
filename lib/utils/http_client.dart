@@ -37,6 +37,7 @@ class HttpClient {
         }
       } else if (e.response.statusCode == 422 || e.response.statusCode == 511) {
         await setCache('accessToken', '');
+        await setCache('refreshToken', '');
         // go to signin
         runApp(App('/login'));
       }
