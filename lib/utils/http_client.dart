@@ -79,9 +79,17 @@ class HttpClient {
     return response.data;
   }
 
-  Future refreshToken() async {
-    var response = await this.dio.get('account/auth/refreshToken',
-        options: RequestOptions(headers: headers));
+  Future<String> refreshToken() async {
+    String refreshToken = await HttpClient.getCache('refreshToken');
+
+    var response = await this.dio.post('account/auth/refreshToken',
+        options: Options(headers: headers),
+        data: {
+          'client': {'clientId': 'app'},
+          'authorizationType': 'refresh_token',
+          'authDetail': {'refreshToken': refreshToken}
+        });
+
     await HttpClient.setCache('accessToken', response.data);
 
     return response.data;
@@ -95,12 +103,12 @@ class HttpClient {
   static setCache(String key, value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString(
-        key, (value != null && value.length > 0) ? value : "");
+        key, (value != null && value.length > 0) ? value : '');
   }
 
   static catchRequestError(e) {
     if (e.response is Response) {
-      return e.response.data["message"];
+      return e.response.data['message'];
     } else {
       return e.message;
     }
