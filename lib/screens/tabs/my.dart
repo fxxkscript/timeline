@@ -321,8 +321,7 @@ class MyTabState extends State<MyTab> {
                             children: <Widget>[
                               GestureDetector(
                                   onTap: () {
-                                    Navigator.of(context)
-                                        .pushNamed('/freeVideo');
+                                    Navigator.of(context).pushNamed('/video');
                                   },
                                   child: Container(
                                     height: 68,

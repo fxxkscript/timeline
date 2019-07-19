@@ -8,6 +8,7 @@ import 'package:wshop/screens/login/mobile.dart';
 import 'package:wshop/screens/settings/freeVideo.dart';
 import 'package:wshop/screens/settings/profile.dart';
 import 'package:wshop/screens/settings/qrcode.dart';
+import 'package:wshop/screens/settings/video.dart';
 import 'package:wshop/screens/welcome.dart';
 import 'package:wshop/screens/withdraw/fundFlow.dart';
 import 'package:wshop/screens/withdraw/withdraw.dart';
@@ -26,4 +27,5 @@ final routes = {
   '/withdraw': (BuildContext context) => WithdrawScreen(),
   '/fundFlow': (BuildContext context) => FundFlowScreen(),
   '/freeVideo': (BuildContext context) => FreeVideo(),
+  '/video': (BuildContext context) => Video(),
 };
