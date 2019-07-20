@@ -2,5 +2,7 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">img.ippapp.com</domain>
+        <domain includeSubdomains="true">zy.1717yun.com</domain>
+        <domain includeSubdomains="true">www.miki.vip</domain>
     </domain-config>
 </network-security-config>

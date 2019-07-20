@@ -17,6 +17,7 @@ class VideoState extends State<Video> {
           leading: Back(
             color: Theme.of(context).primaryColorDark,
           ),
+          middle: Text('免费看VIP视频'),
         ),
         child: Container(
           margin: const EdgeInsets.only(top: 80),
