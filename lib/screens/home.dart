@@ -14,6 +14,22 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => showBroadcast(context));
+  }
+
+  showBroadcast(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            child: Text(
+              '公告：哇哈哈哈哈哈哈哈哈哈',
+              style: Theme.of(context).textTheme.body1,
+            ),
+            height: 100,
+            padding: EdgeInsets.all(10),
+          );
+        });
   }
 
   @override
