@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,6 +32,10 @@ class HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.all(10),
           );
         });
+
+    Timer(Duration(seconds: 15), () {
+      Navigator.pop(context);
+    });
   }
 
   @override
