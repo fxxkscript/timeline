@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +11,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -20,22 +20,12 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   showBroadcast(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            child: Text(
-              '公告：哇哈哈哈哈哈哈哈哈哈',
-              style: Theme.of(context).textTheme.body1,
-            ),
-            height: 100,
-            padding: EdgeInsets.all(10),
-          );
-        });
-
-    Timer(Duration(seconds: 15), () {
-      Navigator.pop(context);
-    });
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(
+        '公告：哇哈哈哈哈哈哈哈哈哈',
+      ),
+      duration: Duration(seconds: 15),
+    ));
   }
 
   @override
@@ -47,42 +37,45 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
 
-    return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              title: Text('动态'),
-              activeIcon: Image.asset('assets/timeline_active.png',
-                  width: 22, height: 22),
-              icon: Image.asset('assets/timeline.png', width: 22, height: 22)),
-          BottomNavigationBarItem(
-              title: Text('关注'),
-              activeIcon:
-                  Image.asset('assets/fav_active.png', width: 22, height: 22),
-              icon: Image.asset('assets/fav.png', width: 22, height: 22)),
-          BottomNavigationBarItem(
-              title: Text('我的'),
-              activeIcon:
-                  Image.asset('assets/mine_active.png', width: 22, height: 22),
-              icon: Image.asset('assets/mine.png', width: 22, height: 22)),
-        ],
-      ),
-      tabBuilder: (BuildContext context, int index) {
-        switch (index) {
-          case 0:
-            return TimelineTab();
-            break;
-          case 1:
-            return Contacts();
-            break;
-          case 2:
-            return MyTab();
-            break;
-          default:
-            return TimelineTab();
-            break;
-        }
-      },
-    );
+    return Scaffold(
+        key: _scaffoldKey,
+        body: CupertinoTabScaffold(
+          tabBar: CupertinoTabBar(
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  title: Text('动态'),
+                  activeIcon: Image.asset('assets/timeline_active.png',
+                      width: 22, height: 22),
+                  icon: Image.asset('assets/timeline.png',
+                      width: 22, height: 22)),
+              BottomNavigationBarItem(
+                  title: Text('关注'),
+                  activeIcon: Image.asset('assets/fav_active.png',
+                      width: 22, height: 22),
+                  icon: Image.asset('assets/fav.png', width: 22, height: 22)),
+              BottomNavigationBarItem(
+                  title: Text('我的'),
+                  activeIcon: Image.asset('assets/mine_active.png',
+                      width: 22, height: 22),
+                  icon: Image.asset('assets/mine.png', width: 22, height: 22)),
+            ],
+          ),
+          tabBuilder: (BuildContext context, int index) {
+            switch (index) {
+              case 0:
+                return TimelineTab();
+                break;
+              case 1:
+                return Contacts();
+                break;
+              case 2:
+                return MyTab();
+                break;
+              default:
+                return TimelineTab();
+                break;
+            }
+          },
+        ));
   }
 }

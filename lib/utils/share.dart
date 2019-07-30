@@ -13,7 +13,7 @@ class Share {
 
   static const channel = const MethodChannel('com.meizizi.doraemon/door');
 
-  void share(context, List<String> pics, String text, int id) async {
+  void share(context, List<String> pics, String text, [int tweetId]) async {
     showCupertinoModalPopup(
         context: context,
         builder: (_) => CupertinoActionSheet(
@@ -24,7 +24,13 @@ class Share {
                 ),
                 CupertinoActionSheetAction(
                   child: const Text('分享至微信好友'),
-                  onPressed: () => this.miniprogram(id, text),
+                  onPressed: () {
+                    if (tweetId > 0) {
+                      this.miniprogram(tweetId, text);
+                    } else {
+                      this.friends(pics, text);
+                    }
+                  },
                 )
               ],
             ));
