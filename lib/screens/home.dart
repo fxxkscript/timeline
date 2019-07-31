@@ -21,9 +21,22 @@ class HomeScreenState extends State<HomeScreen> {
 
   showBroadcast(BuildContext context) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(
-        '公告：哇哈哈哈哈哈哈哈哈哈',
-      ),
+      backgroundColor: Color.fromARGB(200, 237, 237, 237),
+      content: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        Flexible(
+            child: Container(
+                child: Text(
+          '公告：哇哈哈哈哈哈哈哈哈哈哇哈哈哈哈哈哈哈哈哈哇哈哈哈哈哈哈哈哈哈哇哈哈哈哈哈哈哈哈哈哇哈哈哈哈哈哈哈哈哈哇哈哈哈哈哈哈哈哈哈哇哈哈哈哈哈哈哈哈哈',
+          style: Theme.of(context).textTheme.body1,
+        ))),
+        IconButton(
+          icon: Icon(Icons.close, color: Theme.of(context).primaryColorDark),
+          tooltip: '关闭',
+          onPressed: () {
+            _scaffoldKey.currentState.removeCurrentSnackBar();
+          },
+        ),
+      ]),
       duration: Duration(seconds: 15),
     ));
   }
