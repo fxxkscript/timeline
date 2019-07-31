@@ -12,9 +12,6 @@ class Author {
       avatar = json['avatar'];
     }
 
-    return Author(
-        json['uid'],
-        json['nickname'],
-        avatar
-    );
+    return Author(json['uid'], json['nickname'], avatar);
+  }
 }
