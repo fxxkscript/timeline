@@ -24,13 +24,14 @@ class HomeScreenState extends State<HomeScreen> {
 
   void initData() async {
     Notice notice = await getNotice();
-    print(notice.content);
     WidgetsBinding.instance
         .addPostFrameCallback((_) => showNotice(context, notice));
   }
 
   void showNotice(BuildContext context, Notice notice) async {
-    print(notice);
+    if (notice.content == null || notice.content.isEmpty) {
+      return;
+    }
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: Color.fromARGB(200, 237, 237, 237),
       content: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
