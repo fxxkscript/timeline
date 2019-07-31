@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:wshop/models/my.dart';
+import 'package:wshop/models/notice.dart';
 import 'package:wshop/utils/http_client.dart';
 
 Future<My> fetchMy() async {
@@ -11,4 +12,9 @@ Future<My> fetchMy() async {
     print(e);
     return new My();
   }
+}
+
+Future<Notice> getNotice() async {
+  final response = await HttpClient().get('uc/notice/get');
+  return Notice.fromJson(response);
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wshop/api/my.dart';
+import 'package:wshop/models/notice.dart';
 import 'package:wshop/screens/tabs/contacts.dart';
 import 'package:wshop/screens/tabs/my.dart';
 import 'package:wshop/screens/tabs/timeline.dart';
@@ -16,17 +18,26 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => showBroadcast(context));
+
+    this.initData();
   }
 
-  showBroadcast(BuildContext context) {
+  void initData() async {
+    Notice notice = await getNotice();
+    print(notice.content);
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => showNotice(context, notice));
+  }
+
+  void showNotice(BuildContext context, Notice notice) async {
+    print(notice);
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       backgroundColor: Color.fromARGB(200, 237, 237, 237),
       content: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Flexible(
             child: Container(
                 child: Text(
-          '公告：哇哈哈哈哈哈哈哈哈哈哇哈哈哈哈哈哈哈哈哈哇哈哈哈哈哈哈哈哈哈哇哈哈哈哈哈哈哈哈哈哇哈哈哈哈哈哈哈哈哈哇哈哈哈哈哈哈哈哈哈哇哈哈哈哈哈哈哈哈哈',
+          notice.content,
           style: Theme.of(context).textTheme.body1,
         ))),
         IconButton(
@@ -37,7 +48,7 @@ class HomeScreenState extends State<HomeScreen> {
           },
         ),
       ]),
-      duration: Duration(seconds: 15),
+      duration: Duration(seconds: notice.duration),
     ));
   }
 
