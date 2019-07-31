@@ -15,6 +15,11 @@ Future<My> fetchMy() async {
 }
 
 Future<Notice> getNotice() async {
-  final response = await HttpClient().get('uc/notice/get');
-  return Notice.fromJson(response);
+  try {
+    final response = await HttpClient().get('uc/notice/get');
+    return Notice.fromJson(response);
+  } catch (e) {
+    print(e);
+    return Notice();
+  }
 }
