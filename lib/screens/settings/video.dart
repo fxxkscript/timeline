@@ -29,7 +29,8 @@ class VideoState extends State<Video> {
             children: <Widget>[
               GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/freeVideo');
+                    Navigator.of(context).pushNamed('/freeVideo',
+                        arguments: {'url': 'https://youku.com'});
                   },
                   child: Container(
                     height: 68,
@@ -44,7 +45,8 @@ class VideoState extends State<Video> {
                   )),
               GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/freeVideo');
+                    Navigator.of(context).pushNamed('/freeVideo',
+                        arguments: {'url': 'https://iqiyi.com'});
                   },
                   child: Container(
                     height: 68,
@@ -59,7 +61,8 @@ class VideoState extends State<Video> {
                   )),
               GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/freeVideo');
+                    Navigator.of(context).pushNamed('/freeVideo',
+                        arguments: {'url': 'https://v.qq.com/'});
                   },
                   child: Container(
                     height: 68,
