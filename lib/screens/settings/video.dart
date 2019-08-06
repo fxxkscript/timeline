@@ -30,7 +30,7 @@ class VideoState extends State<Video> {
               GestureDetector(
                   onTap: () {
                     Navigator.of(context).pushNamed('/freeVideo',
-                        arguments: {'url': 'https://youku.com'});
+                        arguments: {'url': 'https://youku.com', 'title': '优酷'});
                   },
                   child: Container(
                     height: 68,
@@ -38,15 +38,17 @@ class VideoState extends State<Video> {
                     child: Container(
                         margin: EdgeInsets.only(left: 16, right: 14),
                         child: Image.asset(
-                          'assets/iqiyi.png',
+                          'assets/yk.jpg',
                           width: 24,
                           height: 24,
                         )),
                   )),
               GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/freeVideo',
-                        arguments: {'url': 'https://iqiyi.com'});
+                    Navigator.of(context).pushNamed('/freeVideo', arguments: {
+                      'url': 'https://m.iqiyi.com',
+                      'title': '爱奇艺'
+                    });
                   },
                   child: Container(
                     height: 68,
@@ -54,15 +56,17 @@ class VideoState extends State<Video> {
                     child: Container(
                         margin: EdgeInsets.only(left: 16, right: 14),
                         child: Image.asset(
-                          'assets/iqiyi.png',
+                          'assets/aqy.jpg',
                           width: 24,
                           height: 24,
                         )),
                   )),
               GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/freeVideo',
-                        arguments: {'url': 'https://v.qq.com/'});
+                    Navigator.of(context).pushNamed('/freeVideo', arguments: {
+                      'url': 'http://m.v.qq.com',
+                      'title': '腾讯视频'
+                    });
                   },
                   child: Container(
                     height: 68,
@@ -70,7 +74,25 @@ class VideoState extends State<Video> {
                     child: Container(
                         margin: EdgeInsets.only(left: 16, right: 14),
                         child: Image.asset(
-                          'assets/iqiyi.png',
+                          'assets/tx.jpg',
+                          width: 24,
+                          height: 24,
+                        )),
+                  )),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/freeVideo', arguments: {
+                      'url': 'https://m.mgtv.com',
+                      'title': '芒果'
+                    });
+                  },
+                  child: Container(
+                    height: 68,
+                    margin: EdgeInsets.only(left: 16, right: 18),
+                    child: Container(
+                        margin: EdgeInsets.only(left: 16, right: 14),
+                        child: Image.asset(
+                          'assets/mg.jpg',
                           width: 24,
                           height: 24,
                         )),

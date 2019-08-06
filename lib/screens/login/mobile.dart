@@ -177,6 +177,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
 
     return Scaffold(
       body: Container(
+        color: Colors.white,
         child: Center(
           child: Container(
             child: loginForm,

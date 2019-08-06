@@ -80,7 +80,10 @@ flutter:
     - assets/user_intro_bg.png
     - assets/withdraw_icon.png
     - assets/success_icon.png
-    - assets/iqiyi.png
+    - assets/aqy.jpg
+    - assets/tx.jpg
+    - assets/mg.jpg
+    - assets/yk.jpg
     - assets/js/test.js
 
 

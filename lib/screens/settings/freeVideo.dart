@@ -35,12 +35,24 @@ class FreeVideoState extends State<FreeVideo> {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, String> args = ModalRoute.of(context).settings.arguments;
     return WebviewScaffold(
-      url: 'https://www.iqiyi.com',
+      url: args['url'],
       clearCache: true,
       appCacheEnabled: false,
       appBar: AppBar(
-        title: Text('爱奇艺'),
+        backgroundColor: Colors.white,
+        title: Text(args['title']),
+        leading: GestureDetector(
+          child: Icon(
+            Icons.close,
+            color: Theme.of(context).primaryColorDark,
+            size: 30,
+          ),
+          onTap: () async {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
 //      bottomNavigationBar: BottomAppBar(
 //        child: Row(

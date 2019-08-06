@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class Back extends StatelessWidget {
   final Color color;
+  final Function onTap;
 
-  Back({Key key, this.color = Colors.white});
+  Back({Key key, this.color = Colors.white, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,11 @@ class Back extends StatelessWidget {
         size: 40,
       ),
       onTap: () {
-        Navigator.of(context).pop();
+        if (this.onTap != null) {
+          this.onTap();
+        } else {
+          Navigator.of(context).pop();
+        }
       },
     );
   }
