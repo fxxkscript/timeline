@@ -8,6 +8,7 @@ import 'package:wshop/screens/app.dart';
 class HttpClient {
   static final HttpClient _instance = new HttpClient._internal();
   Dio dio;
+  Dio tokenDio;
 
   Map<String, String> headers = {
     'X-Client-Id': 'weapp_wtzz_v1',
@@ -17,6 +18,7 @@ class HttpClient {
 
   HttpClient._internal() {
     dio = Dio(BaseOptions(baseUrl: baseUrl));
+    tokenDio = Dio(BaseOptions(baseUrl: baseUrl));
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
       var token = await HttpClient.getCache('accessToken');
@@ -42,7 +44,6 @@ class HttpClient {
         } catch (e) {
           dio.reject(e);
         }
-        return null;
       } else if (e.response.statusCode == 422 || e.response.statusCode == 511) {
         await setCache('accessToken', '');
         await setCache('refreshToken', '');
@@ -64,7 +65,7 @@ class HttpClient {
     final response = await this
         .dio
         .post(endPoint, options: Options(headers: headers), data: data);
-
+    print(response);
     var statusCode = response.statusCode;
     print("$statusCode $endPoint ${response.data}");
     return response.data;
@@ -83,7 +84,7 @@ class HttpClient {
   Future<String> refreshToken() async {
     String refreshToken = await HttpClient.getCache('refreshToken');
 
-    var response = await this.dio.post('account/auth/refreshToken',
+    var response = await this.tokenDio.post('account/auth/refreshToken',
         options: Options(headers: headers),
         data: {
           'client': {'clientId': 'app'},

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wshop/api/auth.dart';
 import 'package:wshop/models/auth.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -15,14 +16,21 @@ class WelcomeScreenState extends State<WelcomeScreen> {
   void initState() {
     super.initState();
 
-    // isLogin().then((result) {
-    //   if (result.token.isNotEmpty) {
-    //     Navigator.pushReplacementNamed(context, '/home');
-    //   }
-    // }).catchError((onError) {
-    //   print(onError);
-    //   Navigator.pushReplacementNamed(context, '/login');
-    // });
+    this.check();
+  }
+
+  void check() async {
+    String initalRoute;
+    try {
+      await checkLogin();
+      await getUserBasic();
+
+      initalRoute = '/';
+    } catch (e) {
+      print(e);
+      initalRoute = '/login';
+    }
+    Navigator.pushReplacementNamed(context, initalRoute);
   }
 
   @override
