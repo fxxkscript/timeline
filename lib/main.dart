@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
-import 'package:wshop/api/auth.dart';
 import 'package:wshop/screens/app.dart';
+
+import 'api/auth.dart';
 
 void main() async {
   String initalRoute = '/login';

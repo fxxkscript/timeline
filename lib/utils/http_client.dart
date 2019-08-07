@@ -17,7 +17,14 @@ class HttpClient {
 
   HttpClient._internal() {
     dio = Dio(BaseOptions(baseUrl: baseUrl));
-    dio.interceptors.add(InterceptorsWrapper(onError: (DioError e) async {
+    dio.interceptors
+        .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
+      var token = await HttpClient.getCache('accessToken');
+      if (token != null) {
+        options.headers['X-Access-Token'] = token;
+      }
+      return options;
+    }, onError: (DioError e) async {
       if (e.response.statusCode == 401 &&
           e.request.path != 'account/auth/refreshToken') {
         dio.interceptors.requestLock.lock();
@@ -35,11 +42,14 @@ class HttpClient {
         } catch (e) {
           dio.reject(e);
         }
+        return null;
       } else if (e.response.statusCode == 422 || e.response.statusCode == 511) {
         await setCache('accessToken', '');
         await setCache('refreshToken', '');
         // go to signin
-        runApp(App('/login'));
+        return runApp(App('/login'));
+      } else {
+        return e;
       }
     }));
   }
@@ -49,11 +59,6 @@ class HttpClient {
   static const baseUrl = 'https://api.ippapp.com/';
 
   Future post(String endPoint, [Map<String, dynamic> data = const {}]) async {
-    var token = await HttpClient.getCache('accessToken');
-    if (token != null) {
-      headers['X-Access-Token'] = token;
-    }
-
     print("post $endPoint $data");
 
     final response = await this
@@ -66,11 +71,6 @@ class HttpClient {
   }
 
   Future get(String endPoint, [Map<String, dynamic> params = const {}]) async {
-    var token = await HttpClient.getCache('accessToken');
-    if (token != null) {
-      headers['X-Access-Token'] = token;
-    }
-
     print("get $endPoint $params");
 
     final response = await this.dio.get(endPoint,

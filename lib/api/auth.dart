@@ -56,8 +56,7 @@ Future<bool> loginByWechat(String code) async {
 }
 
 Future<Auth> getUserBasic() async {
-  final response =
-      await HttpClient().post('uc/userBasic/getUserBasicByUid', {});
+  final response = await HttpClient().post('uc/userBasic/getUserBasicByUid');
   return Auth().update(
       nickname: response['nickname'],
       avatar: response['avatar'],
