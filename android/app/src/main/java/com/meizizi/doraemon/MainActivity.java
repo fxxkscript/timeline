@@ -8,12 +8,16 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
+
 import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugins.GeneratedPluginRegistrant;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 
 import com.sch.share.WXShareMultiImageHelper;
 
@@ -58,7 +62,12 @@ public class MainActivity extends FlutterActivity {
 
   // 分享到朋友圈。
   private void shareToTimeline(List<Bitmap> bitmapList, String text) {
-    WXShareMultiImageHelper.shareToTimeline(this, bitmapList, text);
+    // 分享图片和文字，并设置本次分享是否，是否自动发布
+    WXShareMultiImageHelper.Options options = new WXShareMultiImageHelper.Options();
+    options.setAutoFill(true);
+    options.setText(text);
+    options.setAutoPost(true);
+    WXShareMultiImageHelper.shareToTimeline(this, bitmapList, options);
   }
 
 
