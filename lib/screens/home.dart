@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:wshop/api/my.dart';
 import 'package:wshop/models/notice.dart';
 import 'package:wshop/screens/tabs/contacts.dart';
@@ -60,8 +59,6 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-
     return Scaffold(
         key: _scaffoldKey,
         body: CupertinoTabScaffold(
