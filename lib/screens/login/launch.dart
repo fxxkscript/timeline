@@ -25,6 +25,11 @@ class LaunchScreenState extends State<LaunchScreen> {
   @override
   void initState() {
     super.initState();
+    // hide status bar
+//    SystemChrome.setEnabledSystemUIOverlays([]);
+
+    // show status bar
+    //SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values)
 
     handler = fluwx.responseFromAuth.listen((response) async {
       setState(() => _isLoading = true);
@@ -57,11 +62,6 @@ class LaunchScreenState extends State<LaunchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // hide status bar
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    // show status bar
-    //SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values)
-
     return Scaffold(
         appBar: null,
         body: Container(
