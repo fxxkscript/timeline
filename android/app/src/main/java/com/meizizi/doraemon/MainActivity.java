@@ -8,16 +8,9 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.RequiresApi;
-
 import io.flutter.app.FlutterActivity;
-import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
-import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugins.GeneratedPluginRegistrant;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function0;
 
 import com.sch.share.WXShareMultiImageHelper;
 
@@ -38,26 +31,18 @@ public class MainActivity extends FlutterActivity {
 
 
     new MethodChannel(getFlutterView(), CHANNEL).setMethodCallHandler(
-        new MethodCallHandler() {
-          @Override
-          public void onMethodCall(MethodCall call, Result result) {
-            if (call.method.equals("weixin")) {
-              share(call.arguments);
-            }
-          }
-        });
+            (call, result) -> {
+              if (call.method.equals("weixin")) {
+                share(call.arguments);
+              }
+            });
   }
 
   @SuppressWarnings("unchecked")
   protected void share(Object params) {
     HashMap<String, Object> map = (HashMap<String, Object>) params;
 
-    loadImage((List<String>) map.get("pics"), new OnLoadImageEndCallback() {
-      @Override
-      public void onEnd(List<Bitmap> bitmapList) {
-        shareToTimeline(bitmapList, (String) map.get("text"));
-      }
-    });
+    loadImage((List<String>) map.get("pics"), bitmapList -> shareToTimeline(bitmapList, (String) map.get("text")));
   }
 
   // 分享到朋友圈。
@@ -120,25 +105,17 @@ public class MainActivity extends FlutterActivity {
     final ProgressDialog dialog = new ProgressDialog(this);
     dialog.setMessage("正在加载图片...");
     dialog.show();
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        List<Bitmap> bitmapList = new ArrayList<>();
+    new Thread(() -> {
+      List<Bitmap> bitmapList = new ArrayList<>();
 
-        for (String url : imgUrls) {
-          Bitmap bitmap = downloadImage(url);
-          if (bitmap != null) {
-            bitmapList.add(bitmap);
-          }
+      for (String url : imgUrls) {
+        Bitmap bitmap = downloadImage(url);
+        if (bitmap != null) {
+          bitmapList.add(bitmap);
         }
-        runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-            dialog.cancel();
-          }
-        });
-        callback.onEnd(bitmapList);
       }
+      runOnUiThread(dialog::cancel);
+      callback.onEnd(bitmapList);
     }).start();
   }
 

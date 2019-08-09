@@ -8,11 +8,17 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:wshop/api/feeds.dart';
 import 'package:wshop/api/qiniu.dart';
 import 'package:wshop/components/Asset.dart';
+import 'package:wshop/models/assetUrlImage.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/models/author.dart';
 import 'package:wshop/models/feeds.dart';
 
 class Editor extends StatefulWidget {
+  final String content;
+  final List<String> images;
+
+  Editor({this.content, this.images});
+
   @override
   State<StatefulWidget> createState() {
     return EditorState();
@@ -25,13 +31,18 @@ class EditorState extends State<Editor> {
   static const maxPhotos = 9;
   bool saving = false;
 
-  List<Asset> images = [];
+  List<dynamic> images = [];
 
   final textController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+
+    textController.text = widget.content;
+    widget.images?.forEach((img) {
+      images.add(AssetUrlImage(img));
+    });
   }
 
   @override
@@ -70,11 +81,19 @@ class EditorState extends State<Editor> {
 
   List<Widget> listWidget() {
     List<Widget> list = List.generate(images.length, (index) {
-      return AssetView(Key(images[index].name), images[index], (String name) {
-        images.removeWhere((asset) => asset.name == name);
+      if (images[index].runtimeType == AssetUrlImage) {
+        return AssetView(Key(images[index].url), images[index], (String name) {
+          images.removeWhere((asset) => asset.url == name);
 
-        setState(() {});
-      });
+          setState(() {});
+        });
+      } else {
+        return AssetView(Key(images[index].name), images[index], (String name) {
+          images.removeWhere((asset) => asset.name == name);
+
+          setState(() {});
+        });
+      }
     });
     if (list.length < maxPhotos) {
       list.add(ButtonTheme(
@@ -166,14 +185,23 @@ class EditorState extends State<Editor> {
 
                           List<String> list = [];
                           await Future.wait(images.map((img) async {
-                            ByteData byteData = await img.requestOriginal();
-                            Uint8List imageData = byteData.buffer.asUint8List();
-                            Uint8List imageDataCompressed = Uint8List.fromList(
-                                await FlutterImageCompress.compressWithList(
-                                    imageData));
-                            String key = await Qiniu.upload(
-                                context, imageDataCompressed);
-                            list.add(key);
+                            if (img.runtimeType == Asset) {
+                              ByteData byteData = await img.requestOriginal();
+                              Uint8List imageData =
+                                  byteData.buffer.asUint8List();
+                              Uint8List imageDataCompressed =
+                                  Uint8List.fromList(await FlutterImageCompress
+                                      .compressWithList(imageData));
+                              String key = await Qiniu.upload(
+                                  context, imageDataCompressed);
+                              list.add(key);
+                            } else {
+                              String key = img.url
+                                  .replaceAll(RegExp(r'\-tweet_pic_v1'), '')
+                                  .replaceAll('http://img.ippapp.com/', '')
+                                  .replaceAll('https://img.ippapp.com/', '');
+                              list.add(key);
+                            }
                           }));
 
                           await publish(Feed(

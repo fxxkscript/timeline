@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:wshop/screens/editor.dart';
 
 class Share {
   static final Share _instance = new Share._internal();
@@ -13,11 +14,16 @@ class Share {
 
   static const channel = const MethodChannel('com.meizizi.doraemon/door');
 
-  void share(context, List<String> pics, String text, [int tweetId]) async {
+  void share(BuildContext context, List<String> pics, String text,
+      [int tweetId, Function refresh]) async {
     showCupertinoModalPopup(
         context: context,
         builder: (_) => CupertinoActionSheet(
               actions: <Widget>[
+                CupertinoActionSheetAction(
+                  child: const Text('快速复制'),
+                  onPressed: () => this.edit(context, pics, text, refresh),
+                ),
                 CupertinoActionSheetAction(
                   child: const Text('分享至微信朋友圈'),
                   onPressed: () => this.timeline(pics, text),
@@ -34,6 +40,23 @@ class Share {
                 )
               ],
             ));
+  }
+
+  Future<void> edit(BuildContext context, List<String> pics, String text,
+      Function refresh) async {
+    Navigator.pop(context);
+
+    String result = await Navigator.of(context).push(CupertinoPageRoute(
+        fullscreenDialog: true,
+        title: '编辑',
+        builder: (BuildContext context) => Editor(
+              content: text,
+              images: pics,
+            )));
+
+    if (result == 'save') {
+      refresh();
+    }
   }
 
   Future<void> timeline(List<String> pics, String text) async {

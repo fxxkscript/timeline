@@ -217,7 +217,9 @@ class TimelineTabState extends State<TimelineTab> {
                                         context,
                                         _items[index].pics,
                                         _items[index].content,
-                                        _items[index].id);
+                                        _items[index].id, () {
+                                      _getList(refresh: true);
+                                    });
                                   })),
                         ]));
                   },

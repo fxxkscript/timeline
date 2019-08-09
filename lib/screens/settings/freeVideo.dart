@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class FreeVideo extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class FreeVideo extends StatefulWidget {
 
 class FreeVideoState extends State<FreeVideo> {
   final flutterWebviewPlugin = FlutterWebviewPlugin();
+  WebViewController controller;
 
   Future<String> loadJS(String name) async {
     var givenJS = rootBundle.loadString('assets/js/$name.js');
@@ -28,7 +30,7 @@ class FreeVideoState extends State<FreeVideo> {
 
   @override
   void initState() {
-    loadJS('test');
+//    loadJS('test');
 
     super.initState();
   }
@@ -36,24 +38,53 @@ class FreeVideoState extends State<FreeVideo> {
   @override
   Widget build(BuildContext context) {
     Map<String, String> args = ModalRoute.of(context).settings.arguments;
-    return WebviewScaffold(
-      url: args['url'],
-      clearCache: true,
-      appCacheEnabled: false,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(args['title']),
-        leading: GestureDetector(
-          child: Icon(
-            Icons.close,
-            color: Theme.of(context).primaryColorDark,
-            size: 30,
+
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Text(args['title']),
+          leading: GestureDetector(
+            child: Icon(
+              Icons.close,
+              color: Theme.of(context).primaryColorDark,
+              size: 30,
+            ),
+            onTap: () async {
+              Navigator.of(context).pop();
+            },
           ),
-          onTap: () async {
-            Navigator.of(context).pop();
-          },
         ),
-      ),
+        body: WebView(
+          initialUrl: args['url'],
+          javascriptMode: JavascriptMode.unrestricted,
+          debuggingEnabled: true,
+          onWebViewCreated: (WebViewController c) async {
+            controller = c;
+          },
+          onPageFinished: (String url) async {
+            String js = await rootBundle.loadString('assets/js/test.js');
+            print(js);
+            controller.evaluateJavascript(js);
+          },
+        ));
+//    return WebviewScaffold(
+//      url: args['url'],
+//      clearCache: true,
+//      appCacheEnabled: false,
+//      appBar: AppBar(
+//        backgroundColor: Colors.white,
+//        title: Text(args['title']),
+//        leading: GestureDetector(
+//          child: Icon(
+//            Icons.close,
+//            color: Theme.of(context).primaryColorDark,
+//            size: 30,
+//          ),
+//          onTap: () async {
+//            Navigator.of(context).pop();
+//          },
+//        ),
+//      ),
 //      bottomNavigationBar: BottomAppBar(
 //        child: Row(
 //          children: <Widget>[
@@ -72,6 +103,6 @@ class FreeVideoState extends State<FreeVideo> {
 //          ],
 //        ),
 //      ),
-    );
+//    );
   }
 }
