@@ -15,6 +15,8 @@ void main() async {
     initalRoute = '/login';
   }
 
-  fluwx.register(appId: 'wx41df20facbec2635');
+  fluwx.register(
+      appId: 'wx41df20facbec2635',
+      universalLink: 'https://api.ippapp.com/share/');
   runApp(App(initalRoute));
 }
