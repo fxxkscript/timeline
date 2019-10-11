@@ -19,6 +19,15 @@ class HttpClient {
   HttpClient._internal() {
     dio = Dio(BaseOptions(baseUrl: baseUrl));
     tokenDio = Dio(BaseOptions(baseUrl: baseUrl));
+
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.findProxy = (uri) {
+        //proxy all request to localhost:8888
+        return "PROXY 172.18.0.16:8888";
+      };
+    } as dynamic;
+
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
       var token = await HttpClient.getCache('accessToken');
@@ -27,8 +36,9 @@ class HttpClient {
       }
       return options;
     }, onError: (DioError e) async {
-      if (e.response.statusCode == 401 &&
-          e.request.path != 'account/auth/refreshToken') {
+      if (e.response != null &&
+          e.response.statusCode == 401 &&
+          e.request.path != 'uc/auth/refreshToken') {
         dio.interceptors.requestLock.lock();
         await refreshToken();
         dio.interceptors.requestLock.unlock();
@@ -44,12 +54,14 @@ class HttpClient {
         } catch (e) {
           dio.reject(e);
         }
-      } else if (e.response.statusCode == 422 || e.response.statusCode == 511) {
+      } else if (e.response != null &&
+          (e.response.statusCode == 422 || e.response.statusCode == 511)) {
         await setCache('accessToken', '');
         await setCache('refreshToken', '');
         // go to signin
         return runApp(App('/login'));
       } else {
+        print(e.request.path);
         return e;
       }
     }));
@@ -84,7 +96,7 @@ class HttpClient {
   Future<String> refreshToken() async {
     String refreshToken = await HttpClient.getCache('refreshToken');
 
-    var response = await this.tokenDio.post('account/auth/refreshToken',
+    var response = await this.tokenDio.post('uc/auth/refreshToken',
         options: Options(headers: headers),
         data: {
           'client': {'clientId': 'app'},
@@ -92,7 +104,8 @@ class HttpClient {
           'authDetail': {'refreshToken': refreshToken}
         });
 
-    await HttpClient.setCache('accessToken', response.data);
+    await HttpClient.setCache('accessToken', response.data['accessToken']);
+    await HttpClient.setCache('refreshToken', response.data['refreshToken']);
 
     return response.data;
   }

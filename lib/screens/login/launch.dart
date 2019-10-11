@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:wshop/api/auth.dart';
 
@@ -86,10 +85,10 @@ class LaunchScreenState extends State<LaunchScreen> {
                       children: <Widget>[
                         Text(
                           '登录',
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              .copyWith(height: 0.9),
+                          style: Theme.of(context).textTheme.title.copyWith(
+                              height: 0.9,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(
                           '登录后才能看到团队动态',

@@ -43,9 +43,9 @@ class App extends StatelessWidget {
                   fontWeight: FontWeight.normal,
                   color: Color.fromARGB(255, 19, 19, 19)),
               caption: TextStyle(
-                  fontSize: 40,
+                  fontSize: 12,
                   color: Color.fromARGB(255, 19, 19, 19),
-                  fontWeight: FontWeight.bold))),
+                  fontWeight: FontWeight.normal))),
       title: '相册',
       initialRoute: initialRoute,
       routes: routes,

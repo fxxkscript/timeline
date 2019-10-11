@@ -4,8 +4,8 @@ import 'package:wshop/models/auth.dart';
 import 'package:wshop/utils/http_client.dart';
 
 void getCode(String mobile) async {
-  await HttpClient().post(
-      'account/auth/sendVerifyCode', {'mobile': mobile, 'sendType': 'sms'});
+  await HttpClient()
+      .post('uc/auth/sendVerifyCode', {'mobile': mobile, 'sendType': 'sms'});
 }
 
 Future login(String mobile, String code) async {
