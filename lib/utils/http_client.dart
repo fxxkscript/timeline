@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wshop/screens/app.dart';
 
@@ -59,11 +58,13 @@ class HttpClient {
         await setCache('accessToken', '');
         await setCache('refreshToken', '');
         // go to signin
-        return runApp(App('/login'));
+        App.navigatorKey.currentState.pushReplacementNamed('/login');
+        dio.reject(e);
       } else {
         print(e.toString());
-        return e;
       }
+
+      return e;
     }));
   }
 
@@ -93,7 +94,7 @@ class HttpClient {
     return response.data;
   }
 
-  void refreshToken() async {
+  Future<void> refreshToken() async {
     String refreshToken = await HttpClient.getCache('refreshToken');
 
     var response = await this.tokenDio.post('uc/auth/refreshToken',

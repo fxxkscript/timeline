@@ -8,10 +8,13 @@ class App extends StatelessWidget {
 
   App(this.initialRoute);
 
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return OKToast(
         child: MaterialApp(
+      navigatorKey: App.navigatorKey,
       theme: ThemeData(
           primarySwatch: Colors.lightBlue,
           brightness: Brightness.light,
