@@ -20,13 +20,13 @@ class HttpClient {
     dio = Dio(BaseOptions(baseUrl: baseUrl));
     tokenDio = Dio(BaseOptions(baseUrl: baseUrl));
 
-    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (client) {
-      client.findProxy = (uri) {
-        //proxy all request to localhost:8888
-        return "PROXY 172.18.0.16:8888";
-      };
-    } as dynamic;
+//    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+//        (client) {
+//      client.findProxy = (uri) {
+//        //proxy all request to localhost:8888
+//        return "PROXY 172.18.0.16:8888";
+//      };
+//    } as dynamic;
 
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
@@ -61,7 +61,7 @@ class HttpClient {
         // go to signin
         return runApp(App('/login'));
       } else {
-        print(e.request.path);
+        print(e.toString());
         return e;
       }
     }));
@@ -93,21 +93,19 @@ class HttpClient {
     return response.data;
   }
 
-  Future<String> refreshToken() async {
+  void refreshToken() async {
     String refreshToken = await HttpClient.getCache('refreshToken');
 
     var response = await this.tokenDio.post('uc/auth/refreshToken',
         options: Options(headers: headers),
         data: {
-          'client': {'clientId': 'app'},
+          'client': {'clientId': 'weapp_wtzz_v1'},
           'authorizationType': 'refresh_token',
           'authDetail': {'refreshToken': refreshToken}
         });
 
     await HttpClient.setCache('accessToken', response.data['accessToken']);
     await HttpClient.setCache('refreshToken', response.data['refreshToken']);
-
-    return response.data;
   }
 
   static getCache(String key) async {
