@@ -343,7 +343,7 @@ class MyTabState extends State<MyTab> {
                                             )),
                                         Expanded(
                                           child: Text(
-                                            '登出',
+                                            '退出登录',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .body1,
