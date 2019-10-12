@@ -66,10 +66,7 @@ class EditorState extends State<Editor> {
         ),
       );
     } catch (e) {
-      showDialog(
-          context: context,
-          builder: (context) =>
-              CupertinoAlertDialog(title: Text(''), content: Text(e.message)));
+      print(e);
     }
 
     if (!mounted) return;
