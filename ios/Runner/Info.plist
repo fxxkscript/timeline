@@ -62,7 +62,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>需要访问您的相机</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string></string>
+	<string>需要访问您的麦克风</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>需要访问您的相册</string>
 	<key>UILaunchStoryboardName</key>
