@@ -25,10 +25,10 @@ class WelcomeScreenState extends State<WelcomeScreen> {
       await checkLogin();
       await getUserBasic();
 
-      initalRoute = '/';
+      initalRoute = '/home';
     } catch (e) {
       print(e);
-      initalRoute = '/login';
+      initalRoute = '/';
     }
     Navigator.pushReplacementNamed(context, initalRoute);
   }

@@ -323,7 +323,7 @@ class MyTabState extends State<MyTab> {
                                   onTap: () async {
                                     await logout();
                                     Navigator.pushReplacementNamed(
-                                        context, '/login');
+                                        context, '/');
                                   },
                                   child: Container(
                                     height: 68,

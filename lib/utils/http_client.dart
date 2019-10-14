@@ -58,7 +58,21 @@ class HttpClient {
         await setCache('accessToken', '');
         await setCache('refreshToken', '');
         // go to signin
-        App.navigatorKey.currentState.pushReplacementNamed('/login');
+        final newRouteName = '/';
+        bool isNewRouteSameAsCurrent = false;
+
+        App.navigatorKey.currentState.popUntil((route) {
+          print(route.settings.name);
+          if (route.settings.name == newRouteName) {
+            isNewRouteSameAsCurrent = true;
+          }
+          return true;
+        });
+
+        if (!isNewRouteSameAsCurrent) {
+          App.navigatorKey.currentState.pushReplacementNamed(newRouteName);
+        }
+
         dio.reject(e);
       } else {
         print(e.toString());
@@ -109,7 +123,7 @@ class HttpClient {
     await HttpClient.setCache('refreshToken', response.data['refreshToken']);
   }
 
-  static getCache(String key) async {
+  static Future<String> getCache(String key) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(key);
   }

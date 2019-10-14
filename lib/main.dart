@@ -5,14 +5,16 @@ import 'package:wshop/screens/app.dart';
 import 'api/auth.dart';
 
 void main() async {
-  String initalRoute = '/login';
+  WidgetsFlutterBinding.ensureInitialized();
+
+  String initalRoute = '/';
   try {
     await checkLogin();
     await getUserBasic();
 
-    initalRoute = '/';
+    initalRoute = '/home';
   } catch (e) {
-    initalRoute = '/login';
+    initalRoute = '/';
   }
 
   fluwx.registerWxApi(

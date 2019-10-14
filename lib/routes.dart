@@ -14,8 +14,8 @@ import 'package:wshop/screens/withdraw/fundFlow.dart';
 import 'package:wshop/screens/withdraw/withdraw.dart';
 
 final routes = {
-  '/': (BuildContext context) => HomeScreen(),
-  '/login': (BuildContext context) => LaunchScreen(),
+  '/': (BuildContext context) => LaunchScreen(),
+  '/home': (BuildContext context) => HomeScreen(),
   '/login/mobile': (BuildContext context) => LoginMobileScreen(),
   '/welcome': (BuildContext context) => WelcomeScreen(),
   '/friends/fans': (BuildContext context) => FansScreen(),
