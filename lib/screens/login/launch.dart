@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:wshop/api/auth.dart';
 
+import '../app.dart';
+
 class LaunchScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -30,6 +32,8 @@ class LaunchScreenState extends State<LaunchScreen> {
     // show status bar
     //SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values)
 
+    check();
+
     handler = fluwx.responseFromAuth.listen((response) async {
       setState(() => _isLoading = true);
       bool success = await loginByWechat(response.code);
@@ -40,6 +44,18 @@ class LaunchScreenState extends State<LaunchScreen> {
             context, '/', (Route<dynamic> route) => false);
       }
     });
+  }
+
+  check() async {
+    try {
+      await checkLogin();
+      await getUserBasic();
+
+      App.navigatorKey.currentState.pushReplacementNamed('/home');
+    } catch (e) {
+      print(e);
+      return;
+    }
   }
 
   @override
