@@ -1,12 +1,14 @@
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:oktoast/oktoast.dart';
-import 'package:wshop/models/withdraw.dart';
-import 'package:wshop/api/withdraw.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:wshop/api/qiniu.dart';
+import 'package:wshop/api/withdraw.dart';
+import 'package:wshop/models/withdraw.dart';
+
 import 'withdrawSuccess.dart';
 
 class WithdrawScreen extends StatefulWidget {
@@ -324,7 +326,7 @@ class WithdrawModalState extends State<WithdrawModal> {
     _selectedImage = imageData;
     Uint8List imageDataCompressed = Uint8List.fromList(
         await FlutterImageCompress.compressWithList(imageData));
-    String result = await Qiniu.upload(context, imageDataCompressed);
+    String result = await Qiniu.upload(imageDataCompressed);
 
     setState(() {
       qrcodeUrl = result;

@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wshop/utils/http_client.dart';
 
@@ -36,7 +35,7 @@ class Qiniu {
     return token;
   }
 
-  static Future<String> upload(BuildContext context, Uint8List data) async {
+  static Future<String> upload(Uint8List data) async {
     String key = uuid.v1() + '.jpg';
 
     String token = await Qiniu.getToken();
@@ -65,7 +64,7 @@ class Qiniu {
         print(e.message);
       }
       await refreshToken();
-      return await upload(context, data);
+      return await upload(data);
     }
 
     return key;

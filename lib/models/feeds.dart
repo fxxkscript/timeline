@@ -1,18 +1,32 @@
 import 'package:wshop/models/author.dart';
 
-class Feed {
-  int id;
-  Author author;
-  String content;
-  List<String> pics;
-  String video;
-  int sourceId;
-  int star;
-  bool isZan;
-  String createdAt;
+enum MediaType {
+  image,
+  video,
+}
 
-  Feed(this.id, this.star, this.author, this.content, this.pics, this.video,
-      this.sourceId, this.createdAt, this.isZan);
+class Feed {
+  int id = 0;
+  Author author;
+  String content = '';
+  List<String> pics;
+  String video = '';
+  int sourceId = 0;
+  int star = 0;
+  bool isZan = false;
+  String createdAt = '';
+  MediaType type = MediaType.image;
+
+  Feed(
+      {this.id,
+      this.star,
+      this.author,
+      this.content,
+      this.pics,
+      this.video,
+      this.sourceId,
+      this.createdAt,
+      this.isZan});
 
   Map<String, dynamic> toJson() =>
       {'content': content, 'pics': pics, 'video': video, 'sourceId': sourceId};
@@ -39,15 +53,15 @@ class Feeds {
       });
 
       list.add(Feed(
-          item['id'],
-          item['zanNum'],
-          Author.fromJson(item['authorDTO']),
-          item['content'],
-          pics,
-          item['video'],
-          item['sourceId'],
-          item['createdAt'],
-          item['isZan']));
+          id: item['id'],
+          star: item['zanNum'],
+          author: Author.fromJson(item['authorDTO']),
+          content: item['content'],
+          pics: pics,
+          video: item['video'],
+          sourceId: item['sourceId'],
+          createdAt: item['createdAt'],
+          isZan: item['isZan']));
     });
 
     return Feeds(json['hasNext'], json['nextCursor'], list);

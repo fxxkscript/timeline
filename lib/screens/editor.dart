@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:wshop/api/feeds.dart';
 import 'package:wshop/api/qiniu.dart';
@@ -32,6 +34,8 @@ class EditorState extends State<Editor> {
   bool saving = false;
 
   List<dynamic> images = [];
+  File video;
+  MediaType type;
 
   final textController = TextEditingController();
 
@@ -50,6 +54,15 @@ class EditorState extends State<Editor> {
     textController.dispose();
 
     super.dispose();
+  }
+
+  void getVideo() async {
+    var tmp = await ImagePicker.pickVideo(source: ImageSource.gallery);
+
+    setState(() {
+      video = tmp;
+      type = MediaType.video;
+    });
   }
 
   void getImage() async {
@@ -72,6 +85,7 @@ class EditorState extends State<Editor> {
     if (!mounted) return;
 
     setState(() {
+      type = MediaType.image;
       images = List.from(images)..addAll(resultList);
     });
   }
@@ -92,18 +106,94 @@ class EditorState extends State<Editor> {
         });
       }
     });
-    if (list.length < maxPhotos) {
-      list.add(ButtonTheme(
-          child: FlatButton(
-            color: Colors.grey,
-            child: Icon(Icons.add),
-            onPressed: getImage,
-          ),
-          minWidth: 120,
-          height: 120));
+
+    Widget addBtn = ButtonTheme(
+        child: FlatButton(
+          color: Colors.grey,
+          child: Icon(Icons.add),
+          onPressed: choose,
+        ),
+        minWidth: 120,
+        height: 120);
+
+    if (list.length < maxPhotos && type == MediaType.image) {
+      list.add(addBtn);
+    } else if (list.length < 1) {
+      list.add(addBtn);
     }
 
     return list;
+  }
+
+  post() async {
+    if (textController.text.length > 0 || images.length > 0 || video != null) {
+      setState(() {
+        saving = true;
+      });
+
+      List<String> list = [];
+      String videoUrl = '';
+      if (type == MediaType.image) {
+        await Future.wait(images.map((img) async {
+          if (img.runtimeType == Asset) {
+            ByteData byteData = await img.requestOriginal();
+            Uint8List imageData = byteData.buffer.asUint8List();
+            Uint8List imageDataCompressed = Uint8List.fromList(
+                await FlutterImageCompress.compressWithList(imageData));
+            String key = await Qiniu.upload(imageDataCompressed);
+            list.add(key);
+          } else {
+            String key = img.url
+                .replaceAll(RegExp(r'\-tweet_pic_v1'), '')
+                .replaceAll('http://img.ippapp.com/', '')
+                .replaceAll('https://img.ippapp.com/', '');
+            list.add(key);
+          }
+        }));
+      } else if (type == MediaType.video) {
+        if (video.path.indexOf('file://') == 0) {
+          video = File(
+            video.path.split('file://')[1],
+          );
+        }
+        videoUrl = await Qiniu.upload(video.readAsBytesSync());
+      }
+
+      await publish(Feed(
+          author: Author(Auth().uid, Auth().nickname, Auth().avatar),
+          content: textController.text,
+          pics: list,
+          video: videoUrl));
+
+      setState(() {
+        saving = false;
+      });
+
+      Navigator.pop(context, 'save');
+    }
+  }
+
+  choose() {
+    showCupertinoModalPopup(
+        context: context,
+        builder: (_) => CupertinoActionSheet(
+              actions: <Widget>[
+                CupertinoActionSheetAction(
+                  child: const Text('选择照片'),
+                  onPressed: () {
+                    getImage();
+                    Navigator.of(context, rootNavigator: true).pop('Discard');
+                  },
+                ),
+                CupertinoActionSheetAction(
+                  child: const Text('选择视频'),
+                  onPressed: () {
+                    getVideo();
+                    Navigator.of(context, rootNavigator: true).pop('Discard');
+                  },
+                ),
+              ],
+            ));
   }
 
   @override
@@ -171,55 +261,7 @@ class EditorState extends State<Editor> {
                   style: TextStyle(color: Colors.white),
                 ),
                 padding: EdgeInsets.zero,
-                onPressed: saving
-                    ? null
-                    : () async {
-                        if (textController.text.length > 0 ||
-                            images.length > 0) {
-                          setState(() {
-                            saving = true;
-                          });
-
-                          List<String> list = [];
-                          await Future.wait(images.map((img) async {
-                            if (img.runtimeType == Asset) {
-                              ByteData byteData = await img.requestOriginal();
-                              Uint8List imageData =
-                                  byteData.buffer.asUint8List();
-                              Uint8List imageDataCompressed =
-                                  Uint8List.fromList(await FlutterImageCompress
-                                      .compressWithList(imageData));
-                              String key = await Qiniu.upload(
-                                  context, imageDataCompressed);
-                              list.add(key);
-                            } else {
-                              String key = img.url
-                                  .replaceAll(RegExp(r'\-tweet_pic_v1'), '')
-                                  .replaceAll('http://img.ippapp.com/', '')
-                                  .replaceAll('https://img.ippapp.com/', '');
-                              list.add(key);
-                            }
-                          }));
-
-                          await publish(Feed(
-                              0,
-                              0,
-                              Author(
-                                  Auth().uid, Auth().nickname, Auth().avatar),
-                              textController.text,
-                              list,
-                              '',
-                              0,
-                              '',
-                              false));
-
-                          setState(() {
-                            saving = false;
-                          });
-
-                          Navigator.pop(context, 'save');
-                        }
-                      },
+                onPressed: saving ? null : post,
               )),
         ),
         child: GestureDetector(

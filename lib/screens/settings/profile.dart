@@ -64,7 +64,7 @@ class ProfileScreenState extends State<ProfileScreen> {
     Uint8List imageDataCompressed = Uint8List.fromList(
         await FlutterImageCompress.compressWithList(imageData));
 
-    String result = await Qiniu.upload(context, imageDataCompressed);
+    String result = await Qiniu.upload(imageDataCompressed);
 
     setState(() async {
       _data.wechatQrCode = result;

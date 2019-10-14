@@ -22,11 +22,17 @@ class Share {
               actions: <Widget>[
                 CupertinoActionSheetAction(
                   child: const Text('快速复制'),
-                  onPressed: () => this.edit(context, pics, text, refresh),
+                  onPressed: () {
+                    this.edit(context, pics, text, refresh);
+                    Navigator.of(context, rootNavigator: true).pop('Discard');
+                  },
                 ),
                 CupertinoActionSheetAction(
                   child: const Text('分享至微信朋友圈'),
-                  onPressed: () => this.timeline(pics, text),
+                  onPressed: () {
+                    this.timeline(pics, text);
+                    Navigator.of(context, rootNavigator: true).pop('Discard');
+                  },
                 ),
                 CupertinoActionSheetAction(
                   child: const Text('分享至微信好友'),
@@ -36,6 +42,7 @@ class Share {
                     } else {
                       this.friends(pics, text);
                     }
+                    Navigator.of(context, rootNavigator: true).pop('Discard');
                   },
                 )
               ],
