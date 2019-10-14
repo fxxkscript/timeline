@@ -70,7 +70,8 @@ class HttpClient {
         });
 
         if (!isNewRouteSameAsCurrent) {
-          App.navigatorKey.currentState.pushReplacementNamed(newRouteName);
+          App.navigatorKey.currentState
+              .pushNamedAndRemoveUntil(newRouteName, (_) => false);
         }
 
         dio.reject(e);

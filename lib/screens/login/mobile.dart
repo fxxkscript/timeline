@@ -63,7 +63,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
       setState(() => _isLoading = false);
 
       if (success) {
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
       }
     }
   }
