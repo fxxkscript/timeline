@@ -15,7 +15,7 @@ void main() async {
     initalRoute = '/login';
   }
 
-  fluwx.register(
+  fluwx.registerWxApi(
       appId: 'wx41df20facbec2635',
       universalLink: 'https://api.ippapp.com/share/');
   runApp(App(initalRoute));
