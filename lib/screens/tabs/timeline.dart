@@ -71,31 +71,31 @@ class TimelineTabState extends State<TimelineTab> {
   Widget build(BuildContext context) {
     return Container(
       child: Stack(children: [
-        RefreshIndicator(
-            displacement: 80,
-            onRefresh: () {
-              return _getList(refresh: true);
-            },
-            child: NotificationListener<ScrollNotification>(
-                onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo.metrics.pixels >
-                      scrollInfo.metrics.maxScrollExtent - 300) {
-                    _getList();
-                  }
+        NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification scrollInfo) {
+              if (scrollInfo.metrics.pixels >
+                  scrollInfo.metrics.maxScrollExtent - 300) {
+                _getList();
+              }
 
-                  if (scrollInfo.metrics.pixels < 0) {
-                    subject.add(0);
-                  } else if (scrollInfo.metrics.pixels > 0 &&
-                      scrollInfo.metrics.pixels < 100) {
-                    subject
-                        .add((scrollInfo.metrics.pixels / 100 * 255).round());
-                  } else if (scrollInfo.metrics.pixels > 0) {
-                    subject.add(255);
-                  }
-                  return true;
+              if (scrollInfo.metrics.pixels < 0) {
+                subject.add(0);
+              } else if (scrollInfo.metrics.pixels > 0 &&
+                  scrollInfo.metrics.pixels < 100) {
+                subject.add((scrollInfo.metrics.pixels / 100 * 255).round());
+              } else if (scrollInfo.metrics.pixels > 0) {
+                subject.add(255);
+              }
+              return true;
+            },
+            child: RefreshIndicator(
+                displacement: 80,
+                onRefresh: () {
+                  return _getList(refresh: true);
                 },
                 child: ListView.builder(
                   padding: EdgeInsets.only(top: 0, bottom: 100),
+                  physics: const AlwaysScrollableScrollPhysics(),
                   itemCount: _items.length + 1,
                   itemBuilder: (context, index) {
                     if (index == 0) {

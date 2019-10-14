@@ -35,7 +35,7 @@ class EditorState extends State<Editor> {
 
   List<dynamic> images = [];
   File video;
-  MediaType type;
+  MediaType type = MediaType.image;
 
   final textController = TextEditingController();
 
@@ -111,7 +111,7 @@ class EditorState extends State<Editor> {
         child: FlatButton(
           color: Colors.grey,
           child: Icon(Icons.add),
-          onPressed: choose,
+          onPressed: getImage,
         ),
         minWidth: 120,
         height: 120);

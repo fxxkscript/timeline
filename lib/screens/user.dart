@@ -137,31 +137,32 @@ class UserScreenState extends State<UserScreen> {
     return Scaffold(
         body: Container(
       child: Stack(children: [
-        RefreshIndicator(
-            displacement: 80,
-            onRefresh: () {
-              setState(() {
-                _items.clear();
-                feeds = null;
-              });
-              return _getList();
+        NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification scrollInfo) {
+              print(scrollInfo);
+              if (scrollInfo.metrics.pixels > 200) {
+                this.setState(() {
+                  alpha = 255;
+                });
+              } else {
+                this.setState(() {
+                  alpha = 0;
+                });
+              }
+              if (scrollInfo.metrics.pixels ==
+                  scrollInfo.metrics.maxScrollExtent - 300) {
+                _getList();
+              }
+              return true;
             },
-            child: NotificationListener<ScrollNotification>(
-                onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo.metrics.pixels > 200) {
-                    this.setState(() {
-                      alpha = 255;
-                    });
-                  } else {
-                    this.setState(() {
-                      alpha = 0;
-                    });
-                  }
-                  if (scrollInfo.metrics.pixels ==
-                      scrollInfo.metrics.maxScrollExtent - 300) {
-                    _getList();
-                  }
-                  return true;
+            child: RefreshIndicator(
+                displacement: 80,
+                onRefresh: () {
+                  setState(() {
+                    _items.clear();
+                    feeds = null;
+                  });
+                  return _getList();
                 },
                 child: ListView.builder(
                   padding: EdgeInsets.all(0),
