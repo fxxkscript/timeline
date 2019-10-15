@@ -63,13 +63,15 @@ Future<Auth> getUserBasic() async {
       uid: response['uid']);
 }
 
-Future<void> checkLogin() async {
+Future<bool> checkLogin() async {
   var token = await HttpClient.getCache('accessToken');
   if (token.isEmpty || token == null) {
-    throw new Exception('未登录');
+    return false;
   }
 
   var mobile = await HttpClient.getCache('mobile');
 
   Auth().update(mobile: mobile, token: token);
+
+  return true;
 }

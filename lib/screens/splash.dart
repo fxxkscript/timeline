@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:wshop/api/auth.dart';
-import 'package:wshop/models/auth.dart';
 
-class WelcomeScreen extends StatefulWidget {
+class SplashScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return WelcomeScreenState();
+    return SplashScreenState();
   }
 }
 
-class WelcomeScreenState extends State<WelcomeScreen> {
-  Future<Auth> _auth;
-
+class SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
@@ -28,7 +25,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
       initalRoute = '/home';
     } catch (e) {
       print(e);
-      initalRoute = '/';
+      initalRoute = '/login';
     }
     Navigator.pushReplacementNamed(context, initalRoute);
   }

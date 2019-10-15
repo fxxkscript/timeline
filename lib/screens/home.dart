@@ -59,45 +59,49 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: _scaffoldKey,
-        body: CupertinoTabScaffold(
-          tabBar: CupertinoTabBar(
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  title: Text('动态'),
-                  activeIcon: Image.asset('assets/timeline_active.png',
-                      width: 22, height: 22),
-                  icon: Image.asset('assets/timeline.png',
-                      width: 22, height: 22)),
-              BottomNavigationBarItem(
-                  title: Text('关注'),
-                  activeIcon: Image.asset('assets/fav_active.png',
-                      width: 22, height: 22),
-                  icon: Image.asset('assets/fav.png', width: 22, height: 22)),
-              BottomNavigationBarItem(
-                  title: Text('我的'),
-                  activeIcon: Image.asset('assets/mine_active.png',
-                      width: 22, height: 22),
-                  icon: Image.asset('assets/mine.png', width: 22, height: 22)),
-            ],
-          ),
-          tabBuilder: (BuildContext context, int index) {
-            switch (index) {
-              case 0:
-                return TimelineTab();
-                break;
-              case 1:
-                return Contacts();
-                break;
-              case 2:
-                return MyTab();
-                break;
-              default:
-                return TimelineTab();
-                break;
-            }
-          },
-        ));
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+          key: _scaffoldKey,
+          body: CupertinoTabScaffold(
+            tabBar: CupertinoTabBar(
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                    title: Text('动态'),
+                    activeIcon: Image.asset('assets/timeline_active.png',
+                        width: 22, height: 22),
+                    icon: Image.asset('assets/timeline.png',
+                        width: 22, height: 22)),
+                BottomNavigationBarItem(
+                    title: Text('关注'),
+                    activeIcon: Image.asset('assets/fav_active.png',
+                        width: 22, height: 22),
+                    icon: Image.asset('assets/fav.png', width: 22, height: 22)),
+                BottomNavigationBarItem(
+                    title: Text('我的'),
+                    activeIcon: Image.asset('assets/mine_active.png',
+                        width: 22, height: 22),
+                    icon:
+                        Image.asset('assets/mine.png', width: 22, height: 22)),
+              ],
+            ),
+            tabBuilder: (BuildContext context, int index) {
+              switch (index) {
+                case 0:
+                  return TimelineTab();
+                  break;
+                case 1:
+                  return Contacts();
+                  break;
+                case 2:
+                  return MyTab();
+                  break;
+                default:
+                  return TimelineTab();
+                  break;
+              }
+            },
+          )),
+    );
   }
 }

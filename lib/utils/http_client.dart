@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wshop/screens/app.dart';
+
+import '../main.dart';
 
 class HttpClient {
   static final HttpClient _instance = new HttpClient._internal();
@@ -58,7 +59,7 @@ class HttpClient {
         await setCache('accessToken', '');
         await setCache('refreshToken', '');
         // go to signin
-        final newRouteName = '/';
+        final newRouteName = '/login';
         bool isNewRouteSameAsCurrent = false;
 
         App.navigatorKey.currentState.popUntil((route) {

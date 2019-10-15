@@ -9,23 +9,22 @@ import 'package:wshop/screens/settings/freeVideo.dart';
 import 'package:wshop/screens/settings/profile.dart';
 import 'package:wshop/screens/settings/qrcode.dart';
 import 'package:wshop/screens/settings/video.dart';
-import 'package:wshop/screens/welcome.dart';
 import 'package:wshop/screens/withdraw/fundFlow.dart';
 import 'package:wshop/screens/withdraw/withdraw.dart';
 
 final routes = {
-  '/': (BuildContext context) => LaunchScreen(),
-  '/home': (BuildContext context) => HomeScreen(),
-  '/login/mobile': (BuildContext context) => LoginMobileScreen(),
-  '/welcome': (BuildContext context) => WelcomeScreen(),
-  '/friends/fans': (BuildContext context) => FansScreen(),
-  '/settings/profile': (BuildContext context) => ProfileScreen(),
-  '/settings/qrcode': (BuildContext context) => QRCodeScreen(),
-  '/authorization/purchase': (BuildContext context) => PurchaseScreen(),
-  '/authorization/userAgencyIntro': (BuildContext context) =>
-      UserAgencyIntroScreen(),
-  '/withdraw': (BuildContext context) => WithdrawScreen(),
-  '/fundFlow': (BuildContext context) => FundFlowScreen(),
-  '/freeVideo': (BuildContext context) => FreeVideo(),
-  '/video': (BuildContext context) => Video(),
+  '/login': MaterialPageRoute(builder: (_) => LaunchScreen()),
+  '/home': MaterialPageRoute(builder: (_) => HomeScreen()),
+  '/login/mobile': MaterialPageRoute(builder: (_) => LoginMobileScreen()),
+  '/friends/fans': MaterialPageRoute(builder: (_) => FansScreen()),
+  '/settings/profile': MaterialPageRoute(builder: (_) => ProfileScreen()),
+  '/settings/qrcode': MaterialPageRoute(builder: (_) => QRCodeScreen()),
+  '/authorization/purchase':
+      MaterialPageRoute(builder: (_) => PurchaseScreen()),
+  '/authorization/userAgencyIntro':
+      MaterialPageRoute(builder: (_) => UserAgencyIntroScreen()),
+  '/withdraw': MaterialPageRoute(builder: (_) => WithdrawScreen()),
+  '/fundFlow': MaterialPageRoute(builder: (_) => FundFlowScreen()),
+  '/freeVideo': MaterialPageRoute(builder: (_) => FreeVideo()),
+  '/video': MaterialPageRoute(builder: (_) => Video()),
 };
