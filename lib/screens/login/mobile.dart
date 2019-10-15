@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wshop/api/auth.dart';
@@ -24,6 +25,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
 
   final formKey = GlobalKey<FormState>();
   final mobileController = TextEditingController();
+  final codeController = TextEditingController();
 
   @override
   void initState() {
@@ -42,6 +44,11 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
       }
     });
     focusNode = FocusNode();
+
+    if (kDebugMode) {
+      mobileController.text = '15658857801';
+      codeController.text = '8888';
+    }
   }
 
   @override
@@ -117,7 +124,6 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-//                  initialValue: '',
                   controller: mobileController,
                   keyboardType: TextInputType.phone,
                   onSaved: (val) => _mobile = val,
@@ -136,7 +142,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
                   Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
-                        initialValue: '',
+                        controller: codeController,
                         focusNode: focusNode,
                         maxLength: 4,
                         keyboardType: TextInputType.number,

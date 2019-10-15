@@ -16,6 +16,16 @@ class Share {
 
   void share(BuildContext context, List<String> pics, String text,
       [int tweetId, Function refresh]) async {
+    Widget shareText;
+    if (pics.length > 1) {
+      shareText = const Text(
+        '分享至微信朋友圈',
+        style: TextStyle(color: const Color.fromRGBO(172, 172, 172, 1)),
+      );
+    } else {
+      shareText = const Text('分享至微信朋友圈');
+    }
+
     showCupertinoModalPopup(
         context: context,
         builder: (_) => CupertinoActionSheet(
@@ -28,10 +38,12 @@ class Share {
                   },
                 ),
                 CupertinoActionSheetAction(
-                  child: const Text('分享至微信朋友圈'),
+                  child: shareText,
                   onPressed: () {
-                    this.timeline(pics, text);
-                    Navigator.of(context, rootNavigator: true).pop('Discard');
+                    if (pics.length <= 1) {
+                      this.timeline(pics, text);
+                      Navigator.of(context, rootNavigator: true).pop('Discard');
+                    }
                   },
                 ),
                 CupertinoActionSheetAction(
@@ -72,9 +84,11 @@ class Share {
         await fluwx.share(fluwx.WeChatShareTextModel(
             text: text, scene: fluwx.WeChatScene.TIMELINE));
       } else {
-        final int result =
-            await channel.invokeMethod('weixin', {'pics': pics, 'text': text});
-        debugPrint(result.toString());
+        await fluwx.share(fluwx.WeChatShareImageModel(
+            image: pics[0],
+            description: text,
+            title: text,
+            scene: fluwx.WeChatScene.TIMELINE));
       }
     } on PlatformException catch (e) {
       debugPrint(e.toString());
