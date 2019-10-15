@@ -320,10 +320,10 @@ class MyTabState extends State<MyTab> {
                           child: Column(
                             children: <Widget>[
                               GestureDetector(
-                                  onTap: () async {
-                                    await logout();
-                                    Navigator.pushReplacementNamed(
-                                        context, '/login');
+                                  onTap: () {
+                                    Navigator.pushNamedAndRemoveUntil(
+                                        context, '/login', (_) => false);
+                                    logout();
                                   },
                                   child: Container(
                                     height: 68,

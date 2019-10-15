@@ -27,11 +27,9 @@ Future login(String mobile, String code) async {
   return true;
 }
 
-Future<bool> logout() {
+void logout() {
   HttpClient.setCache('accessToken', '');
   HttpClient.setCache('refreshToken', '');
-
-  return Future.value(true);
 }
 
 Future<bool> loginByWechat(String code) async {

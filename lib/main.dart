@@ -70,7 +70,7 @@ class App extends StatelessWidget {
             return _isAuthenticated ? HomeScreen() : LaunchScreen();
           });
         } else {
-          return routes[settings.name];
+          return routes[settings.name]();
         }
       },
     ));

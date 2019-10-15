@@ -39,8 +39,7 @@ class LaunchScreenState extends State<LaunchScreen> {
       await getUserBasic();
       setState(() => _isLoading = false);
       if (success) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, '/home', (Route<dynamic> route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
       }
     });
   }

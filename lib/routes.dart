@@ -13,18 +13,18 @@ import 'package:wshop/screens/withdraw/fundFlow.dart';
 import 'package:wshop/screens/withdraw/withdraw.dart';
 
 final routes = {
-  '/login': MaterialPageRoute(builder: (_) => LaunchScreen()),
-  '/home': MaterialPageRoute(builder: (_) => HomeScreen()),
-  '/login/mobile': MaterialPageRoute(builder: (_) => LoginMobileScreen()),
-  '/friends/fans': MaterialPageRoute(builder: (_) => FansScreen()),
-  '/settings/profile': MaterialPageRoute(builder: (_) => ProfileScreen()),
-  '/settings/qrcode': MaterialPageRoute(builder: (_) => QRCodeScreen()),
-  '/authorization/purchase':
+  '/login': () => MaterialPageRoute(builder: (_) => LaunchScreen()),
+  '/home': () => MaterialPageRoute(builder: (_) => HomeScreen()),
+  '/login/mobile': () => MaterialPageRoute(builder: (_) => LoginMobileScreen()),
+  '/friends/fans': () => MaterialPageRoute(builder: (_) => FansScreen()),
+  '/settings/profile': () => MaterialPageRoute(builder: (_) => ProfileScreen()),
+  '/settings/qrcode': () => MaterialPageRoute(builder: (_) => QRCodeScreen()),
+  '/authorization/purchase': () =>
       MaterialPageRoute(builder: (_) => PurchaseScreen()),
-  '/authorization/userAgencyIntro':
+  '/authorization/userAgencyIntro': () =>
       MaterialPageRoute(builder: (_) => UserAgencyIntroScreen()),
-  '/withdraw': MaterialPageRoute(builder: (_) => WithdrawScreen()),
-  '/fundFlow': MaterialPageRoute(builder: (_) => FundFlowScreen()),
-  '/freeVideo': MaterialPageRoute(builder: (_) => FreeVideo()),
-  '/video': MaterialPageRoute(builder: (_) => Video()),
+  '/withdraw': () => MaterialPageRoute(builder: (_) => WithdrawScreen()),
+  '/fundFlow': () => MaterialPageRoute(builder: (_) => FundFlowScreen()),
+  '/freeVideo': () => MaterialPageRoute(builder: (_) => FreeVideo()),
+  '/video': () => MaterialPageRoute(builder: (_) => Video()),
 };
