@@ -15,8 +15,9 @@ class MyTabState extends State<MyTab> {
 
   @override
   void initState() {
-    _fetchMy = fetchMy();
     super.initState();
+
+    _fetchMy = fetchMy();
   }
 
   @override

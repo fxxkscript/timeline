@@ -6,6 +6,7 @@ import 'package:wshop/api/auth.dart';
 import 'package:wshop/routes.dart';
 import 'package:wshop/screens/home.dart';
 import 'package:wshop/screens/login/launch.dart';
+import 'package:wshop/utils/fadeRoute.dart';
 
 bool _isAuthenticated = false;
 
@@ -65,12 +66,16 @@ class App extends StatelessWidget {
       title: '小杯相册',
       initialRoute: '/',
       onGenerateRoute: (RouteSettings settings) {
+        final args = settings.arguments;
+
         if (settings.name == '/') {
-          return MaterialPageRoute(builder: (_) {
-            return _isAuthenticated ? HomeScreen() : LaunchScreen();
-          });
+          return FadeRoute(
+            page: () {
+              return _isAuthenticated ? HomeScreen() : LaunchScreen();
+            }(),
+          );
         } else {
-          return routes[settings.name]();
+          return routes[settings.name](settings);
         }
       },
     ));

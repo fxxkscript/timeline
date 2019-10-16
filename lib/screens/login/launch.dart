@@ -215,7 +215,12 @@ class LaunchScreenState extends State<LaunchScreen> {
                                           .copyWith(fontSize: 10)),
                                   onPressed: () {
                                     // TODO open view
-                                    print('协议1');
+                                    Navigator.of(context).pushNamed('/webview',
+                                        arguments: {
+                                          'url':
+                                              'https://m.ippapp.com/agreement.html',
+                                          'title': '使用条款'
+                                        });
                                   },
                                 ),
                               ),
@@ -233,7 +238,12 @@ class LaunchScreenState extends State<LaunchScreen> {
                                           .copyWith(fontSize: 10)),
                                   onPressed: () {
                                     // TODO open view
-                                    print('协议2');
+                                    Navigator.of(context).pushNamed('/webview',
+                                        arguments: {
+                                          'url':
+                                              'https://m.ippapp.com/license.html',
+                                          'title': '隐私协议'
+                                        });
                                   },
                                 ),
                               ),

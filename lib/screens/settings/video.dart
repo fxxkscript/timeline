@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wshop/components/Back.dart';
 
-class Video extends StatefulWidget {
+class VideoScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return VideoState();
+    return VideoScreenState();
   }
 }
 
-class VideoState extends State<Video> {
+class VideoScreenState extends State<VideoScreen> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(

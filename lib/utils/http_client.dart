@@ -20,13 +20,15 @@ class HttpClient {
     dio = Dio(BaseOptions(baseUrl: baseUrl));
     tokenDio = Dio(BaseOptions(baseUrl: baseUrl));
 
-//    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-//        (client) {
-//      client.findProxy = (uri) {
-//        //proxy all request to localhost:8888
-//        return "PROXY 172.18.0.16:8888";
-//      };
-//    } as dynamic;
+//    if (kDebugMode) {
+//      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+//          (client) {
+//        client.findProxy = (uri) {
+//          //proxy all request to localhost:8888
+//          return "PROXY 192.168.4.110:8888";
+//        };
+//      } as dynamic;
+//    }
 
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
@@ -77,6 +79,7 @@ class HttpClient {
 
         dio.reject(e);
       } else {
+        print(e.response);
         print(e.toString());
       }
 

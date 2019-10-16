@@ -5,26 +5,36 @@ import 'package:wshop/screens/friends/fans.dart';
 import 'package:wshop/screens/home.dart';
 import 'package:wshop/screens/login/launch.dart';
 import 'package:wshop/screens/login/mobile.dart';
-import 'package:wshop/screens/settings/freeVideo.dart';
 import 'package:wshop/screens/settings/profile.dart';
 import 'package:wshop/screens/settings/qrcode.dart';
 import 'package:wshop/screens/settings/video.dart';
+import 'package:wshop/screens/settings/webview.dart';
 import 'package:wshop/screens/withdraw/fundFlow.dart';
 import 'package:wshop/screens/withdraw/withdraw.dart';
 
 final routes = {
-  '/login': () => MaterialPageRoute(builder: (_) => LaunchScreen()),
-  '/home': () => MaterialPageRoute(builder: (_) => HomeScreen()),
-  '/login/mobile': () => MaterialPageRoute(builder: (_) => LoginMobileScreen()),
-  '/friends/fans': () => MaterialPageRoute(builder: (_) => FansScreen()),
-  '/settings/profile': () => MaterialPageRoute(builder: (_) => ProfileScreen()),
-  '/settings/qrcode': () => MaterialPageRoute(builder: (_) => QRCodeScreen()),
-  '/authorization/purchase': () =>
-      MaterialPageRoute(builder: (_) => PurchaseScreen()),
-  '/authorization/userAgencyIntro': () =>
-      MaterialPageRoute(builder: (_) => UserAgencyIntroScreen()),
-  '/withdraw': () => MaterialPageRoute(builder: (_) => WithdrawScreen()),
-  '/fundFlow': () => MaterialPageRoute(builder: (_) => FundFlowScreen()),
-  '/freeVideo': () => MaterialPageRoute(builder: (_) => FreeVideo()),
-  '/video': () => MaterialPageRoute(builder: (_) => Video()),
+  '/login': (settings) =>
+      MaterialPageRoute(builder: (_) => LaunchScreen(), settings: settings),
+  '/home': (settings) =>
+      MaterialPageRoute(builder: (_) => HomeScreen(), settings: settings),
+  '/login/mobile': (settings) => MaterialPageRoute(
+      builder: (_) => LoginMobileScreen(), settings: settings),
+  '/friends/fans': (settings) =>
+      MaterialPageRoute(builder: (_) => FansScreen(), settings: settings),
+  '/settings/profile': (settings) =>
+      MaterialPageRoute(builder: (_) => ProfileScreen(), settings: settings),
+  '/settings/qrcode': (settings) =>
+      MaterialPageRoute(builder: (_) => QRCodeScreen(), settings: settings),
+  '/authorization/purchase': (settings) =>
+      MaterialPageRoute(builder: (_) => PurchaseScreen(), settings: settings),
+  '/authorization/userAgencyIntro': (settings) => MaterialPageRoute(
+      builder: (_) => UserAgencyIntroScreen(), settings: settings),
+  '/withdraw': (settings) =>
+      MaterialPageRoute(builder: (_) => WithdrawScreen(), settings: settings),
+  '/fundFlow': (settings) =>
+      MaterialPageRoute(builder: (_) => FundFlowScreen(), settings: settings),
+  '/webview': (settings) =>
+      MaterialPageRoute(builder: (_) => WebViewScreen(), settings: settings),
+  '/video': (settings) =>
+      MaterialPageRoute(builder: (_) => VideoScreen(), settings: settings),
 };
