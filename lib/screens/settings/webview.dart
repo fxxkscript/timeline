@@ -4,7 +4,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+class WebViewScreenArgs {
+  final String title;
+  final String url;
+
+  WebViewScreenArgs(this.title, this.url);
+}
+
 class WebViewScreen extends StatefulWidget {
+  final String title;
+  final String url;
+
+  WebViewScreen({Key key, @required this.title, @required this.url})
+      : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return WebViewScreenState();
@@ -30,12 +43,10 @@ class WebViewScreenState extends State<WebViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, String> args = ModalRoute.of(context).settings.arguments;
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Text(args['title'] ?? ''),
+          title: Text(widget.title ?? ''),
           leading: GestureDetector(
             child: Icon(
               Icons.close,
@@ -48,7 +59,7 @@ class WebViewScreenState extends State<WebViewScreen> {
           ),
         ),
         body: WebView(
-            initialUrl: args['url'],
+            initialUrl: widget.url,
             javascriptMode: JavascriptMode.unrestricted,
             debuggingEnabled: true,
             onWebViewCreated: (WebViewController c) async {

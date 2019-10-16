@@ -6,7 +6,8 @@ import 'package:wshop/api/auth.dart';
 import 'package:wshop/routes.dart';
 import 'package:wshop/screens/home.dart';
 import 'package:wshop/screens/login/launch.dart';
-import 'package:wshop/utils/fadeRoute.dart';
+import 'package:wshop/screens/settings/webview.dart';
+import 'package:wshop/utils/customRoute.dart';
 
 bool _isAuthenticated = false;
 
@@ -66,14 +67,17 @@ class App extends StatelessWidget {
       title: '小杯相册',
       initialRoute: '/',
       onGenerateRoute: (RouteSettings settings) {
-        final args = settings.arguments;
-
         if (settings.name == '/') {
           return FadeRoute(
             page: () {
               return _isAuthenticated ? HomeScreen() : LaunchScreen();
             }(),
           );
+        } else if (settings.name == '/webview') {
+          Map args = settings.arguments;
+
+          return SlideTopRoute(
+              page: WebViewScreen(title: args['title'], url: args['url']));
         } else {
           return routes[settings.name](settings);
         }

@@ -8,7 +8,6 @@ import 'package:wshop/screens/login/mobile.dart';
 import 'package:wshop/screens/settings/profile.dart';
 import 'package:wshop/screens/settings/qrcode.dart';
 import 'package:wshop/screens/settings/video.dart';
-import 'package:wshop/screens/settings/webview.dart';
 import 'package:wshop/screens/withdraw/fundFlow.dart';
 import 'package:wshop/screens/withdraw/withdraw.dart';
 
@@ -33,8 +32,6 @@ final routes = {
       MaterialPageRoute(builder: (_) => WithdrawScreen(), settings: settings),
   '/fundFlow': (settings) =>
       MaterialPageRoute(builder: (_) => FundFlowScreen(), settings: settings),
-  '/webview': (settings) =>
-      MaterialPageRoute(builder: (_) => WebViewScreen(), settings: settings),
   '/video': (settings) =>
       MaterialPageRoute(builder: (_) => VideoScreen(), settings: settings),
 };
