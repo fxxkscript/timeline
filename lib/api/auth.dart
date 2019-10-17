@@ -63,7 +63,7 @@ Future<Auth> getUserBasic() async {
 
 Future<bool> checkLogin() async {
   var token = await HttpClient.getCache('accessToken');
-  if (token.isEmpty || token == null) {
+  if (token == null || token.isEmpty) {
     return false;
   }
 
