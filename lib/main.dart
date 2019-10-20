@@ -29,6 +29,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return OKToast(
         child: MaterialApp(
+      debugShowCheckedModeBanner: false,
       navigatorKey: App.navigatorKey,
       theme: ThemeData(
           primarySwatch: Colors.lightBlue,

@@ -16,6 +16,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  in_app_purchase: 0.2.2+1
   image_picker: 0.6.1+4
   flutter_webview_plugin: ^0.3.8
   webview_flutter: ^0.3.14+1
