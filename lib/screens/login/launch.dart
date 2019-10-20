@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:wshop/api/auth.dart';
@@ -19,8 +20,16 @@ class LaunchScreenState extends State<LaunchScreen> {
   bool _isLoading = false;
 
   void _wechat() async {
-    await fluwx.sendAuth(
-        scope: "snsapi_userinfo", state: "wechat_sdk_demo_test");
+    bool installed = await fluwx.isWeChatInstalled();
+    if (installed) {
+      await fluwx.sendAuth(
+          scope: "snsapi_userinfo", state: "wechat_sdk_demo_test");
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) =>
+              CupertinoAlertDialog(title: Text('请先安装微信再使用微信登录')));
+    }
   }
 
   @override
