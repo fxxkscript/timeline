@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:wshop/api/member.dart';
 import 'package:wshop/api/purchase.dart';
 import 'package:wshop/components/PurchaseModal.dart';
@@ -17,15 +20,50 @@ class PurchaseState extends State<PurchaseScreen>
     with TickerProviderStateMixin {
   Future<List<Right>> _fetchRights;
   TabController _controller;
+  StreamSubscription<List<PurchaseDetails>> _subscription;
 
   @override
   void initState() {
+    final Stream purchaseUpdates =
+        InAppPurchaseConnection.instance.purchaseUpdatedStream;
+    _subscription = purchaseUpdates.listen((purchases) {
+      _handlePurchaseUpdates(purchases);
+    });
+
+    _connectStore();
+
     _fetchRights = fetchRights();
     super.initState();
   }
 
+  void _connectStore() async {
+    final bool available = await InAppPurchaseConnection.instance.isAvailable();
+    if (!available) {
+      // The store cannot be reached or accessed. Update the UI accordingly.
+    } else {
+      await _fetchProducts();
+    }
+  }
+
+  void _fetchProducts() async {
+    const Set<String> _kIds = {'1', '2'};
+    final ProductDetailsResponse response =
+        await InAppPurchaseConnection.instance.queryProductDetails(_kIds);
+    if (!response.notFoundIDs.isEmpty) {
+      // Handle the error.
+      print(2222);
+    }
+    print(response);
+    List<ProductDetails> products = response.productDetails;
+  }
+
+  void _handlePurchaseUpdates(purchases) {
+    print(purchases);
+  }
+
   @override
   void dispose() {
+    _subscription.cancel();
     _controller.dispose();
     super.dispose();
   }
