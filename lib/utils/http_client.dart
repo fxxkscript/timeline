@@ -60,23 +60,7 @@ class HttpClient {
           (e.response.statusCode == 422 || e.response.statusCode == 511)) {
         await setCache('accessToken', '');
         await setCache('refreshToken', '');
-        // go to signin
-        final newRouteName = '/login';
-        bool isNewRouteSameAsCurrent = false;
-
-        App.navigatorKey.currentState.popUntil((route) {
-          print(route.settings.name);
-          if (route.settings.name == newRouteName) {
-            isNewRouteSameAsCurrent = true;
-          }
-          return true;
-        });
-
-        if (!isNewRouteSameAsCurrent) {
-          App.navigatorKey.currentState
-              .pushNamedAndRemoveUntil(newRouteName, (_) => false);
-        }
-
+        goToLogin();
         dio.reject(e);
       } else {
         print(e.response);
@@ -90,6 +74,25 @@ class HttpClient {
   factory HttpClient() => _instance;
 
   static const baseUrl = 'https://api.ippapp.com/';
+
+  void goToLogin() {
+    // go to signin
+    final newRouteName = '/login';
+    bool isNewRouteSameAsCurrent = false;
+
+    App.navigatorKey.currentState.popUntil((route) {
+      print(route.settings.name);
+      if (route.settings.name == newRouteName) {
+        isNewRouteSameAsCurrent = true;
+      }
+      return true;
+    });
+
+    if (!isNewRouteSameAsCurrent) {
+      App.navigatorKey.currentState
+          .pushNamedAndRemoveUntil(newRouteName, (_) => false);
+    }
+  }
 
   Future post(String endPoint, [Map<String, dynamic> data = const {}]) async {
     print("post $endPoint $data");
@@ -115,14 +118,19 @@ class HttpClient {
 
   Future<void> refreshToken() async {
     String refreshToken = await HttpClient.getCache('refreshToken');
-
-    var response = await this.tokenDio.post('uc/auth/refreshToken',
-        options: Options(headers: headers),
-        data: {
-          'client': {'clientId': 'weapp_wtzz_v1'},
-          'authorizationType': 'refresh_token',
-          'authDetail': {'refreshToken': refreshToken}
-        });
+    var response;
+    try {
+      response = await this.tokenDio.post('uc/auth/refreshToken',
+          options: Options(headers: headers),
+          data: {
+            'client': {'clientId': 'weapp_wtzz_v1'},
+            'authorizationType': 'refresh_token',
+            'authDetail': {'refreshToken': refreshToken}
+          });
+    } catch (e) {
+      goToLogin();
+      throw e;
+    }
 
     await HttpClient.setCache('accessToken', response.data['accessToken']);
     await HttpClient.setCache('refreshToken', response.data['refreshToken']);

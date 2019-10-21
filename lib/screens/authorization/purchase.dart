@@ -39,6 +39,7 @@ class PurchaseState extends State<PurchaseScreen>
   void _connectStore() async {
     final bool available = await InAppPurchaseConnection.instance.isAvailable();
     if (!available) {
+      print('not available');
       // The store cannot be reached or accessed. Update the UI accordingly.
     } else {
       await _fetchProducts();
@@ -46,15 +47,20 @@ class PurchaseState extends State<PurchaseScreen>
   }
 
   void _fetchProducts() async {
-    const Set<String> _kIds = {'1', '2'};
+    const Set<String> _kIds = {
+      '1',
+      '2',
+      '3',
+    };
     final ProductDetailsResponse response =
         await InAppPurchaseConnection.instance.queryProductDetails(_kIds);
-    if (!response.notFoundIDs.isEmpty) {
+    if (response.notFoundIDs.isNotEmpty) {
       // Handle the error.
-      print(2222);
+      print(response.notFoundIDs);
     }
-    print(response);
+
     List<ProductDetails> products = response.productDetails;
+    print(products);
   }
 
   void _handlePurchaseUpdates(purchases) {
