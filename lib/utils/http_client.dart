@@ -38,9 +38,7 @@ class HttpClient {
       }
       return options;
     }, onError: (DioError e) async {
-      if (e.response != null &&
-          e.response.statusCode == 401 &&
-          e.request.path != 'uc/auth/refreshToken') {
+      if (e.response != null && e.response.statusCode == 401) {
         dio.interceptors.requestLock.lock();
         await refreshToken();
         dio.interceptors.requestLock.unlock();
@@ -56,18 +54,19 @@ class HttpClient {
         } catch (e) {
           dio.reject(e);
         }
+        return null;
       } else if (e.response != null &&
           (e.response.statusCode == 422 || e.response.statusCode == 511)) {
         await setCache('accessToken', '');
         await setCache('refreshToken', '');
         goToLogin();
         dio.reject(e);
+        return null;
       } else {
         print(e.response);
         print(e.toString());
+        return e;
       }
-
-      return e;
     }));
   }
 
