@@ -30,6 +30,7 @@ class PurchaseButton extends StatelessWidget {
 showPurchaseModal(
     context, String placeholder, String buttonText, Function confirm) {
   final textController = TextEditingController();
+  print(confirm);
   return showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -39,7 +40,7 @@ showPurchaseModal(
           }
           String msg;
           try {
-            await confirm(context, textController.text);
+            await confirm(textController.text);
             msg = '激活成功';
             Navigator.pop(context);
           } catch (e) {

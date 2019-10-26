@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wshop/api/auth.dart';
+import 'package:wshop/api/member.dart';
 import 'package:wshop/api/my.dart';
+import 'package:wshop/components/PurchaseModal.dart';
 import 'package:wshop/models/my.dart';
 
 class MyTab extends StatefulWidget {
@@ -303,6 +305,57 @@ class MyTabState extends State<MyTab> {
                                                         .copyWith(fontSize: 12))
                                               ],
                                             ),
+                                            Icon(
+                                              Icons.chevron_right,
+                                              color: Color.fromARGB(
+                                                  255, 209, 209, 214),
+                                            )
+                                          ],
+                                        ))
+                                      ],
+                                    ),
+                                  )),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          color: Colors.white,
+                          child: Column(
+                            children: <Widget>[
+                              GestureDetector(
+                                  onTap: () async {
+                                    final code = await createActivation();
+                                    print(code);
+                                    showPurchaseModal(
+                                        context, '输入授权码', '确认兑换', createMember);
+                                  },
+                                  child: Container(
+                                    height: 68,
+                                    margin:
+                                        EdgeInsets.only(left: 16, right: 18),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                            margin: EdgeInsets.only(
+                                                left: 16, right: 14),
+                                            child: Image.asset(
+                                              'assets/setting.png',
+                                              width: 24,
+                                              height: 24,
+                                            )),
+                                        Expanded(
+                                          child: Text(
+                                            '输入授权码',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .body1,
+                                          ),
+                                        ),
+                                        Container(
+                                            child: Row(
+                                          children: <Widget>[
                                             Icon(
                                               Icons.chevron_right,
                                               color: Color.fromARGB(

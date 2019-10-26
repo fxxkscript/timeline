@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:wshop/api/member.dart';
 import 'package:wshop/api/purchase.dart';
 import 'package:wshop/components/PurchaseModal.dart';
 import 'package:wshop/components/PurchaseTabIndicator.dart';
@@ -21,6 +20,7 @@ class PurchaseState extends State<PurchaseScreen>
   Future<List<Right>> _fetchRights;
   TabController _controller;
   StreamSubscription<List<PurchaseDetails>> _subscription;
+  List<ProductDetails> _products;
 
   @override
   void initState() {
@@ -58,13 +58,20 @@ class PurchaseState extends State<PurchaseScreen>
       // Handle the error.
       print(response.notFoundIDs);
     }
-
-    List<ProductDetails> products = response.productDetails;
-    print(products);
+    setState(() {
+      _products = response.productDetails;
+    });
   }
 
   void _handlePurchaseUpdates(purchases) {
     print(purchases);
+  }
+
+  ProductDetails getProductDetail(Right right) {
+    if (_products != null) {
+      return _products[0];
+    }
+    return null;
   }
 
   @override
@@ -120,7 +127,8 @@ class PurchaseState extends State<PurchaseScreen>
                     child: TabBarView(
                         controller: _controller,
                         children: snapshot.data
-                            .map((right) => _Content(right))
+                            .map((right) =>
+                                _Content(right, getProductDetail(right)))
                             .toList()),
                   )
                 ]));
@@ -131,8 +139,9 @@ class PurchaseState extends State<PurchaseScreen>
 
 class _Content extends StatelessWidget {
   final Right right;
+  final ProductDetails product;
 
-  _Content(this.right);
+  _Content(this.right, this.product);
 
   @override
   Widget build(BuildContext context) {
@@ -146,11 +155,15 @@ class _Content extends StatelessWidget {
           children: <Widget>[
             PriceCard(right.levelGoods),
             Container(height: 10),
-            PurchaseButton('已有授权码，输入兑换 >', () async {
-              // TODO: remove test code
-              final code = await createActivation();
-              print(code);
-              showPurchaseModal(context, '输入授权码', '确认兑换', createMember);
+            PurchaseButton('购买', () async {
+//              final code = await createActivation();
+//              print(code);
+//              showPurchaseModal(context, '输入授权码', '确认兑换', createMember);
+              final PurchaseParam purchaseParam =
+                  PurchaseParam(productDetails: product);
+              print(product.description);
+              InAppPurchaseConnection.instance
+                  .buyNonConsumable(purchaseParam: purchaseParam);
             }),
             Padding(
               padding: const EdgeInsets.only(top: 5.0, bottom: 60),
