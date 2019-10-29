@@ -30,8 +30,9 @@ class PurchaseButton extends StatelessWidget {
 showPurchaseModal(
     context, String placeholder, String buttonText, Function confirm) {
   final textController = TextEditingController();
-  print(confirm);
+
   return showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
         final onButtonTap = () async {
@@ -48,25 +49,27 @@ showPurchaseModal(
           }
           showToast(msg, textPadding: EdgeInsets.all(15));
         };
-        return Container(
-            height: 300,
-            decoration: BoxDecoration(color: Colors.white),
-            child: Padding(
-              padding: const EdgeInsets.all(64.0),
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    controller: textController,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: placeholder,
-                        fillColor: Color(0xFFF6F6F6),
-                        filled: true),
+        return SingleChildScrollView(
+            child: Container(
+                decoration: BoxDecoration(color: Colors.white),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: Padding(
+                  padding: const EdgeInsets.all(64.0),
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: textController,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: placeholder,
+                            fillColor: Color(0xFFF6F6F6),
+                            filled: true),
+                      ),
+                      Container(height: 24),
+                      PurchaseButton(buttonText, onButtonTap),
+                    ],
                   ),
-                  Container(height: 24),
-                  PurchaseButton(buttonText, onButtonTap),
-                ],
-              ),
-            ));
+                )));
       });
 }
