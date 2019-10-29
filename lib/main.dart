@@ -14,6 +14,7 @@ bool _isAuthenticated = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   _isAuthenticated = await checkLogin();
+  getUserBasic();
 
   fluwx.registerWxApi(
       appId: 'wx41df20facbec2635',

@@ -40,22 +40,28 @@ class LevelGoods {
   final String perUnitName;
   final String perPrice;
   final int days;
+  final String appleGoodsId;
 
   LevelGoods(
-      {this.typeName, this.price, this.perUnit, this.perUnitName, this.perPrice, this.days});
+      {this.typeName,
+      this.price,
+      this.perUnit,
+      this.perUnitName,
+      this.perPrice,
+      this.days,
+      this.appleGoodsId});
 
   factory LevelGoods.fromJson(Map<dynamic, dynamic> json) {
     return new LevelGoods(
-      typeName: json['typeName'],
-      price: json['price'],
-      perUnit: json['perUnit'],
-      perUnitName: json['perUnitName'],
-      perPrice: json['perPrice'],
-      days: json['days'],
-    );
+        typeName: json['typeName'],
+        price: json['price'],
+        perUnit: json['perUnit'],
+        perUnitName: json['perUnitName'],
+        perPrice: json['perPrice'],
+        days: json['days'],
+        appleGoodsId: json['appleGoodsId']);
   }
 }
-
 
 class Feature {
   final String name;

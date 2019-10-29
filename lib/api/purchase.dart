@@ -14,3 +14,14 @@ Future<List<Right>> fetchRights() async {
     return [];
   }
 }
+
+Future<bool> verify(String purchaseId) async {
+  try {
+    final response =
+        await HttpClient().get('uc/memberIntro/find', {purchaseId: purchaseId});
+    return response;
+  } catch (e) {
+    print(e);
+    return false;
+  }
+}

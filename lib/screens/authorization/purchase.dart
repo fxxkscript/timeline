@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
@@ -20,58 +21,163 @@ class PurchaseState extends State<PurchaseScreen>
   Future<List<Right>> _fetchRights;
   TabController _controller;
   StreamSubscription<List<PurchaseDetails>> _subscription;
-  List<ProductDetails> _products;
+  final InAppPurchaseConnection _connection = InAppPurchaseConnection.instance;
+  List<String> _notFoundIds = [];
+  List<ProductDetails> _products = [];
+  List<PurchaseDetails> _purchases = [];
+  bool _isAvailable = false;
+  bool _purchasePending = false;
+  bool _loading = true;
+  String _queryProductError = null;
 
   @override
   void initState() {
-    final Stream purchaseUpdates =
-        InAppPurchaseConnection.instance.purchaseUpdatedStream;
+    Stream purchaseUpdates = _connection.purchaseUpdatedStream;
+
     _subscription = purchaseUpdates.listen((purchases) {
-      _handlePurchaseUpdates(purchases);
+      _listenToPurchaseUpdated(purchases);
+    }, onDone: () {
+      _subscription.cancel();
+    }, onError: (error) {
+      // handle error here.
     });
 
-    _connectStore();
-
     _fetchRights = fetchRights();
+
+    initStoreInfo();
     super.initState();
   }
 
-  void _connectStore() async {
-    final bool available = await InAppPurchaseConnection.instance.isAvailable();
-    if (!available) {
-      print('not available');
-      // The store cannot be reached or accessed. Update the UI accordingly.
-    } else {
-      await _fetchProducts();
-    }
-  }
+  void initStoreInfo() async {
+    var list = await _fetchRights;
 
-  void _fetchProducts() async {
-    const Set<String> _kIds = {
-      '1',
-      '2',
-      '3',
-    };
-    final ProductDetailsResponse response =
-        await InAppPurchaseConnection.instance.queryProductDetails(_kIds);
-    if (response.notFoundIDs.isNotEmpty) {
-      // Handle the error.
-      print(response.notFoundIDs);
+    final bool available = await _connection.isAvailable();
+    if (!available) {
+      setState(() {
+        _isAvailable = available;
+        _products = [];
+        _purchases = [];
+        _notFoundIds = [];
+        _purchasePending = false;
+        _loading = false;
+      });
+      return;
+      // The store cannot be reached or accessed. Update the UI accordingly.
     }
+
+    final ProductDetailsResponse productDetailResponse =
+        await _connection.queryProductDetails(list.map((item) {
+      return item.levelGoods.appleGoodsId;
+    }).toSet());
+
+    if (productDetailResponse.error != null) {
+      setState(() {
+        _queryProductError = productDetailResponse.error.message;
+        _isAvailable = available;
+        _products = productDetailResponse.productDetails;
+        _purchases = [];
+        _notFoundIds = productDetailResponse.notFoundIDs;
+        _purchasePending = false;
+        _loading = false;
+      });
+      return;
+    }
+
+    if (productDetailResponse.productDetails.isEmpty) {
+      setState(() {
+        _queryProductError = null;
+        _isAvailable = available;
+        _products = productDetailResponse.productDetails;
+        _purchases = [];
+        _notFoundIds = productDetailResponse.notFoundIDs;
+        _purchasePending = false;
+        _loading = false;
+      });
+      return;
+    }
+
+    final QueryPurchaseDetailsResponse purchaseResponse =
+        await _connection.queryPastPurchases();
+    if (purchaseResponse.error != null) {
+      // handle query past purchase error..
+    }
+    final List<PurchaseDetails> verifiedPurchases = [];
+    for (PurchaseDetails purchase in purchaseResponse.pastPurchases) {
+      if (await _verifyPurchase(purchase)) {
+        verifiedPurchases.add(purchase);
+      }
+    }
+
     setState(() {
-      _products = response.productDetails;
+      _isAvailable = available;
+      _products = productDetailResponse.productDetails;
+      _purchases = verifiedPurchases;
+      _notFoundIds = productDetailResponse.notFoundIDs;
+      _purchasePending = false;
+      _loading = false;
     });
   }
 
-  void _handlePurchaseUpdates(purchases) {
-    print(purchases);
+  Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) {
+    return verify(purchaseDetails.purchaseID);
+  }
+
+  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
+      if (purchaseDetails.status == PurchaseStatus.pending) {
+        showPendingUI();
+      } else {
+        if (purchaseDetails.status == PurchaseStatus.error) {
+          handleError(purchaseDetails.error);
+        } else if (purchaseDetails.status == PurchaseStatus.purchased) {
+          bool valid = await _verifyPurchase(purchaseDetails);
+          if (valid) {
+            deliverProduct(purchaseDetails);
+          } else {
+            _handleInvalidPurchase(purchaseDetails);
+          }
+        }
+        if (Platform.isIOS) {
+          InAppPurchaseConnection.instance.completePurchase(purchaseDetails);
+        }
+      }
+    });
+  }
+
+  void _handleInvalidPurchase(PurchaseDetails purchaseDetails) {
+    // handle invalid purchase here if  _verifyPurchase` failed.
+    print('非法购买');
+  }
+
+  void deliverProduct(PurchaseDetails purchaseDetails) async {
+    // IMPORTANT!! Always verify a purchase purchase details before delivering the product.
+
+    setState(() {
+      _purchases.add(purchaseDetails);
+      _purchasePending = false;
+    });
+  }
+
+  void showPendingUI() {
+    setState(() {
+      _purchasePending = true;
+    });
+  }
+
+  void handleError(IAPError error) {
+    setState(() {
+      _purchasePending = false;
+    });
   }
 
   ProductDetails getProductDetail(Right right) {
-    if (_products != null) {
-      return _products[0];
+    if (_products == null) {
+      return null;
     }
-    return null;
+    var product = _products.firstWhere(
+        (product) => product.id == right.levelGoods.appleGoodsId,
+        orElse: () => null);
+    return product;
   }
 
   @override
@@ -156,6 +262,10 @@ class _Content extends StatelessWidget {
             PriceCard(right.levelGoods),
             Container(height: 10),
             PurchaseButton('购买', () async {
+              if (product == null) {
+                print('还没有获取商品数据');
+                return;
+              }
 //              final code = await createActivation();
 //              print(code);
 //              showPurchaseModal(context, '输入授权码', '确认兑换', createMember);
@@ -165,11 +275,7 @@ class _Content extends StatelessWidget {
               InAppPurchaseConnection.instance
                   .buyNonConsumable(purchaseParam: purchaseParam);
             }),
-            Padding(
-              padding: const EdgeInsets.only(top: 5.0, bottom: 60),
-              child: Text('购买请联系客服',
-                  style: TextStyle(fontSize: 12, color: Color(0xff666666))),
-            ),
+            Padding(padding: const EdgeInsets.only(top: 5.0, bottom: 60)),
             _FeatureList(right.level.name, right.features)
           ],
         ),
