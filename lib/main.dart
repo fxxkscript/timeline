@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
@@ -8,6 +10,8 @@ import 'package:wshop/screens/home.dart';
 import 'package:wshop/screens/login/launch.dart';
 import 'package:wshop/screens/settings/webview.dart';
 import 'package:wshop/utils/customRoute.dart';
+
+FirebaseAnalytics analytics = FirebaseAnalytics();
 
 bool _isAuthenticated = false;
 
@@ -32,6 +36,9 @@ class App extends StatelessWidget {
         child: MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: App.navigatorKey,
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: analytics),
+      ],
       theme: ThemeData(
           primarySwatch: Colors.lightBlue,
           brightness: Brightness.light,

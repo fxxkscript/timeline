@@ -4,11 +4,27 @@ import 'package:oktoast/oktoast.dart';
 class PurchaseButton extends StatelessWidget {
   final String text;
   final Function onPressed;
+  final bool available;
 
-  PurchaseButton(this.text, this.onPressed);
+  PurchaseButton(this.text, this.onPressed, this.available);
 
   @override
   Widget build(BuildContext context) {
+    if (!available) {
+      return RawMaterialButton(
+          onPressed: null,
+          child: Container(
+              height: 44,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(22),
+                color: Theme.of(context).disabledColor,
+              ),
+              child: Center(
+                  child: Text(text,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 252, 234, 184))))));
+    }
     return RawMaterialButton(
         onPressed: onPressed,
         child: Container(
@@ -67,7 +83,7 @@ showPurchaseModal(
                             filled: true),
                       ),
                       Container(height: 24),
-                      PurchaseButton(buttonText, onButtonTap),
+                      PurchaseButton(buttonText, onButtonTap, true),
                     ],
                   ),
                 )));

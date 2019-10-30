@@ -219,6 +219,11 @@ class TimelineTabState extends State<TimelineTab> {
                                         _items[index].content,
                                         _items[index].id, () {
                                       _getList(refresh: true);
+                                    }, () {
+                                      print('block');
+                                      setState(() {
+                                        _items.removeAt(index);
+                                      });
                                     });
                                   })),
                         ]));

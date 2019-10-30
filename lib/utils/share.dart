@@ -15,7 +15,7 @@ class Share {
   static const channel = const MethodChannel('com.meizizi.doraemon/door');
 
   void share(BuildContext context, List<String> pics, String text,
-      [int tweetId, Function refresh]) async {
+      [int tweetId, Function refresh, Function block]) async {
     Widget shareText;
     if (pics.length > 1) {
       shareText = const Text(
@@ -26,38 +26,50 @@ class Share {
       shareText = const Text('分享至微信朋友圈');
     }
 
+    List<Widget> list = [
+      CupertinoActionSheetAction(
+        child: const Text('快速复制'),
+        onPressed: () {
+          this.edit(context, pics, text, refresh);
+          Navigator.of(context, rootNavigator: true).pop('Discard');
+        },
+      ),
+      CupertinoActionSheetAction(
+        child: shareText,
+        onPressed: () {
+          if (pics.length <= 1) {
+            this.timeline(pics, text);
+            Navigator.of(context, rootNavigator: true).pop('Discard');
+          }
+        },
+      ),
+      CupertinoActionSheetAction(
+        child: const Text('分享至微信好友'),
+        onPressed: () {
+          if (tweetId > 0) {
+            this.miniprogram(tweetId, text);
+          } else {
+            this.friends(pics, text);
+          }
+          Navigator.of(context, rootNavigator: true).pop('Discard');
+        },
+      )
+    ];
+
+    if (block != null) {
+      list.add(CupertinoActionSheetAction(
+        child: const Text('屏蔽'),
+        onPressed: () {
+          block();
+          Navigator.of(context, rootNavigator: true).pop('Discard');
+        },
+      ));
+    }
+
     showCupertinoModalPopup(
         context: context,
         builder: (_) => CupertinoActionSheet(
-              actions: <Widget>[
-                CupertinoActionSheetAction(
-                  child: const Text('快速复制'),
-                  onPressed: () {
-                    this.edit(context, pics, text, refresh);
-                    Navigator.of(context, rootNavigator: true).pop('Discard');
-                  },
-                ),
-                CupertinoActionSheetAction(
-                  child: shareText,
-                  onPressed: () {
-                    if (pics.length <= 1) {
-                      this.timeline(pics, text);
-                      Navigator.of(context, rootNavigator: true).pop('Discard');
-                    }
-                  },
-                ),
-                CupertinoActionSheetAction(
-                  child: const Text('分享至微信好友'),
-                  onPressed: () {
-                    if (tweetId > 0) {
-                      this.miniprogram(tweetId, text);
-                    } else {
-                      this.friends(pics, text);
-                    }
-                    Navigator.of(context, rootNavigator: true).pop('Discard');
-                  },
-                )
-              ],
+              actions: list,
             ));
   }
 
@@ -100,7 +112,7 @@ class Share {
         image: pics[0], scene: fluwx.WeChatScene.SESSION));
   }
 
-  void miniprogram(int id, String text) async {
+  Future<void> miniprogram(int id, String text) async {
     await fluwx.share(fluwx.WeChatShareMiniProgramModel(
         webPageUrl: 'https://ippapp.com',
         userName: 'gh_8d035903cde6',

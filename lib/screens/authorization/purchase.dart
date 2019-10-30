@@ -262,19 +262,12 @@ class _Content extends StatelessWidget {
             PriceCard(right.levelGoods),
             Container(height: 10),
             PurchaseButton('购买', () async {
-              if (product == null) {
-                print('还没有获取商品数据');
-                return;
-              }
-//              final code = await createActivation();
-//              print(code);
-//              showPurchaseModal(context, '输入授权码', '确认兑换', createMember);
               final PurchaseParam purchaseParam =
                   PurchaseParam(productDetails: product);
               print(product.description);
               InAppPurchaseConnection.instance
                   .buyNonConsumable(purchaseParam: purchaseParam);
-            }),
+            }, product != null ? true : false),
             Padding(padding: const EdgeInsets.only(top: 5.0, bottom: 60)),
             _FeatureList(right.level.name, right.features)
           ],
