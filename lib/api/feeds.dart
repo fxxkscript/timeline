@@ -52,3 +52,12 @@ Future unstar(Feed feed) async {
     print(e);
   }
 }
+
+Future block(Feed feed) async {
+  try {
+    int id = feed.id;
+    return await HttpClient().post('feeds/shield/shield?tweetId=$id', {});
+  } catch (e) {
+    print(e);
+  }
+}

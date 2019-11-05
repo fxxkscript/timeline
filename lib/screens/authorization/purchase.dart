@@ -27,7 +27,6 @@ class PurchaseState extends State<PurchaseScreen>
   List<PurchaseDetails> _purchases = [];
   bool _isAvailable = false;
   bool _purchasePending = false;
-  bool _loading = true;
   String _queryProductError = null;
 
   @override
@@ -59,7 +58,6 @@ class PurchaseState extends State<PurchaseScreen>
         _purchases = [];
         _notFoundIds = [];
         _purchasePending = false;
-        _loading = false;
       });
       return;
       // The store cannot be reached or accessed. Update the UI accordingly.
@@ -78,7 +76,6 @@ class PurchaseState extends State<PurchaseScreen>
         _purchases = [];
         _notFoundIds = productDetailResponse.notFoundIDs;
         _purchasePending = false;
-        _loading = false;
       });
       return;
     }
@@ -91,7 +88,6 @@ class PurchaseState extends State<PurchaseScreen>
         _purchases = [];
         _notFoundIds = productDetailResponse.notFoundIDs;
         _purchasePending = false;
-        _loading = false;
       });
       return;
     }
@@ -114,7 +110,6 @@ class PurchaseState extends State<PurchaseScreen>
       _purchases = verifiedPurchases;
       _notFoundIds = productDetailResponse.notFoundIDs;
       _purchasePending = false;
-      _loading = false;
     });
   }
 
@@ -151,7 +146,7 @@ class PurchaseState extends State<PurchaseScreen>
 
   void deliverProduct(PurchaseDetails purchaseDetails) async {
     // IMPORTANT!! Always verify a purchase purchase details before delivering the product.
-
+    print(purchaseDetails);
     setState(() {
       _purchases.add(purchaseDetails);
       _purchasePending = false;
@@ -233,8 +228,8 @@ class PurchaseState extends State<PurchaseScreen>
                     child: TabBarView(
                         controller: _controller,
                         children: snapshot.data
-                            .map((right) =>
-                                _Content(right, getProductDetail(right)))
+                            .map((right) => _Content(right,
+                                getProductDetail(right), _purchasePending))
                             .toList()),
                   )
                 ]));
@@ -246,11 +241,27 @@ class PurchaseState extends State<PurchaseScreen>
 class _Content extends StatelessWidget {
   final Right right;
   final ProductDetails product;
+  final bool purchasePending;
 
-  _Content(this.right, this.product);
+  _Content(this.right, this.product, this.purchasePending);
 
   @override
   Widget build(BuildContext context) {
+    String text = '购买';
+    bool available = false;
+
+    if (purchasePending) {
+      text = '购买中...';
+    }
+
+    if (product != null) {
+      available = true;
+    }
+
+    if (purchasePending) {
+      available = false;
+    }
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -261,13 +272,13 @@ class _Content extends StatelessWidget {
           children: <Widget>[
             PriceCard(right.levelGoods),
             Container(height: 10),
-            PurchaseButton('购买', () async {
+            PurchaseButton(text, () async {
               final PurchaseParam purchaseParam =
                   PurchaseParam(productDetails: product);
               print(product.description);
               InAppPurchaseConnection.instance
                   .buyNonConsumable(purchaseParam: purchaseParam);
-            }, product != null ? true : false),
+            }, available),
             Padding(padding: const EdgeInsets.only(top: 5.0, bottom: 60)),
             _FeatureList(right.level.name, right.features)
           ],

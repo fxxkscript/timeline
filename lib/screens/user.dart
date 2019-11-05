@@ -271,11 +271,13 @@ class UserScreenState extends State<UserScreen> {
                                         .copyWith(fontSize: 12),
                                   ),
                                   onPressed: () {
-                                    Share().share(
-                                        context,
-                                        _items[index].pics,
-                                        _items[index].content,
-                                        _items[index].id);
+                                    Share().share(context, _items[index], () {},
+                                        () {
+                                      block(_items[index]);
+                                      setState(() {
+                                        _items.removeAt(index);
+                                      });
+                                    });
                                   }),
                             ),
                           )

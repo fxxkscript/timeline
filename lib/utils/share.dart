@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:wshop/models/auth.dart';
+import 'package:wshop/models/feeds.dart';
 import 'package:wshop/screens/editor.dart';
 
 class Share {
@@ -14,9 +16,12 @@ class Share {
 
   static const channel = const MethodChannel('com.meizizi.doraemon/door');
 
-  void share(BuildContext context, List<String> pics, String text,
-      [int tweetId, Function refresh, Function block]) async {
+  void share(BuildContext context, Feed feed,
+      [Function refresh, Function block]) async {
     Widget shareText;
+    int tweetId = feed.id;
+    List<String> pics = feed.pics;
+    String text = feed.content;
     if (pics.length > 1) {
       shareText = const Text(
         '分享至微信朋友圈',
@@ -56,7 +61,7 @@ class Share {
       )
     ];
 
-    if (block != null) {
+    if (block != null && Auth().uid != feed.id) {
       list.add(CupertinoActionSheetAction(
         child: const Text('屏蔽'),
         onPressed: () {
