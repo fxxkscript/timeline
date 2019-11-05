@@ -56,7 +56,9 @@ class HttpClient {
         }
         return null;
       } else if (e.response != null &&
-          (e.response.statusCode == 422 || e.response.statusCode == 511)) {
+          (e.response.statusCode == 422 ||
+              e.response.statusCode == 511 ||
+              e.response.statusCode == 500)) {
         await setCache('accessToken', '');
         await setCache('refreshToken', '');
         goToLogin();

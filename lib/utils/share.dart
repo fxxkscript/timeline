@@ -61,7 +61,7 @@ class Share {
       )
     ];
 
-    if (block != null && Auth().uid != feed.id) {
+    if (block != null && Auth().uid != feed.author.uid) {
       list.add(CupertinoActionSheetAction(
         child: const Text('屏蔽'),
         onPressed: () {
