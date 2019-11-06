@@ -262,6 +262,19 @@ class _Content extends StatelessWidget {
       available = false;
     }
 
+    Widget button;
+    if (Platform.isIOS) {
+      button = PurchaseButton(text, () async {
+        final PurchaseParam purchaseParam =
+            PurchaseParam(productDetails: product);
+        print(product.description);
+        InAppPurchaseConnection.instance
+            .buyNonConsumable(purchaseParam: purchaseParam);
+      }, available);
+    } else {
+      button = Text('请联系客服购买授权码');
+    }
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -272,13 +285,7 @@ class _Content extends StatelessWidget {
           children: <Widget>[
             PriceCard(right.levelGoods),
             Container(height: 10),
-            PurchaseButton(text, () async {
-              final PurchaseParam purchaseParam =
-                  PurchaseParam(productDetails: product);
-              print(product.description);
-              InAppPurchaseConnection.instance
-                  .buyNonConsumable(purchaseParam: purchaseParam);
-            }, available),
+            button,
             Padding(padding: const EdgeInsets.only(top: 5.0, bottom: 60)),
             _FeatureList(right.level.name, right.features)
           ],

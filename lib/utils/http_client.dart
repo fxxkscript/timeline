@@ -25,7 +25,7 @@ class HttpClient {
 //          (client) {
 //        client.findProxy = (uri) {
 //          //proxy all request to localhost:8888
-//          return "PROXY 192.168.4.110:8888";
+//          return "PROXY 192.168.4.145:8888";
 //        };
 //      } as dynamic;
 //    }
@@ -56,9 +56,7 @@ class HttpClient {
         }
         return null;
       } else if (e.response != null &&
-          (e.response.statusCode == 422 ||
-              e.response.statusCode == 511 ||
-              e.response.statusCode == 500)) {
+          (e.response.statusCode == 422 || e.response.statusCode == 511)) {
         await setCache('accessToken', '');
         await setCache('refreshToken', '');
         goToLogin();

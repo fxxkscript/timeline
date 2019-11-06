@@ -17,8 +17,8 @@ Future<List<Right>> fetchRights() async {
 
 Future<bool> verify(String purchaseId) async {
   try {
-    final response =
-        await HttpClient().get('uc/memberIntro/find', {purchaseId: purchaseId});
+    final response = await HttpClient()
+        .post('trade/applePay/notify', {'receipt': purchaseId});
     return response;
   } catch (e) {
     print(e);

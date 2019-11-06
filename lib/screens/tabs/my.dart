@@ -33,7 +33,7 @@ class MyTabState extends State<MyTab> {
               if (!snapshot.hasData) {
                 return Center(child: new CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return new Text("${snapshot.error}");
+                return Text("${snapshot.error}");
               }
               return Container(
                   color: Theme.of(context).backgroundColor,
@@ -68,7 +68,7 @@ class MyTabState extends State<MyTab> {
                                                 color: Color.fromARGB(
                                                     255, 248, 248, 248)),
                                             child: Image.network(
-                                                snapshot.data.user.avatar,
+                                                snapshot.data.user?.avatar,
                                                 width: 64,
                                                 height: 64,
                                                 fit: BoxFit.cover),
@@ -88,7 +88,7 @@ class MyTabState extends State<MyTab> {
                                                 CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
-                                                snapshot.data.user.nickname,
+                                                snapshot.data.user?.nickname,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .title,
