@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:wshop/api/purchase.dart';
@@ -113,8 +114,11 @@ class PurchaseState extends State<PurchaseScreen>
     });
   }
 
-  Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) {
-    return verify(purchaseDetails.purchaseID);
+  Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) async {
+    if (purchaseDetails.verificationData == null) {
+      await _connection.refreshPurchaseVerificationData();
+    }
+    return verify(purchaseDetails.purchaseID, purchaseDetails.verificationData);
   }
 
   void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
@@ -141,16 +145,21 @@ class PurchaseState extends State<PurchaseScreen>
 
   void _handleInvalidPurchase(PurchaseDetails purchaseDetails) {
     // handle invalid purchase here if  _verifyPurchase` failed.
-    print('非法购买');
+    showDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(title: Text('非法购买')));
   }
 
   void deliverProduct(PurchaseDetails purchaseDetails) async {
-    // IMPORTANT!! Always verify a purchase purchase details before delivering the product.
-    print(purchaseDetails);
     setState(() {
       _purchases.add(purchaseDetails);
       _purchasePending = false;
     });
+    // @TODO refresh user data
+
+    showDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(title: Text('购买成功')));
   }
 
   void showPendingUI() {
