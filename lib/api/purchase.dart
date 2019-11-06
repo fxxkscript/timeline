@@ -16,10 +16,14 @@ Future<List<Right>> fetchRights() async {
   }
 }
 
-Future<bool> verify(String purchaseId, PurchaseVerificationData data) async {
+Future<bool> verify(
+    String purchaseId, String productId, PurchaseVerificationData data) async {
   try {
-    final response = await HttpClient().post('trade/applePay/notify',
-        {'receipt': purchaseId, 'data': data.serverVerificationData});
+    final response = await HttpClient().post('trade/applePay/notify', {
+      'receipt': purchaseId,
+      'data': data.serverVerificationData,
+      'productId': productId
+    });
     return response;
   } catch (e) {
     print(e);

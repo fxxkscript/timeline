@@ -118,7 +118,8 @@ class PurchaseState extends State<PurchaseScreen>
     if (purchaseDetails.verificationData == null) {
       await _connection.refreshPurchaseVerificationData();
     }
-    return verify(purchaseDetails.purchaseID, purchaseDetails.verificationData);
+    return verify(purchaseDetails.purchaseID, purchaseDetails.productID,
+        purchaseDetails.verificationData);
   }
 
   void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {

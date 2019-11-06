@@ -63,10 +63,35 @@ class Share {
 
     if (block != null && Auth().uid != feed.author.uid) {
       list.add(CupertinoActionSheetAction(
-        child: const Text('屏蔽'),
+        child: const Text('投诉 屏蔽'),
         onPressed: () {
-          block();
           Navigator.of(context, rootNavigator: true).pop('Discard');
+          print(111);
+
+          showDialog(
+              context: context,
+              builder: (context) => CupertinoAlertDialog(
+                    title: Text('确定投诉屏蔽？'),
+                    actions: <Widget>[
+                      // usually buttons at the bottom of the dialog
+                      FlatButton(
+                        child: Text('关闭'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      FlatButton(
+                        child: Text('确定',
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            )),
+                        onPressed: () {
+                          block();
+                          Navigator.of(context).pop();
+                        },
+                      )
+                    ],
+                  ));
         },
       ));
     }

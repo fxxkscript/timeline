@@ -324,8 +324,6 @@ class MyTabState extends State<MyTab> {
                             children: <Widget>[
                               GestureDetector(
                                   onTap: () async {
-                                    final code = await createActivation();
-                                    print(code);
                                     showPurchaseModal(
                                         context, '输入授权码', '确认兑换', createMember);
                                   },
