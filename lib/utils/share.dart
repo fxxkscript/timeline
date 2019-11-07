@@ -68,7 +68,6 @@ class Share {
         child: const Text('投诉 屏蔽'),
         onPressed: () {
           Navigator.of(context, rootNavigator: true).pop('Discard');
-          print(111);
 
           showDialog(
               context: context,
@@ -125,14 +124,18 @@ class Share {
   Future<void> timeline(List<String> pics, String text) async {
     try {
       if (pics.isEmpty) {
-        await fluwx.share(fluwx.WeChatShareTextModel(
+        await fluwx.shareToWeChat(fluwx.WeChatShareTextModel(
             text: text, scene: fluwx.WeChatScene.TIMELINE));
       } else {
-        await fluwx.share(fluwx.WeChatShareImageModel(
-            image: pics[0],
-            description: text,
-            title: text,
-            scene: fluwx.WeChatScene.TIMELINE));
+        if (Platform.isIOS) {
+          await fluwx.shareToWeChat(fluwx.WeChatShareImageModel(
+              image: pics[0],
+              description: text,
+              title: text,
+              scene: fluwx.WeChatScene.TIMELINE));
+        } else {
+          await channel.invokeMethod('weixin', {'pics': pics, 'text': text});
+        }
       }
     } on PlatformException catch (e) {
       debugPrint(e.toString());
@@ -140,12 +143,12 @@ class Share {
   }
 
   void friends(List<String> pics, String text) async {
-    await fluwx.share(fluwx.WeChatShareImageModel(
+    await fluwx.shareToWeChat(fluwx.WeChatShareImageModel(
         image: pics[0], scene: fluwx.WeChatScene.SESSION));
   }
 
   Future<void> miniprogram(int id, String text) async {
-    await fluwx.share(fluwx.WeChatShareMiniProgramModel(
+    await fluwx.shareToWeChat(fluwx.WeChatShareMiniProgramModel(
         webPageUrl: 'https://ippapp.com',
         userName: 'gh_8d035903cde6',
         path: 'pages/index/index?tweetId=$id',
