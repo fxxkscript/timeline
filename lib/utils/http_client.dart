@@ -26,7 +26,8 @@ class HttpClient {
 //          (client) {
 //        client.findProxy = (uri) {
 //          //proxy all request to localhost:8888
-//          return "PROXY 192.168.4.145:8888";
+////          return "PROXY 192.168.4.145:8888";
+//          return "PROXY 127.0.0.1:8888";
 //        };
 //      } as dynamic;
 //    }
@@ -40,9 +41,15 @@ class HttpClient {
       return options;
     }, onError: (DioError e) async {
       if (e.response != null && e.response.statusCode == 401) {
-        dio.interceptors.requestLock.lock();
-        await refreshToken();
-        dio.interceptors.requestLock.unlock();
+        try {
+          dio.interceptors.requestLock.lock();
+          await refreshToken();
+        } catch (e) {
+          print(e);
+          return dio.reject(e);
+        } finally {
+          dio.interceptors.requestLock.unlock();
+        }
 
         try {
           var resp;
@@ -51,23 +58,21 @@ class HttpClient {
           } else {
             resp = await this.post(e.request.path, e.request.data);
           }
-          dio.resolve(resp);
+          return dio.resolve(resp);
         } catch (e) {
-          dio.reject(e);
+          return dio.reject(e);
         }
-        return null;
       } else if (e.response != null &&
           (e.response.statusCode == 422 || e.response.statusCode == 511)) {
         await setCache('accessToken', '');
         await setCache('refreshToken', '');
         goToLogin();
-        dio.reject(e);
-        return null;
+        return dio.reject(e);
       } else {
         showToast('服务器开小差啦～');
         print(e.response);
         print(e.toString());
-        return e;
+        return dio.reject(e);
       }
     }));
   }
@@ -101,6 +106,7 @@ class HttpClient {
     final response = await this
         .dio
         .post(endPoint, options: Options(headers: headers), data: data);
+
     print(response);
     var statusCode = response.statusCode;
     print("$statusCode $endPoint ${response.data}");
@@ -119,19 +125,13 @@ class HttpClient {
 
   Future<void> refreshToken() async {
     String refreshToken = await HttpClient.getCache('refreshToken');
-    var response;
-    try {
-      response = await this.tokenDio.post('uc/auth/refreshToken',
-          options: Options(headers: headers),
-          data: {
-            'client': {'clientId': 'weapp_wtzz_v1'},
-            'authorizationType': 'refresh_token',
-            'authDetail': {'refreshToken': refreshToken}
-          });
-    } catch (e) {
-      goToLogin();
-      throw e;
-    }
+    var response = await this.tokenDio.post('uc/auth/refreshToken',
+        options: Options(headers: headers),
+        data: {
+          'client': {'clientId': 'weapp_wtzz_v1'},
+          'authorizationType': 'refresh_token',
+          'authDetail': {'refreshToken': refreshToken}
+        });
 
     await HttpClient.setCache('accessToken', response.data['accessToken']);
     await HttpClient.setCache('refreshToken', response.data['refreshToken']);

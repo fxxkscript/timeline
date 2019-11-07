@@ -16,7 +16,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  firebase_analytics: 5.0.2
   in_app_purchase: 0.2.2+1
   image_picker: 0.6.1+4
   flutter_webview_plugin: ^0.3.8

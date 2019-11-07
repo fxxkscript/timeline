@@ -1,5 +1,3 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
@@ -11,14 +9,16 @@ import 'package:wshop/screens/login/launch.dart';
 import 'package:wshop/screens/settings/webview.dart';
 import 'package:wshop/utils/customRoute.dart';
 
-FirebaseAnalytics analytics = FirebaseAnalytics();
-
 bool _isAuthenticated = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   _isAuthenticated = await checkLogin();
-  getUserBasic();
+  try {
+    await getUserBasic();
+  } catch (e) {
+    _isAuthenticated = false;
+  }
 
   fluwx.registerWxApi(
       appId: 'wx41df20facbec2635',
@@ -36,9 +36,6 @@ class App extends StatelessWidget {
         child: MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: App.navigatorKey,
-      navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: analytics),
-      ],
       theme: ThemeData(
           primarySwatch: Colors.lightBlue,
           brightness: Brightness.light,
