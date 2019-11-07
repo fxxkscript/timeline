@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:wshop/api/profile.dart';
 import 'package:wshop/api/qiniu.dart';
 import 'package:wshop/models/profile.dart';
@@ -51,14 +52,12 @@ class ProfileScreenState extends State<ProfileScreen> {
         enableCamera: true,
       );
     } catch (e) {
-      showDialog(
-          context: context,
-          builder: (context) => CupertinoAlertDialog(title: Text(e.message)));
+      showToast(e.message);
     }
 
     if (!mounted) return;
 
-    ByteData byteData = await resultList[0].requestOriginal();
+    ByteData byteData = await resultList[0].getByteData();
     Uint8List imageData = byteData.buffer.asUint8List();
     _selectedImage = imageData;
     Uint8List imageDataCompressed = Uint8List.fromList(

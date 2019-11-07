@@ -1,9 +1,9 @@
 class Author {
-  int uid;
-  String nickname;
-  String avatar;
+  final int uid;
+  final String nickname;
+  final String avatar;
 
-  Author(this.uid, this.nickname, this.avatar);
+  const Author(this.uid, this.nickname, this.avatar);
 
   factory Author.fromJson(Map<String, dynamic> json) {
     String avatar = 'http://img.ippapp.com/logo.png';

@@ -18,15 +18,16 @@ class Feed {
   MediaType type;
 
   Feed(
-      {id = 0,
-      star,
-      author,
-      content = '',
+      {this.id = 0,
+      this.author = const Author(-1, '', ''),
+      this.content = '',
       this.pics = const [],
       this.video = '',
       this.sourceId = 0,
+      this.star,
+      this.isZan = false,
       this.createdAt = '',
-      this.isZan = false});
+      this.type = MediaType.image});
 
   Map<String, dynamic> toJson() =>
       {'content': content, 'pics': pics, 'video': video, 'sourceId': sourceId};

@@ -314,9 +314,7 @@ class WithdrawModalState extends State<WithdrawModal> {
         enableCamera: true,
       );
     } catch (e) {
-      showDialog(
-          context: context,
-          builder: (context) => CupertinoAlertDialog(title: Text(e.message)));
+      showToast(e.message);
     }
 
     if (!mounted) return;

@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,15 +21,15 @@ class HttpClient {
     dio = Dio(BaseOptions(baseUrl: baseUrl));
     tokenDio = Dio(BaseOptions(baseUrl: baseUrl));
 
-    if (kDebugMode) {
-      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-          (client) {
-        client.findProxy = (uri) {
-          //proxy all request to localhost:8888
-          return "PROXY 192.168.4.145:8888";
-        };
-      } as dynamic;
-    }
+//    if (kDebugMode) {
+//      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+//          (client) {
+//        client.findProxy = (uri) {
+//          //proxy all request to localhost:8888
+//          return "PROXY 192.168.4.145:8888";
+//        };
+//      } as dynamic;
+//    }
 
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {

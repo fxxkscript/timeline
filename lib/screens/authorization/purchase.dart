@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:wshop/api/purchase.dart';
 import 'package:wshop/components/PurchaseModal.dart';
 import 'package:wshop/components/PurchaseTabIndicator.dart';
@@ -146,9 +147,7 @@ class PurchaseState extends State<PurchaseScreen>
 
   void _handleInvalidPurchase(PurchaseDetails purchaseDetails) {
     // handle invalid purchase here if  _verifyPurchase` failed.
-    showDialog(
-        context: context,
-        builder: (context) => CupertinoAlertDialog(title: Text('非法购买')));
+    showToast('非法购买');
   }
 
   void deliverProduct(PurchaseDetails purchaseDetails) async {
@@ -157,10 +156,7 @@ class PurchaseState extends State<PurchaseScreen>
       _purchasePending = false;
     });
     // @TODO refresh user data
-
-    showDialog(
-        context: context,
-        builder: (context) => CupertinoAlertDialog(title: Text('购买成功')));
+    showToast('购买成功');
   }
 
   void showPendingUI() {
