@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,7 @@ class Share {
     int tweetId = feed.id;
     List<String> pics = feed.pics;
     String text = feed.content;
-    if (pics.length > 1) {
+    if (pics.length > 1 && Platform.isIOS) {
       shareText = const Text(
         '分享至微信朋友圈',
         style: TextStyle(color: const Color.fromRGBO(172, 172, 172, 1)),
