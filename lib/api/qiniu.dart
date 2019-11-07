@@ -40,14 +40,12 @@ class Qiniu {
 
     String token = await Qiniu.getToken();
 
-    FormData formData = new FormData.from({
+    FormData formData = FormData.fromMap({
       'token': token,
       'key': key,
-      'file': new UploadFileInfo.fromBytes(data, key),
+      'file': MultipartFile.fromBytes(data),
     });
 
-//    await channel.invokeMethod('upload',
-//        <String, dynamic>{'imageData': data, 'token': token, 'key': key});
     try {
       await dio.post('/', data: formData,
           onSendProgress: (int sent, int total) {

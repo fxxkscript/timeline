@@ -6,27 +6,27 @@ enum MediaType {
 }
 
 class Feed {
-  int id = 0;
+  int id;
   Author author;
-  String content = '';
+  String content;
   List<String> pics;
-  String video = '';
-  int sourceId = 0;
-  int star = 0;
-  bool isZan = false;
-  String createdAt = '';
-  MediaType type = MediaType.image;
+  String video;
+  int sourceId;
+  int star;
+  bool isZan;
+  String createdAt;
+  MediaType type;
 
   Feed(
-      {this.id,
-      this.star,
-      this.author,
-      this.content,
-      this.pics,
-      this.video,
-      this.sourceId,
-      this.createdAt,
-      this.isZan});
+      {id = 0,
+      star,
+      author,
+      content = '',
+      this.pics = const [],
+      this.video = '',
+      this.sourceId = 0,
+      this.createdAt = '',
+      this.isZan = false});
 
   Map<String, dynamic> toJson() =>
       {'content': content, 'pics': pics, 'video': video, 'sourceId': sourceId};

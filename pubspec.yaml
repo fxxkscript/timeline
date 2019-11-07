@@ -33,7 +33,7 @@ dependencies:
   rxdart: 0.21.0
   flutter_image_compress: ^0.6.3
   qr_flutter: ^3.0.1
-  dio: ^2.1.16
+  dio: ^3.0.4
   fluwx: ^1.1.0
   uuid: ^2.0.2
   oktoast: ^2.2.0
