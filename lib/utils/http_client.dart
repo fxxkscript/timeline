@@ -12,9 +12,9 @@ class HttpClient {
   Dio tokenDio;
 
   Map<String, String> headers = {
-    'X-Client-Id': 'weapp_wtzz_v1',
-    'X-Tid': '1',
-    'Content-Type': 'application/json',
+    'x-client-id': 'weapp_wtzz_v1',
+    'x-tid': '1',
+    'content-type': 'application/json',
   };
 
   HttpClient._internal() {
@@ -36,20 +36,15 @@ class HttpClient {
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
       var token = await HttpClient.getCache('accessToken');
       if (token != null) {
-        options.headers['X-Access-Token'] = token;
+        options.headers['x-access-token'] = token;
       }
       return options;
     }, onError: (DioError e) async {
+      print(e.response.statusCode);
       if (e.response != null && e.response.statusCode == 401) {
-        try {
-          dio.interceptors.requestLock.lock();
-          await refreshToken();
-        } catch (e) {
-          print(e);
-          return dio.reject(e);
-        } finally {
-          dio.interceptors.requestLock.unlock();
-        }
+        dio.interceptors.requestLock.lock();
+        await refreshToken();
+        dio.interceptors.requestLock.unlock();
 
         try {
           var resp;
@@ -67,7 +62,7 @@ class HttpClient {
         await setCache('accessToken', '');
         await setCache('refreshToken', '');
         goToLogin();
-        return dio.reject(e);
+        return dio.resolve(null);
       } else {
         showToast('服务器开小差啦～');
         print(e.response);
@@ -131,7 +126,13 @@ class HttpClient {
           'client': {'clientId': 'weapp_wtzz_v1'},
           'authorizationType': 'refresh_token',
           'authDetail': {'refreshToken': refreshToken}
-        });
+        }).catchError((error) async {
+      dio.interceptors.requestLock.unlock();
+      goToLogin();
+      await HttpClient.setCache('accessToken', '');
+      await HttpClient.setCache('refreshToken', '');
+      return;
+    });
 
     await HttpClient.setCache('accessToken', response.data['accessToken']);
     await HttpClient.setCache('refreshToken', response.data['refreshToken']);
