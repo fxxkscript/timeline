@@ -9,6 +9,8 @@ import 'package:wshop/models/auth.dart';
 import 'package:wshop/models/feeds.dart';
 import 'package:wshop/screens/editor.dart';
 
+import 'imageUtils.dart';
+
 class Share {
   static final Share _instance = new Share._internal();
 
@@ -127,12 +129,13 @@ class Share {
       } else {
         if (pics.length == 1 && Platform.isIOS) {
           await fluwx.shareToWeChat(fluwx.WeChatShareImageModel(
-              image: pics[0],
+              image: ImageUtils.getRawUrl(pics[0]),
               description: text,
               title: text,
               scene: fluwx.WeChatScene.TIMELINE));
         } else {
-          await channel.invokeMethod('weixin', {'pics': pics, 'text': text});
+          await channel.invokeMethod(
+              'weixin', {'pics': ImageUtils.getRawUrls(pics), 'text': text});
         }
       }
     } on PlatformException catch (e) {
@@ -142,7 +145,8 @@ class Share {
 
   void friends(List<String> pics, String text) async {
     await fluwx.shareToWeChat(fluwx.WeChatShareImageModel(
-        image: pics[0], scene: fluwx.WeChatScene.SESSION));
+        image: ImageUtils.getRawUrl(pics[0]),
+        scene: fluwx.WeChatScene.SESSION));
   }
 
   Future<void> miniprogram(int id, String text) async {

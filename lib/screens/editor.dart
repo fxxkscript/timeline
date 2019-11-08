@@ -14,6 +14,7 @@ import 'package:wshop/models/assetUrlImage.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/models/author.dart';
 import 'package:wshop/models/feeds.dart';
+import 'package:wshop/utils/imageUtils.dart';
 
 class Editor extends StatefulWidget {
   final String content;
@@ -143,10 +144,7 @@ class EditorState extends State<Editor> {
             String key = await Qiniu.upload(imageDataCompressed);
             list.add(key);
           } else {
-            String key = img.url
-                .replaceAll(RegExp(r'\-tweet_pic_v1'), '')
-                .replaceAll('http://img.ippapp.com/', '')
-                .replaceAll('https://img.ippapp.com/', '');
+            String key = ImageUtils.getKey(img.url);
             list.add(key);
           }
         }));
