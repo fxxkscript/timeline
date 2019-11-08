@@ -44,10 +44,8 @@ class Share {
       CupertinoActionSheetAction(
         child: shareText,
         onPressed: () {
-          if (pics.length <= 1) {
-            this.timeline(pics, text);
-            Navigator.of(context, rootNavigator: true).pop('Discard');
-          }
+          this.timeline(pics, text);
+          Navigator.of(context, rootNavigator: true).pop('Discard');
         },
       ),
       CupertinoActionSheetAction(
@@ -127,7 +125,7 @@ class Share {
         await fluwx.shareToWeChat(fluwx.WeChatShareTextModel(
             text: text, scene: fluwx.WeChatScene.TIMELINE));
       } else {
-        if (Platform.isIOS) {
+        if (pics.length == 1 && Platform.isIOS) {
           await fluwx.shareToWeChat(fluwx.WeChatShareImageModel(
               image: pics[0],
               description: text,

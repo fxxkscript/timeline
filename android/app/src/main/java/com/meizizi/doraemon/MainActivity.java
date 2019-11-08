@@ -1,6 +1,7 @@
 package com.meizizi.doraemon;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -22,106 +23,104 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends FlutterActivity {
-  private static final String CHANNEL = "com.meizizi.doraemon/door";
+    private static final String CHANNEL = "com.meizizi.doraemon/door";
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    GeneratedPluginRegistrant.registerWith(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        GeneratedPluginRegistrant.registerWith(this);
 
 
-    new MethodChannel(getFlutterView(), CHANNEL).setMethodCallHandler(
+        new MethodChannel(getFlutterView(), CHANNEL).setMethodCallHandler(
             (call, result) -> {
-              if (call.method.equals("weixin")) {
-                share(call.arguments);
-              }
+                if (call.method.equals("weixin")) {
+                    share(call.arguments);
+                }
             });
-  }
-
-  @SuppressWarnings("unchecked")
-  protected void share(Object params) {
-    HashMap<String, Object> map = (HashMap<String, Object>) params;
-
-    loadImage((List<String>) map.get("pics"), bitmapList -> shareToTimeline(bitmapList, (String) map.get("text")));
-  }
-
-  // 分享到朋友圈。
-  private void shareToTimeline(List<Bitmap> bitmapList, String text) {
-    // 分享图片和文字，并设置本次分享是否，是否自动发布
-    WXShareMultiImageHelper.Options options = new WXShareMultiImageHelper.Options();
-    options.setAutoFill(true);
-    options.setText(text);
-    options.setAutoPost(true);
-    WXShareMultiImageHelper.shareToTimeline(this, bitmapList, options);
-  }
-
-
-  @Override
-  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-      requestStoragePermission();
-    }
-  }
-
-  @Override
-  protected void onDestroy() {
-    // 清理临时文件。
-    WXShareMultiImageHelper.clearTmpFile(this);
-    super.onDestroy();
-  }
-
-  private void requestStoragePermission() {
-    // 申请内存权限。
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-        !WXShareMultiImageHelper.hasStoragePermission(this)) {
-      requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-    }
-  }
-
-  private Bitmap downloadImage(String imageUrl) {
-    Bitmap bitmap = null;
-
-    try {
-      URL url = new URL(imageUrl);
-      HttpURLConnection conn = null;
-      conn = (HttpURLConnection) url.openConnection();
-      conn.setConnectTimeout(6000); //超时设置
-      conn.setDoInput(true);
-      conn.setUseCaches(false); //设置不使用缓存
-      InputStream is = conn.getInputStream();
-      bitmap = BitmapFactory.decodeStream(is);
-      is.close();
-
-
-    } catch (Exception e) {
-      e.printStackTrace();
     }
 
-    return bitmap;
-  }
+    @SuppressWarnings("unchecked")
+    protected void share(Object params) {
+        HashMap<String, Object> map = (HashMap<String, Object>) params;
 
-  private void loadImage(List<String>imgUrls, final OnLoadImageEndCallback callback) {
-    final ProgressDialog dialog = new ProgressDialog(this);
-    dialog.setMessage("正在加载图片...");
-    dialog.show();
-    new Thread(() -> {
-      List<Bitmap> bitmapList = new ArrayList<>();
+        loadImage((List<String>) map.get("pics"), bitmapList -> shareToTimeline(bitmapList, (String) map.get("text")));
+    }
 
-      for (String url : imgUrls) {
-        Bitmap bitmap = downloadImage(url);
-        if (bitmap != null) {
-          bitmapList.add(bitmap);
+    // 分享到朋友圈。
+    private void shareToTimeline(List<Bitmap> bitmapList, String text) {
+        // 分享图片和文字，并设置本次分享是否，是否自动发布
+        WXShareMultiImageHelper.Options options = new WXShareMultiImageHelper.Options();
+        options.setAutoFill(true);
+        options.setText(text);
+        WXShareMultiImageHelper.shareToTimeline(this, bitmapList, options);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            requestStoragePermission();
         }
-      }
-      runOnUiThread(dialog::cancel);
-      callback.onEnd(bitmapList);
-    }).start();
-  }
+    }
+
+    @Override
+    protected void onDestroy() {
+        // 清理临时文件。
+        WXShareMultiImageHelper.clearTmpFile(this);
+        super.onDestroy();
+    }
+
+    private void requestStoragePermission() {
+        // 申请内存权限。
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+            !WXShareMultiImageHelper.hasStoragePermission(this)) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+    }
+
+    private Bitmap downloadImage(String imageUrl) {
+        Bitmap bitmap = null;
+
+        try {
+            URL url = new URL(imageUrl);
+            HttpURLConnection conn = null;
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(6000); //超时设置
+            conn.setDoInput(true);
+            conn.setUseCaches(false); //设置不使用缓存
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
 
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-  private interface OnLoadImageEndCallback {
-    void onEnd(List<Bitmap> bitmapList);
-  }
+        return bitmap;
+    }
+
+    private void loadImage(List<String> imgUrls, final OnLoadImageEndCallback callback) {
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("正在加载图片...");
+        dialog.show();
+        new Thread(() -> {
+            List<Bitmap> bitmapList = new ArrayList<>();
+
+            for (String url : imgUrls) {
+                Bitmap bitmap = downloadImage(url);
+                if (bitmap != null) {
+                    bitmapList.add(bitmap);
+                }
+            }
+            runOnUiThread(dialog::cancel);
+            callback.onEnd(bitmapList);
+        }).start();
+    }
+
+
+    private interface OnLoadImageEndCallback {
+        void onEnd(List<Bitmap> bitmapList);
+    }
 }
