@@ -13,6 +13,8 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
 import com.sch.share.WXShareMultiImageHelper;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -54,6 +56,7 @@ public class MainActivity extends FlutterActivity {
             }
         }
 
+        UMConfigure.init(this, "5db850a63fc19576a8000ffb", "android", UMConfigure.DEVICE_TYPE_PHONE, "");
     }
 
     @SuppressWarnings("unchecked")
@@ -61,6 +64,18 @@ public class MainActivity extends FlutterActivity {
         HashMap<String, Object> map = (HashMap<String, Object>) params;
 
         loadImage((List<String>) map.get("pics"), bitmapList -> shareToTimeline(bitmapList, (String) map.get("text")));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     // 分享到朋友圈。
