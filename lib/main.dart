@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 import 'package:oktoast/oktoast.dart';
 import 'package:wshop/api/auth.dart';
@@ -12,6 +13,8 @@ import 'package:wshop/utils/customRoute.dart';
 bool _isAuthenticated = false;
 
 void main() async {
+  await FlutterDownloader.initialize();
+
   WidgetsFlutterBinding.ensureInitialized();
   _isAuthenticated = await checkLogin();
   try {

@@ -54,7 +54,6 @@ class LaunchScreenState extends State<LaunchScreen> {
   check() async {
     try {
       await checkLogin();
-      await getUserBasic();
 
       App.navigatorKey.currentState.pushReplacementNamed('/home');
     } catch (e) {
