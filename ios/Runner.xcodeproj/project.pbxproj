@@ -13,6 +13,7 @@
 		3B80C3951E831B6300D905FE /* App.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3B80C3931E831B6300D905FE /* App.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4E4E9F17750C1280FC297ACC /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D13FC247C08F6987298B027 /* Pods_Runner.framework */; };
 		712BBF4B235C3CE200F1A234 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712BBF4A235C3CE200F1A234 /* StoreKit.framework */; };
+		713F2AF7237D019400D504EB /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 713F2AF6237D018C00D504EB /* libsqlite3.tbd */; };
 		9705A1C61CF904A100538489 /* Flutter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9740EEBA1CF902C7004384FC /* Flutter.framework */; };
 		9705A1C71CF904A300538489 /* Flutter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9740EEBA1CF902C7004384FC /* Flutter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		978B8F6F1D3862AE00F588F7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AFFD8EE1D35381100E5BB4D /* AppDelegate.m */; };
@@ -46,6 +47,7 @@
 		3D13FC247C08F6987298B027 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F461371D246BB9A2A15921D /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		712BBF4A235C3CE200F1A234 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		713F2AF6237D018C00D504EB /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		7149B29421FC8715002C219E /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		718C74FB234C6BA80083B078 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		71EB345C227BDAFA00B30A9D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				713F2AF7237D019400D504EB /* libsqlite3.tbd in Frameworks */,
 				9705A1C61CF904A100538489 /* Flutter.framework in Frameworks */,
 				3B80C3941E831B6300D905FE /* App.framework in Frameworks */,
 				4E4E9F17750C1280FC297ACC /* Pods_Runner.framework in Frameworks */,
@@ -151,6 +154,7 @@
 		D2D9BCD0BEC052767060124B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				713F2AF6237D018C00D504EB /* libsqlite3.tbd */,
 				712BBF4A235C3CE200F1A234 /* StoreKit.framework */,
 				3D13FC247C08F6987298B027 /* Pods_Runner.framework */,
 			);

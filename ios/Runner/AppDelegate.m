@@ -1,7 +1,27 @@
 #include "AppDelegate.h"
 #include "GeneratedPluginRegistrant.h"
+#include "FlutterDownloaderPlugin.h"
 
 @implementation AppDelegate
+
+void registerPlugins(NSObject<FlutterPluginRegistry>* registry) {
+  //
+  // Integration note:
+  //
+  // In Flutter, in order to work in background isolate, plugins need to register with
+  // a special instance of `FlutterEngine` that serves for background execution only.
+  // Hence, all (and only) plugins that require background execution feature need to
+  // call `registerWithRegistrar` in this function.
+  //
+  // The default `GeneratedPluginRegistrant` will call `registerWithRegistrar` of all
+  // plugins integrated in your application. Hence, if you are using `FlutterDownloaderPlugin`
+  // along with other plugins that need UI manipulation, you should register
+  // `FlutterDownloaderPlugin` and any 'background' plugins explicitly like this:
+  //
+  // [FlutterDownloaderPlugin registerWithRegistrar:[registry registrarForPlugin:@"vn.hunghd.flutter_downloader"]];
+  //
+  [GeneratedPluginRegistrant registerWithRegistry:registry];
+}
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -20,6 +40,8 @@
   }];
   
   [GeneratedPluginRegistrant registerWithRegistry:self];
+  [FlutterDownloaderPlugin setPluginRegistrantCallback:registerPlugins];
+
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
