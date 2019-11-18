@@ -84,10 +84,13 @@ class HomeScreenState extends State<HomeScreen> {
 
     if (Platform.isAndroid) {
       String version = packageInfo.version;
+      String buildNumber = packageInfo.buildNumber;
       var response = await HttpClient().get('version/version/get');
 
       var androidInfo = response['android'];
-      if (version != androidInfo['version']) {
+      if ((androidInfo['buildNumber'] &&
+              androidInfo['buildNumber'] != buildNumber) ||
+          androidInfo['version'] != version) {
         showDialog(
             context: context,
             builder: (context) => CupertinoAlertDialog(
