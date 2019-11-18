@@ -42,7 +42,6 @@ class TimelineTabState extends State<TimelineTab> {
     if (isLoading) {
       return;
     }
-    isLoading = true;
 
     if (feeds != null && !feeds.hasNext && !refresh) {
       return;
@@ -55,6 +54,7 @@ class TimelineTabState extends State<TimelineTab> {
       cursor = feeds != null ? feeds.nextCursor : 0;
     }
 
+    isLoading = true;
     feeds = await getTimeline(cursor);
 
     setState(() {
@@ -63,7 +63,6 @@ class TimelineTabState extends State<TimelineTab> {
       }
       _items.addAll(feeds.list);
     });
-
     isLoading = false;
   }
 
