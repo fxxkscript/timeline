@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -13,7 +15,9 @@ import 'package:wshop/utils/customRoute.dart';
 bool _isAuthenticated = false;
 
 void main() async {
-  await FlutterDownloader.initialize();
+  if (Platform.isAndroid) {
+    await FlutterDownloader.initialize();
+  }
 
   WidgetsFlutterBinding.ensureInitialized();
   _isAuthenticated = await checkLogin();

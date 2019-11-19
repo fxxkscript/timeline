@@ -31,8 +31,11 @@ class HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    _bindBackgroundIsolate();
-    FlutterDownloader.registerCallback(downloadCallback);
+    if (Platform.isAndroid) {
+      _bindBackgroundIsolate();
+
+      FlutterDownloader.registerCallback(downloadCallback);
+    }
 
     this.initData();
 
