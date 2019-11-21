@@ -58,7 +58,8 @@ Future<Auth> getUserBasic() async {
   return Auth().update(
       nickname: response['nickname'],
       avatar: response['avatar'],
-      uid: response['uid']);
+      uid: response['uid'],
+      member: Member.fromJson(response['member']));
 }
 
 Future<bool> checkLogin() async {

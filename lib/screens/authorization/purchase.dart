@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:wshop/api/auth.dart';
 import 'package:wshop/api/purchase.dart';
 import 'package:wshop/components/PurchaseModal.dart';
 import 'package:wshop/components/PurchaseTabIndicator.dart';
@@ -151,6 +152,7 @@ class PurchaseState extends State<PurchaseScreen>
   }
 
   void deliverProduct(PurchaseDetails purchaseDetails) async {
+    await getUserBasic();
     setState(() {
       _purchases.add(purchaseDetails);
       _purchasePending = false;
@@ -433,7 +435,9 @@ class UserInfoBrief extends StatelessWidget {
                     style: Theme.of(context).textTheme.title,
                   ),
                   Text(
-                    '当前尚未开通会员',
+                    (Auth().member != null && Auth().member.isActive)
+                        ? '会员有效期至：${Auth().member.endAt}'
+                        : '当前尚未开通会员',
                     style: Theme.of(context)
                         .textTheme
                         .subtitle
