@@ -22,6 +22,25 @@ class MyTabState extends State<MyTab> {
     _fetchMy = fetchMy();
   }
 
+  renderAvatar(snapshot) {
+    if (snapshot.data.user?.avatar == null) {
+      return Container();
+    }
+    return Container(
+      margin: EdgeInsets.only(right: 10),
+      child: ClipRRect(
+        child: Container(
+          width: 64,
+          height: 64,
+          decoration: BoxDecoration(color: Color.fromARGB(255, 248, 248, 248)),
+          child: Image.network(snapshot.data.user?.avatar,
+              width: 64, height: 64, fit: BoxFit.cover),
+        ),
+        borderRadius: BorderRadius.circular(28),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: LayoutBuilder(
@@ -58,25 +77,7 @@ class MyTabState extends State<MyTab> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        child: ClipRRect(
-                                          child: Container(
-                                            width: 64,
-                                            height: 64,
-                                            decoration: BoxDecoration(
-                                                color: Color.fromARGB(
-                                                    255, 248, 248, 248)),
-                                            child: Image.network(
-                                                snapshot.data.user?.avatar,
-                                                width: 64,
-                                                height: 64,
-                                                fit: BoxFit.cover),
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(28),
-                                        ),
-                                      ),
+                                      this.renderAvatar(snapshot),
                                       Expanded(
                                         child: GestureDetector(
                                           onTap: () {
@@ -88,7 +89,8 @@ class MyTabState extends State<MyTab> {
                                                 CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
-                                                snapshot.data.user?.nickname,
+                                                snapshot.data.user?.nickname ??
+                                                    '',
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .title,
@@ -127,7 +129,7 @@ class MyTabState extends State<MyTab> {
                                       Column(
                                         children: <Widget>[
                                           Text(
-                                              snapshot.data.statis.tweets
+                                              snapshot.data.statis?.tweets
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
@@ -143,7 +145,7 @@ class MyTabState extends State<MyTab> {
                                       Column(
                                         children: <Widget>[
                                           Text(
-                                              snapshot.data.statis.friends
+                                              snapshot.data.statis?.friends
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
@@ -159,7 +161,7 @@ class MyTabState extends State<MyTab> {
                                       Column(
                                         children: <Widget>[
                                           Text(
-                                              snapshot.data.statis.followers
+                                              snapshot.data.statis?.followers
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
@@ -292,13 +294,13 @@ class MyTabState extends State<MyTab> {
                                                   MainAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '¥${snapshot.data.withdrawCash.canWithdrawMoney / 100} 可提现',
+                                                  '¥${(snapshot.data.withdrawCash?.canWithdrawMoney ?? 0) / 100} 可提现',
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .body1,
                                                 ),
                                                 Text(
-                                                    '已提现¥${snapshot.data.withdrawCash.withdrawnMoney / 100}',
+                                                    '已提现¥${(snapshot.data.withdrawCash?.withdrawnMoney ?? 0) / 100}',
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .subtitle
