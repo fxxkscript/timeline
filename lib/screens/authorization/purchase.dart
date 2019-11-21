@@ -28,7 +28,6 @@ class PurchaseState extends State<PurchaseScreen>
   List<String> _notFoundIds = [];
   List<ProductDetails> _products = [];
   List<PurchaseDetails> _purchases = [];
-  bool _isAvailable = false;
   bool _purchasePending = false;
   String _queryProductError = null;
 
@@ -56,7 +55,6 @@ class PurchaseState extends State<PurchaseScreen>
     final bool available = await _connection.isAvailable();
     if (!available) {
       setState(() {
-        _isAvailable = available;
         _products = [];
         _purchases = [];
         _notFoundIds = [];
@@ -74,7 +72,6 @@ class PurchaseState extends State<PurchaseScreen>
     if (productDetailResponse.error != null) {
       setState(() {
         _queryProductError = productDetailResponse.error.message;
-        _isAvailable = available;
         _products = productDetailResponse.productDetails;
         _purchases = [];
         _notFoundIds = productDetailResponse.notFoundIDs;
@@ -86,7 +83,6 @@ class PurchaseState extends State<PurchaseScreen>
     if (productDetailResponse.productDetails.isEmpty) {
       setState(() {
         _queryProductError = null;
-        _isAvailable = available;
         _products = productDetailResponse.productDetails;
         _purchases = [];
         _notFoundIds = productDetailResponse.notFoundIDs;
@@ -108,7 +104,6 @@ class PurchaseState extends State<PurchaseScreen>
     }
 
     setState(() {
-      _isAvailable = available;
       _products = productDetailResponse.productDetails;
       _purchases = verifiedPurchases;
       _notFoundIds = productDetailResponse.notFoundIDs;
@@ -149,6 +144,9 @@ class PurchaseState extends State<PurchaseScreen>
   void _handleInvalidPurchase(PurchaseDetails purchaseDetails) {
     // handle invalid purchase here if  _verifyPurchase` failed.
     showToast('非法购买');
+    setState(() {
+      _purchasePending = false;
+    });
   }
 
   void deliverProduct(PurchaseDetails purchaseDetails) async {
