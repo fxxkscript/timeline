@@ -257,66 +257,66 @@ class MyTabState extends State<MyTab> {
                                       ],
                                     ),
                                   )),
-                              GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .pushNamed("/withdraw");
-                                  },
-                                  child: Container(
-                                    height: 68,
-                                    margin:
-                                        EdgeInsets.only(left: 16, right: 18),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Container(
-                                            margin: EdgeInsets.only(
-                                                left: 16, right: 14),
-                                            child: Image.asset(
-                                              'assets/money.png',
-                                              width: 24,
-                                              height: 24,
-                                            )),
-                                        Expanded(
-                                          child: Text(
-                                            '提现与反佣',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .body1,
-                                          ),
-                                        ),
-                                        Container(
-                                            child: Row(
-                                          children: <Widget>[
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                Text(
-                                                  '¥${(snapshot.data.withdrawCash?.canWithdrawMoney ?? 0) / 100} 可提现',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .body1,
-                                                ),
-                                                Text(
-                                                    '已提现¥${(snapshot.data.withdrawCash?.withdrawnMoney ?? 0) / 100}',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .subtitle
-                                                        .copyWith(fontSize: 12))
-                                              ],
-                                            ),
-                                            Icon(
-                                              Icons.chevron_right,
-                                              color: Color.fromARGB(
-                                                  255, 209, 209, 214),
-                                            )
-                                          ],
-                                        ))
-                                      ],
-                                    ),
-                                  )),
+//                              GestureDetector(
+//                                  onTap: () {
+//                                    Navigator.of(context)
+//                                        .pushNamed("/withdraw");
+//                                  },
+//                                  child: Container(
+//                                    height: 68,
+//                                    margin:
+//                                        EdgeInsets.only(left: 16, right: 18),
+//                                    child: Row(
+//                                      mainAxisAlignment:
+//                                          MainAxisAlignment.spaceBetween,
+//                                      children: <Widget>[
+//                                        Container(
+//                                            margin: EdgeInsets.only(
+//                                                left: 16, right: 14),
+//                                            child: Image.asset(
+//                                              'assets/money.png',
+//                                              width: 24,
+//                                              height: 24,
+//                                            )),
+//                                        Expanded(
+//                                          child: Text(
+//                                            '提现与反佣',
+//                                            style: Theme.of(context)
+//                                                .textTheme
+//                                                .body1,
+//                                          ),
+//                                        ),
+//                                        Container(
+//                                            child: Row(
+//                                          children: <Widget>[
+//                                            Column(
+//                                              mainAxisAlignment:
+//                                                  MainAxisAlignment.center,
+//                                              children: <Widget>[
+//                                                Text(
+//                                                  '¥${(snapshot.data.withdrawCash?.canWithdrawMoney ?? 0) / 100} 可提现',
+//                                                  style: Theme.of(context)
+//                                                      .textTheme
+//                                                      .body1,
+//                                                ),
+//                                                Text(
+//                                                    '已提现¥${(snapshot.data.withdrawCash?.withdrawnMoney ?? 0) / 100}',
+//                                                    style: Theme.of(context)
+//                                                        .textTheme
+//                                                        .subtitle
+//                                                        .copyWith(fontSize: 12))
+//                                              ],
+//                                            ),
+//                                            Icon(
+//                                              Icons.chevron_right,
+//                                              color: Color.fromARGB(
+//                                                  255, 209, 209, 214),
+//                                            )
+//                                          ],
+//                                        ))
+//                                      ],
+//                                    ),
+//                                  )),
                             ],
                           ),
                         ),
@@ -341,7 +341,7 @@ class MyTabState extends State<MyTab> {
                                             margin: EdgeInsets.only(
                                                 left: 16, right: 14),
                                             child: Image.asset(
-                                              'assets/setting.png',
+                                              'assets/money.png',
                                               width: 24,
                                               height: 24,
                                             )),
