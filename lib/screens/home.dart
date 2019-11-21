@@ -255,14 +255,3 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-class _TaskInfo {
-  final String name;
-  final String link;
-
-  String taskId;
-  int progress = 0;
-  DownloadTaskStatus status = DownloadTaskStatus.undefined;
-
-  _TaskInfo({this.name, this.link});
-}

@@ -13,7 +13,7 @@ class TopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return StreamBuilder(
-        stream: subject.stream.debounce(Duration(milliseconds: 100)),
+        stream: subject.stream.debounce(Duration(milliseconds: 15)),
         initialData: 0,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return Container(
