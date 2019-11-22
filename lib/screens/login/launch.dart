@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
-import 'package:oktoast/oktoast.dart';
 import 'package:wshop/api/auth.dart';
 
 import '../../main.dart';
@@ -19,14 +18,19 @@ class LaunchScreen extends StatefulWidget {
 class LaunchScreenState extends State<LaunchScreen> {
   StreamSubscription handler;
   bool _isLoading = false;
+  bool installedWechat = false;
 
   void _wechat() async {
+    await fluwx.sendWeChatAuth(
+        scope: "snsapi_userinfo", state: "wechat_sdk_demo_test");
+  }
+
+  void checkWechat() async {
     bool installed = await fluwx.isWeChatInstalled();
     if (installed) {
-      await fluwx.sendAuth(
-          scope: "snsapi_userinfo", state: "wechat_sdk_demo_test");
-    } else {
-      showToast('请先安装微信再使用微信登录');
+      setState(() {
+        installedWechat = true;
+      });
     }
   }
 
@@ -49,6 +53,8 @@ class LaunchScreenState extends State<LaunchScreen> {
         Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
       }
     });
+
+    checkWechat();
   }
 
   check() async {
@@ -81,6 +87,60 @@ class LaunchScreenState extends State<LaunchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> buttons = [];
+    if (installedWechat) {
+      buttons.add(btnTheme(
+        child: FlatButton(
+          child: Container(
+              width: 160,
+              height: 44,
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 12, 193, 96),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    child: Image.asset('assets/wechat_icon.png',
+                        width: 19, height: 16),
+                    padding: EdgeInsets.only(right: 10),
+                  ),
+                  Text('微信登录',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle
+                          .copyWith(color: Colors.white))
+                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+              )),
+          onPressed: _wechat,
+        ),
+      ));
+    }
+    buttons.add(btnTheme(
+        child: FlatButton(
+      child: Container(
+          width: 160,
+          height: 44,
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 248, 248, 248),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Row(
+            children: <Widget>[
+              Text('手机号登录',
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle
+                      .copyWith(color: Color.fromARGB(255, 12, 193, 96)))
+            ],
+            mainAxisAlignment: MainAxisAlignment.center,
+          )),
+      onPressed: () {
+        Navigator.pushNamed(context, '/login/mobile');
+      },
+    )));
+
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
@@ -144,65 +204,7 @@ class LaunchScreenState extends State<LaunchScreen> {
                       child: Column(
                         children: <Widget>[
                           Row(
-                            children: <Widget>[
-                              btnTheme(
-                                child: FlatButton(
-                                  child: Container(
-                                      width: 160,
-                                      height: 44,
-                                      decoration: BoxDecoration(
-                                        color: Color.fromARGB(255, 12, 193, 96),
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Padding(
-                                            child: Image.asset(
-                                                'assets/wechat_icon.png',
-                                                width: 19,
-                                                height: 16),
-                                            padding: EdgeInsets.only(right: 10),
-                                          ),
-                                          Text('微信登录',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle
-                                                  .copyWith(
-                                                      color: Colors.white))
-                                        ],
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                      )),
-                                  onPressed: _wechat,
-                                ),
-                              ),
-                              btnTheme(
-                                  child: FlatButton(
-                                child: Container(
-                                    width: 160,
-                                    height: 44,
-                                    decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 248, 248, 248),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Text('手机号登录',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle
-                                                .copyWith(
-                                                    color: Color.fromARGB(
-                                                        255, 12, 193, 96)))
-                                      ],
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                    )),
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/login/mobile');
-                                },
-                              ))
-                            ],
+                            children: buttons,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           ),
                           Row(
