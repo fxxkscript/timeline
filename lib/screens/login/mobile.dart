@@ -70,6 +70,7 @@ class LoginMobileScreenState extends State<LoginMobileScreen> {
       setState(() => _isLoading = false);
 
       if (success) {
+        await getUserBasic();
         Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false);
       }
     }
