@@ -1,5 +1,8 @@
 on: push
-name: build and test app
+  tags:
+    - v*.*.*
+
+name: build android version
 jobs:
   build:
     name: install dependencies
@@ -12,7 +15,7 @@ jobs:
         with:
           args: pub get
 
-#      - name: run tests
+      #      - name: run tests
       #        uses: steebchen/flutter@v1.0.0
       #        with:
       #          args: test
