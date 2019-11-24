@@ -37,12 +37,12 @@ Future<bool> addFriend({int id}) async {
   var response =
       await HttpClient().post('feeds/friendship/addFriend?friendId=$id', {});
   print(response);
-  return response['value'];
+  return response;
 }
 
 Future<bool> cancelFriend({int id}) async {
   var response =
       await HttpClient().post('feeds/friendship/cancelFriend?friendId=$id', {});
   print(response);
-  return response['value'];
+  return response;
 }
