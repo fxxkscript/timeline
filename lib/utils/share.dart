@@ -40,7 +40,6 @@ class Share {
         child: const Text('快速复制'),
         onPressed: () {
           this.edit(context, pics, text, refresh);
-          Navigator.of(context, rootNavigator: true).pop('Discard');
         },
       ),
       CupertinoActionSheetAction(
@@ -54,7 +53,7 @@ class Share {
         child: const Text('分享至微信好友'),
         onPressed: () {
           if (tweetId > 0) {
-            this.miniprogram(tweetId, text);
+            this.miniprogram(tweetId, text, pics);
           } else {
             this.friends(pics, text);
           }
@@ -147,12 +146,14 @@ class Share {
         image: pics[0], scene: fluwx.WeChatScene.SESSION));
   }
 
-  Future<void> miniprogram(int id, String text) async {
+  Future<void> miniprogram(int id, String text, List<String> pics) async {
     await fluwx.shareToWeChat(fluwx.WeChatShareMiniProgramModel(
         webPageUrl: 'https://ippapp.com',
         userName: 'gh_8d035903cde6',
-        path: 'pages/index/index?tweetId=$id',
+        path: 'pages/detail/index?tweetId=$id',
         description: text,
-        thumbnail: 'http://img.ippapp.com/logo.png'));
+        thumbnail: (pics != null && pics.length > 0)
+            ? pics[0]
+            : 'http://img.ippapp.com/logo.png'));
   }
 }
