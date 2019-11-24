@@ -150,8 +150,9 @@ class ContactsState extends State<Contacts> {
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500),
                               ),
+                              // TODO 上新数据
                               Text(
-                                '上新12 共110',
+                                '',
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle

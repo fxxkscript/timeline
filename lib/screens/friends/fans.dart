@@ -14,7 +14,6 @@ class FansScreen extends StatefulWidget {
 
 class FansScreenState extends State<FansScreen> {
   List<Follower> list = [];
-  int count = 0;
 
   @override
   void initState() {
@@ -28,7 +27,6 @@ class FansScreenState extends State<FansScreen> {
 
     setState(() {
       list = data['list'];
-      count = data['count'];
     });
   }
 
@@ -43,14 +41,14 @@ class FansScreenState extends State<FansScreen> {
         ),
         child: RefreshIndicator(
             displacement: 80,
-            child: count == 0
+            child: list.length == 0
                 ? Center(
                     child: Text(
                     '没有数据',
                     style: Theme.of(context).textTheme.body1,
                   ))
                 : ListView.builder(
-                    itemCount: count,
+                    itemCount: list.length,
                     itemBuilder: (context, index) {
                       return Container(
                         decoration: BoxDecoration(color: Colors.white),
@@ -90,8 +88,9 @@ class FansScreenState extends State<FansScreen> {
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500),
                                   ),
+                                  // TODO 上新数据
                                   Text(
-                                    '上新12 共110',
+                                    '',
                                     style: Theme.of(context)
                                         .textTheme
                                         .subtitle
