@@ -235,11 +235,44 @@ class UserScreenState extends State<UserScreen> {
                     ];
 
                     if (_items[index].pics.length > 0) {
-                      infos.add(Text('共 ${_items[index].pics.length} 张',
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle
-                              .copyWith(fontSize: 12)));
+                      infos.add(Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('共 ${_items[index].pics.length} 张',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle
+                                    .copyWith(fontSize: 12)),
+                            CupertinoButton(
+                                child: Image.asset('assets/share.png',
+                                    width: 22, height: 22),
+                                onPressed: () {
+                                  Share().share(context, _items[index], () {},
+                                      () {
+                                    block(_items[index]);
+                                    setState(() {
+                                      _items.removeAt(index);
+                                    });
+                                  });
+                                })
+                          ]));
+                    } else {
+                      infos.add(Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            CupertinoButton(
+                                child: Image.asset('assets/share.png',
+                                    width: 22, height: 22),
+                                onPressed: () {
+                                  Share().share(context, _items[index], () {},
+                                      () {
+                                    block(_items[index]);
+                                    setState(() {
+                                      _items.removeAt(index);
+                                    });
+                                  });
+                                })
+                          ]));
                     }
 
                     widgets.add(Expanded(
@@ -253,35 +286,9 @@ class UserScreenState extends State<UserScreen> {
                         decoration: BoxDecoration(),
                         padding: EdgeInsets.only(bottom: 10, right: 20),
                         margin: EdgeInsets.only(left: 10, top: 10, bottom: 10),
-                        child: Stack(children: [
-                          Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: widgets),
-                          Positioned(
-                            right: 10,
-                            bottom: 10,
-                            child: ButtonTheme(
-                              minWidth: 40,
-                              child: FlatButton(
-                                  child: Text(
-                                    '分享',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .body1
-                                        .copyWith(fontSize: 12),
-                                  ),
-                                  onPressed: () {
-                                    Share().share(context, _items[index], () {},
-                                        () {
-                                      block(_items[index]);
-                                      setState(() {
-                                        _items.removeAt(index);
-                                      });
-                                    });
-                                  }),
-                            ),
-                          )
-                        ]));
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: widgets));
                   },
                 ))),
         Positioned(
