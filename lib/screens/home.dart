@@ -91,8 +91,7 @@ class HomeScreenState extends State<HomeScreen> {
       var response = await HttpClient().get('version/version/get');
 
       var androidInfo = response['android'];
-      if ((androidInfo['buildNumber'] &&
-              androidInfo['buildNumber'] != buildNumber) ||
+      if (androidInfo['buildNumber'] != buildNumber ||
           androidInfo['version'] != version) {
         showDialog(
             context: context,
