@@ -30,10 +30,10 @@ platform :android do
     build_number = number_of_commits(all: true)
 
     Dir.chdir ".." do
-      sh("flutter", "packages", "get")
-      sh("flutter", "clean")
-
-      sh("flutter build apk --release --build-number=#{build_number}");
+      sh "flutter packages get"
+      sh "flutter clean"
+      sh "flutter build apk --release --build-number=#{build_number}"
+      sh "cp build/app/outputs/apk/release/app-release.apk /Users/ray/Desktop/1.0.0+#{build_number}.apk"
     end
 
     # gradle(task: "assembleRelease")
