@@ -12,6 +12,7 @@ import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
+import com.sch.share.Options;
 import com.sch.share.WXShareMultiImageHelper;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
@@ -63,7 +64,7 @@ public class MainActivity extends FlutterActivity {
     protected void share(Object params) {
         HashMap<String, Object> map = (HashMap<String, Object>) params;
 
-        loadImage((List<String>) map.get("pics"), bitmapList -> shareToTimeline(bitmapList, (String) map.get("text")));
+        loadImage((List<String>) map.get("pics"), bitmapList -> share(bitmapList, (String) map.get("text")));
     }
 
     @Override
@@ -79,12 +80,15 @@ public class MainActivity extends FlutterActivity {
     }
 
     // 分享到朋友圈。
-    private void shareToTimeline(List<Bitmap> bitmapList, String text) {
+    private void share(List<Bitmap> bitmapList, String text) {
         // 分享图片和文字，并设置本次分享是否，是否自动发布
-        WXShareMultiImageHelper.Options options = new WXShareMultiImageHelper.Options();
+        Options options = new Options();
+
         options.setAutoFill(true);
         options.setText(text);
-        WXShareMultiImageHelper.shareToTimeline(this, bitmapList, options);
+
+        Bitmap[] arr = new Bitmap[bitmapList.size()];
+        WXShareMultiImageHelper.shareToTimeline(this, arr, options);
     }
 
 
@@ -105,8 +109,7 @@ public class MainActivity extends FlutterActivity {
 
     private void requestStoragePermission() {
         // 申请内存权限。
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-            !WXShareMultiImageHelper.hasStoragePermission(this)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
     }
