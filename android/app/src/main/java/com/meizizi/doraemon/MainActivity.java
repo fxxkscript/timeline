@@ -12,6 +12,8 @@ import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sch.share.Options;
 import com.sch.share.WXShareMultiImageHelper;
 import com.umeng.analytics.MobclickAgent;
@@ -40,6 +42,10 @@ public class MainActivity extends FlutterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+            .build();
+        ImageLoader.getInstance().init(config);
         GeneratedPluginRegistrant.registerWith(this);
 
 
@@ -64,7 +70,7 @@ public class MainActivity extends FlutterActivity {
     protected void share(Object params) {
         HashMap<String, Object> map = (HashMap<String, Object>) params;
 
-        loadImage((List<String>) map.get("pics"), bitmapList -> share(bitmapList, (String) map.get("text")));
+        this.loadImage((List<String>) map.get("pics"), bitmapList -> share(bitmapList, (String) map.get("text")));
     }
 
     @Override
@@ -86,7 +92,7 @@ public class MainActivity extends FlutterActivity {
 
         options.setAutoFill(true);
         options.setText(text);
-        options.setAutoPost(true);
+        options.setAutoPost(false);
 
         Bitmap[] arr = new Bitmap[bitmapList.size()];
         arr = bitmapList.toArray(arr);
@@ -116,37 +122,16 @@ public class MainActivity extends FlutterActivity {
         }
     }
 
-    private Bitmap downloadImage(String imageUrl) {
-        Bitmap bitmap = null;
-
-        try {
-            URL url = new URL(imageUrl);
-            HttpURLConnection conn = null;
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(6000); //超时设置
-            conn.setDoInput(true);
-            conn.setUseCaches(false); //设置不使用缓存
-            InputStream is = conn.getInputStream();
-            bitmap = BitmapFactory.decodeStream(is);
-            is.close();
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return bitmap;
-    }
-
     private void loadImage(List<String> imgUrls, final OnLoadImageEndCallback callback) {
         final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setMessage("正在加载图片...");
+        dialog.setMessage("正在准备分享图片...");
         dialog.show();
         new Thread(() -> {
             List<Bitmap> bitmapList = new ArrayList<>();
 
             for (String url : imgUrls) {
-                Bitmap bitmap = downloadImage(url);
+                Bitmap bitmap = ImageLoader.getInstance().loadImageSync(url);
+
                 if (bitmap != null) {
                     bitmapList.add(bitmap);
                 }
