@@ -128,10 +128,9 @@ public class MainActivity extends FlutterActivity {
                     bitmap = Picasso.get()
                         .load(url).get();
                 } catch (IOException e) {
-                    dialog.setMessage("下载某张图失败");
                     e.printStackTrace();
                 }
-
+                
                 if (bitmap != null) {
                     bitmapList.add(bitmap);
                 }
