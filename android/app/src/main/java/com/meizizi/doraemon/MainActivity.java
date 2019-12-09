@@ -86,6 +86,7 @@ public class MainActivity extends FlutterActivity {
 
         options.setAutoFill(true);
         options.setText(text);
+        options.setAutoPost(true);
 
         Bitmap[] arr = new Bitmap[bitmapList.size()];
         arr = bitmapList.toArray(arr);
