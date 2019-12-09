@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.MethodChannel;
@@ -63,7 +64,7 @@ public class MainActivity extends FlutterActivity {
     protected void share(Object params) {
         HashMap<String, Object> map = (HashMap<String, Object>) params;
 
-        this.loadImage((List<String>) map.get("pics"), bitmapList -> share(bitmapList, (String) map.get("text")));
+        this.loadImage((List<String>) map.get("pics"), (String) map.get("text"));
     }
 
     @Override
@@ -115,33 +116,41 @@ public class MainActivity extends FlutterActivity {
         }
     }
 
-    private void loadImage(List<String> imgUrls, final OnLoadImageEndCallback callback) {
+    private void loadImage(List<String> imgUrls, String text) {
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("正在准备分享图片...");
         dialog.show();
-        new Thread(() -> {
-            List<Bitmap> bitmapList = new ArrayList<>();
+        class DownloadImageTask implements Runnable {
+            private List<String> imgUrls;
+            private String text;
 
-            for (String url : imgUrls) {
-                Bitmap bitmap = null;
-                try {
-                    bitmap = Picasso.get()
-                        .load(url).get();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                
-                if (bitmap != null) {
-                    bitmapList.add(bitmap);
-                }
+            private DownloadImageTask(List<String> urls, String txt) {
+                imgUrls = urls;
+                text = txt;
             }
-            runOnUiThread(dialog::cancel);
-            callback.onEnd(bitmapList);
-        }).start();
-    }
 
+            public void run() {
+                Log.d("tttt", "thread is >" + Thread.currentThread().getName());
+                List<Bitmap> bitmapList = new ArrayList<>();
 
-    private interface OnLoadImageEndCallback {
-        void onEnd(List<Bitmap> bitmapList);
+                for (String url : imgUrls) {
+                    Bitmap bitmap = null;
+                    try {
+                        bitmap = Picasso.get()
+                            .load(url).get();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (bitmap != null) {
+                        bitmapList.add(bitmap);
+                    }
+                }
+
+                runOnUiThread(dialog::cancel);
+                share(bitmapList, text);
+            }
+        }
+        new Thread(new DownloadImageTask(imgUrls, text)).start();
     }
 }
