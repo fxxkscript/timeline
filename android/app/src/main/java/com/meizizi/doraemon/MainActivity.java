@@ -88,6 +88,7 @@ public class MainActivity extends FlutterActivity {
         options.setText(text);
 
         Bitmap[] arr = new Bitmap[bitmapList.size()];
+        arr = bitmapList.toArray(arr);
         WXShareMultiImageHelper.shareToTimeline(this, arr, options);
     }
 
