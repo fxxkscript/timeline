@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -12,16 +11,13 @@ import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sch.share.Options;
 import com.sch.share.WXShareMultiImageHelper;
+import com.squareup.picasso.Picasso;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,9 +39,6 @@ public class MainActivity extends FlutterActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-            .build();
-        ImageLoader.getInstance().init(config);
         GeneratedPluginRegistrant.registerWith(this);
 
 
@@ -130,7 +123,14 @@ public class MainActivity extends FlutterActivity {
             List<Bitmap> bitmapList = new ArrayList<>();
 
             for (String url : imgUrls) {
-                Bitmap bitmap = ImageLoader.getInstance().loadImageSync(url);
+                Bitmap bitmap = null;
+                try {
+                    bitmap = Picasso.get()
+                        .load(url).get();
+                } catch (IOException e) {
+                    dialog.setMessage("下载某张图失败");
+                    e.printStackTrace();
+                }
 
                 if (bitmap != null) {
                     bitmapList.add(bitmap);
