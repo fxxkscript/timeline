@@ -230,7 +230,7 @@ class UserScreenState extends State<UserScreen> {
                     }
 
                     List<Widget> infos = [
-                      Text(_items[index].content,
+                      SelectableText(_items[index].content,
                           style: Theme.of(context).textTheme.body1)
                     ];
 

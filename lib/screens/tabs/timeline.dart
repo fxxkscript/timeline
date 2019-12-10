@@ -166,7 +166,7 @@ class TimelineTabState extends State<TimelineTab> {
                                             .body2
                                             .copyWith(
                                                 fontWeight: FontWeight.w600)),
-                                    Text(_items[index].content,
+                                    SelectableText(_items[index].content,
                                         style:
                                             Theme.of(context).textTheme.body1),
                                     FeedImage(
