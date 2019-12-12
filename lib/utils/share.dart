@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:oktoast/oktoast.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/models/feeds.dart';
 import 'package:wshop/screens/editor.dart';
@@ -41,9 +42,17 @@ class Share {
 
     List<Widget> list = [
       CupertinoActionSheetAction(
-        child: const Text('快速复制'),
+        child: const Text('转发至我的相册'),
         onPressed: () {
           this.edit(context, pics, text, refresh);
+        },
+      ),
+      CupertinoActionSheetAction(
+        child: const Text('复制'),
+        onPressed: () async {
+          await Clipboard.setData(ClipboardData(text: text));
+          showToast('复制成功');
+          Navigator.of(context, rootNavigator: true).pop('Discard');
         },
       ),
       CupertinoActionSheetAction(
