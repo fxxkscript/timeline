@@ -51,12 +51,19 @@ class Share {
       CupertinoActionSheetAction(
         child: const Text('复制'),
         onPressed: () async {
+          if (pics.length > 0) {
+            showToast('保存图片到本地相册中...', duration: Duration(seconds: 1));
+          } else {
+            showToast('复制中...', duration: Duration(seconds: 1));
+          }
+
+          Navigator.of(context, rootNavigator: true).pop('Discard');
+
           await Clipboard.setData(ClipboardData(text: text));
           for (var url in pics) {
             await ImageDownloader.downloadImage(url);
           }
-          showToast('复制成功');
-          Navigator.of(context, rootNavigator: true).pop('Discard');
+          showToast('复制完成');
         },
       ),
       CupertinoActionSheetAction(
