@@ -49,7 +49,7 @@ class Share {
         },
       ),
       CupertinoActionSheetAction(
-        child: const Text('复制'),
+        child: const Text('下载素材并复制文字'),
         onPressed: () async {
           if (pics.length > 0) {
             showToast('保存图片到本地相册中...', duration: Duration(seconds: 1));
