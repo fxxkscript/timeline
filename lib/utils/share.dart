@@ -20,8 +20,12 @@ class Share {
 
   static const channel = const MethodChannel('com.meizizi.doraemon/door');
 
-  void share(BuildContext context, Feed feed,
-      [Function refresh, Function block]) async {
+  void share(
+      {@required BuildContext context,
+      @required Feed feed,
+      Function refresh,
+      Function block,
+      Function delete}) async {
     Widget shareText;
     int tweetId = feed.id;
     List<String> pics = ImageUtils.getRawUrls(feed.pics);
@@ -87,6 +91,40 @@ class Share {
                             )),
                         onPressed: () {
                           block();
+                          Navigator.of(context).pop();
+                        },
+                      )
+                    ],
+                  ));
+        },
+      ));
+    }
+
+    if (Auth().uid == feed.author.uid && delete != null) {
+      list.add(CupertinoActionSheetAction(
+        child: const Text('删除'),
+        onPressed: () {
+          Navigator.of(context, rootNavigator: true).pop('Discard');
+
+          showDialog(
+              context: context,
+              builder: (context) => CupertinoAlertDialog(
+                    title: Text('确定删除？'),
+                    actions: <Widget>[
+                      // usually buttons at the bottom of the dialog
+                      FlatButton(
+                        child: Text('取消'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      FlatButton(
+                        child: Text('确定',
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            )),
+                        onPressed: () {
+                          delete();
                           Navigator.of(context).pop();
                         },
                       )
