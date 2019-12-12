@@ -195,6 +195,7 @@ class HomeScreenState extends State<HomeScreen> {
               children: [
                 CupertinoTabScaffold(
                   tabBar: CupertinoTabBar(
+                    activeColor: Theme.of(context).primaryColor,
                     items: <BottomNavigationBarItem>[
                       BottomNavigationBarItem(
                           title: Text('动态'),
