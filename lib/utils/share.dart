@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:image_downloader/image_downloader.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:wshop/models/auth.dart';
 import 'package:wshop/models/feeds.dart';
@@ -51,6 +52,9 @@ class Share {
         child: const Text('复制'),
         onPressed: () async {
           await Clipboard.setData(ClipboardData(text: text));
+          for (var url in pics) {
+            await ImageDownloader.downloadImage(url);
+          }
           showToast('复制成功');
           Navigator.of(context, rootNavigator: true).pop('Discard');
         },
