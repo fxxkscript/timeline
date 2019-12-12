@@ -15,11 +15,12 @@ import 'package:wshop/utils/customRoute.dart';
 bool _isAuthenticated = false;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   if (Platform.isAndroid) {
     await FlutterDownloader.initialize();
   }
 
-  WidgetsFlutterBinding.ensureInitialized();
   _isAuthenticated = await checkLogin();
   try {
     await getUserBasic();

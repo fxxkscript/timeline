@@ -212,14 +212,21 @@ class TimelineTabState extends State<TimelineTab> {
                                   child: Image.asset('assets/share.png',
                                       width: 22, height: 22),
                                   onPressed: () {
-                                    Share().share(context, _items[index], () {
-                                      _getList(refresh: true);
-                                    }, () {
-                                      block(_items[index]);
-                                      setState(() {
-                                        _items.removeAt(index);
-                                      });
-                                    });
+                                    Share().share(
+                                        context: context,
+                                        feed: _items[index],
+                                        refresh: () {
+                                          _getList(refresh: true);
+                                        },
+                                        block: () {
+                                          block(_items[index]);
+                                          setState(() {
+                                            _items.removeAt(index);
+                                          });
+                                        },
+                                        delete: () {
+                                          print('delete');
+                                        });
                                   })),
                         ]));
                   },

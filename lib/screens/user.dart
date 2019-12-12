@@ -247,13 +247,15 @@ class UserScreenState extends State<UserScreen> {
                                 child: Image.asset('assets/share.png',
                                     width: 22, height: 22),
                                 onPressed: () {
-                                  Share().share(context, _items[index], () {},
-                                      () {
-                                    block(_items[index]);
-                                    setState(() {
-                                      _items.removeAt(index);
-                                    });
-                                  });
+                                  Share().share(
+                                      context: context,
+                                      feed: _items[index],
+                                      block: () {
+                                        block(_items[index]);
+                                        setState(() {
+                                          _items.removeAt(index);
+                                        });
+                                      });
                                 })
                           ]));
                     } else {
@@ -264,13 +266,15 @@ class UserScreenState extends State<UserScreen> {
                                 child: Image.asset('assets/share.png',
                                     width: 22, height: 22),
                                 onPressed: () {
-                                  Share().share(context, _items[index], () {},
-                                      () {
-                                    block(_items[index]);
-                                    setState(() {
-                                      _items.removeAt(index);
-                                    });
-                                  });
+                                  Share().share(
+                                      context: context,
+                                      feed: _items[index],
+                                      block: () {
+                                        block(_items[index]);
+                                        setState(() {
+                                          _items.removeAt(index);
+                                        });
+                                      });
                                 })
                           ]));
                     }
