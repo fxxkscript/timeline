@@ -87,7 +87,7 @@ class WithdrawScreenState extends State<WithdrawScreen> {
                 textBaseline: TextBaseline.alphabetic,
                 children: <Widget>[
                   const Text('￥'),
-                  Text(userAsset.availableAmount.toStringAsFixed(2),
+                  Text(userAsset.availableAmount?.toStringAsFixed(2) ?? '',
                       style: TextStyle(
                         fontSize: 36,
                       ))
@@ -117,7 +117,7 @@ class WithdrawScreenState extends State<WithdrawScreen> {
               ),
             ),
             Container(height: 30),
-            Text('已冻结¥${userAsset.frozenAmount.toStringAsFixed(2)}',
+            Text('已冻结¥${userAsset.frozenAmount?.toStringAsFixed(2) ?? ''}',
                 style: TextStyle(color: Color(0xFFACACAC), fontSize: 14)),
             Container(height: 20),
             Text(
@@ -247,7 +247,8 @@ class WithdrawModalState extends State<WithdrawModal> {
                   ))),
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
-            child: Text('共￥${userAsset.availableAmount.toStringAsFixed(2)}可提现',
+            child: Text(
+                '共￥${userAsset.availableAmount?.toStringAsFixed(2) ?? ''}可提现',
                 style: TextStyle(fontSize: 12, color: Color(0xFFACACAC))),
           ),
           Container(

@@ -199,6 +199,48 @@ class MyTabState extends State<MyTab> {
                             children: <Widget>[
                               GestureDetector(
                                   onTap: () {
+                                    Navigator.of(context)
+                                        .pushNamed('/settings/qrcode');
+                                  },
+                                  child: Container(
+                                    height: 68,
+                                    margin:
+                                        EdgeInsets.only(left: 16, right: 18),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                            margin: EdgeInsets.only(
+                                                left: 16, right: 14),
+                                            child: Image.asset(
+                                              'assets/qrcode.png',
+                                              width: 24,
+                                              height: 24,
+                                            )),
+                                        Expanded(
+                                          child: Text(
+                                            '我的二维码',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .body1,
+                                          ),
+                                        ),
+                                        Container(
+                                            child: Row(
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.chevron_right,
+                                              color: Color.fromARGB(
+                                                  255, 209, 209, 214),
+                                            )
+                                          ],
+                                        ))
+                                      ],
+                                    ),
+                                  )),
+                              GestureDetector(
+                                  onTap: () {
                                     Navigator.of(context).pushNamed(
                                         "/authorization/userAgencyIntro");
                                   },

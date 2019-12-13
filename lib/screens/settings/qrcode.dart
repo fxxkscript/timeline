@@ -22,12 +22,21 @@ class QRCodeState extends State<QRCodeScreen> {
           leading: Back(
             color: Theme.of(context).primaryColorDark,
           ),
+          middle: Text('我的二维码'),
         ),
         child: Container(
           width: MediaQuery.of(context).size.width,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Text(
+                '扫码共享我的相册',
+                style: Theme.of(context).textTheme.body1,
+              ),
+              Text(
+                '下载小杯相册一键转图',
+                style: Theme.of(context).textTheme.body1,
+              ),
               QrImage(
                 data: link,
                 size: 200.0,
