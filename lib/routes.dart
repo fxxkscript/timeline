@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:wshop/screens/authorization/purchase.dart';
 import 'package:wshop/screens/authorization/userAgencyIntro.dart';
 import 'package:wshop/screens/friends/fans.dart';
@@ -14,27 +14,27 @@ import 'package:wshop/screens/withdraw/withdraw.dart';
 
 final routes = {
   '/login': (settings) =>
-      MaterialPageRoute(builder: (_) => LaunchScreen(), settings: settings),
+      CupertinoPageRoute(builder: (_) => LaunchScreen(), settings: settings),
   '/home': (settings) =>
-      MaterialPageRoute(builder: (_) => HomeScreen(), settings: settings),
-  '/login/mobile': (settings) => MaterialPageRoute(
+      CupertinoPageRoute(builder: (_) => HomeScreen(), settings: settings),
+  '/login/mobile': (settings) => CupertinoPageRoute(
       builder: (_) => LoginMobileScreen(), settings: settings),
   '/friends/fans': (settings) =>
-      MaterialPageRoute(builder: (_) => FansScreen(), settings: settings),
+      CupertinoPageRoute(builder: (_) => FansScreen(), settings: settings),
   '/settings/profile': (settings) =>
-      MaterialPageRoute(builder: (_) => ProfileScreen(), settings: settings),
+      CupertinoPageRoute(builder: (_) => ProfileScreen(), settings: settings),
   '/settings/qrcode': (settings) =>
-      MaterialPageRoute(builder: (_) => QRCodeScreen(), settings: settings),
+      CupertinoPageRoute(builder: (_) => QRCodeScreen(), settings: settings),
   '/settings/miniprogram': (settings) =>
-      MaterialPageRoute(builder: (_) => MiniScreen(), settings: settings),
+      CupertinoPageRoute(builder: (_) => MiniScreen(), settings: settings),
   '/authorization/purchase': (settings) =>
-      MaterialPageRoute(builder: (_) => PurchaseScreen(), settings: settings),
-  '/authorization/userAgencyIntro': (settings) => MaterialPageRoute(
+      CupertinoPageRoute(builder: (_) => PurchaseScreen(), settings: settings),
+  '/authorization/userAgencyIntro': (settings) => CupertinoPageRoute(
       builder: (_) => UserAgencyIntroScreen(), settings: settings),
   '/withdraw': (settings) =>
-      MaterialPageRoute(builder: (_) => WithdrawScreen(), settings: settings),
+      CupertinoPageRoute(builder: (_) => WithdrawScreen(), settings: settings),
   '/fundFlow': (settings) =>
-      MaterialPageRoute(builder: (_) => FundFlowScreen(), settings: settings),
+      CupertinoPageRoute(builder: (_) => FundFlowScreen(), settings: settings),
   '/video': (settings) =>
-      MaterialPageRoute(builder: (_) => VideoScreen(), settings: settings),
+      CupertinoPageRoute(builder: (_) => VideoScreen(), settings: settings),
 };

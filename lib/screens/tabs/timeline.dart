@@ -150,7 +150,7 @@ class TimelineTabState extends State<TimelineTab> {
                                   ),
                                   onTap: () {
                                     Navigator.of(context).push(
-                                        MaterialPageRoute(
+                                        CupertinoPageRoute(
                                             builder: (BuildContext context) {
                                       return UserScreen(
                                           author: _items[index].author);
