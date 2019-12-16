@@ -5,6 +5,7 @@ import 'package:wshop/screens/friends/fans.dart';
 import 'package:wshop/screens/home.dart';
 import 'package:wshop/screens/login/launch.dart';
 import 'package:wshop/screens/login/mobile.dart';
+import 'package:wshop/screens/settings/miniprogram.dart';
 import 'package:wshop/screens/settings/profile.dart';
 import 'package:wshop/screens/settings/qrcode.dart';
 import 'package:wshop/screens/settings/video.dart';
@@ -24,6 +25,8 @@ final routes = {
       MaterialPageRoute(builder: (_) => ProfileScreen(), settings: settings),
   '/settings/qrcode': (settings) =>
       MaterialPageRoute(builder: (_) => QRCodeScreen(), settings: settings),
+  '/settings/miniprogram': (settings) =>
+      MaterialPageRoute(builder: (_) => MiniScreen(), settings: settings),
   '/authorization/purchase': (settings) =>
       MaterialPageRoute(builder: (_) => PurchaseScreen(), settings: settings),
   '/authorization/userAgencyIntro': (settings) => MaterialPageRoute(

@@ -35,6 +35,15 @@ Future publish(Feed feed) async {
   }
 }
 
+Future delete(Feed feed) async {
+  try {
+    int id = feed.id;
+    return await HttpClient().post('feeds/tweet/delete', {'tweetId': id});
+  } catch (e) {
+    print(e);
+  }
+}
+
 Future star(Feed feed) async {
   try {
     int id = feed.id;

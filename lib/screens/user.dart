@@ -255,6 +255,12 @@ class UserScreenState extends State<UserScreen> {
                                         setState(() {
                                           _items.removeAt(index);
                                         });
+                                      },
+                                      delete: () {
+                                        delete(_items[index]);
+                                        setState(() {
+                                          _items.removeAt(index);
+                                        });
                                       });
                                 })
                           ]));
@@ -271,6 +277,12 @@ class UserScreenState extends State<UserScreen> {
                                       feed: _items[index],
                                       block: () {
                                         block(_items[index]);
+                                        setState(() {
+                                          _items.removeAt(index);
+                                        });
+                                      },
+                                      delete: () {
+                                        delete(_items[index]);
                                         setState(() {
                                           _items.removeAt(index);
                                         });

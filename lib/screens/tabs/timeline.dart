@@ -225,7 +225,10 @@ class TimelineTabState extends State<TimelineTab> {
                                           });
                                         },
                                         delete: () {
-                                          print('delete');
+                                          delete(_items[index]);
+                                          setState(() {
+                                            _items.removeAt(index);
+                                          });
                                         });
                                   })),
                         ]));
