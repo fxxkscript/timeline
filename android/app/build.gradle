@@ -74,7 +74,7 @@ flutter {
 }
 
 dependencies {
-    implementation 'com.sch.share:wx-share:1.1.0'
+    implementation 'com.sch.share:wx-share:1.1.1'
     implementation "com.android.support:support-core-utils:28.0.0"
     implementation 'com.umeng.umsdk:analytics:8.0.0'
     implementation 'com.umeng.umsdk:common:2.0.0'
