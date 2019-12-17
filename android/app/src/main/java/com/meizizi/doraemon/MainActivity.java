@@ -12,6 +12,7 @@ import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
+
 import com.sch.share.Options;
 import com.sch.share.WXShareMultiImageHelper;
 import com.squareup.picasso.Picasso;

@@ -1,4 +1,4 @@
-include ':app'
+include ':app', ':wx-share'
 
 def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
 
