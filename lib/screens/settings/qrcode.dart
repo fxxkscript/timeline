@@ -40,6 +40,7 @@ class QRCodeState extends State<QRCodeScreen> {
               QrImage(
                 data: link,
                 size: 200.0,
+                embeddedImage: AssetImage('assets/logo.png'),
               ),
               FlatButton(
                   onPressed: () {
